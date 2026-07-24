@@ -474,9 +474,20 @@ document.querySelectorAll('section').forEach(el=>{ new IntersectionObserver((ent
   const hide = ()=>loader.classList.add('hide');
   let hidden = false;
   const doHide = ()=>{ if(hidden) return; hidden = true; hide(); };
+  
+  // Hide when video ends
   vid.addEventListener('ended', doHide);
-  setTimeout(doHide, 6000); // safety fallback, never blocks the site more than ~6s
-  vid.addEventListener('error', ()=>setTimeout(doHide, 300));
+  
+  // Force hide after 3.5 seconds as fallback
+  setTimeout(doHide, 3500);
+  
+  // If video fails to load, hide quickly
+  vid.addEventListener('error', ()=>setTimeout(doHide, 500));
+  
+  // If video loads but doesn't play, still hide
+  vid.addEventListener('loadeddata', function() {
+    setTimeout(doHide, 3000);
+  });
 })();
 // ----- NAV SCROLL -----
 const header = document.getElementById('siteHeader');
