@@ -467,9 +467,17 @@ document.querySelector('.event-badge a').addEventListener('click', ()=>{ eventBa
 // ----- SCROLL ANIMATIONS (Intersection Observer) -----
 document.querySelectorAll('section').forEach(el=>{ new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); }); },{threshold:.15}).observe(el); });
 
-// ----- LOADER HIDE -----
-setTimeout(()=>document.getElementById('loader').classList.add('hide'), 2000);
-
+// ----- LOADER HIDE (synced to intro video) -----
+(function(){
+  const loader = document.getElementById('loader');
+  const vid = document.getElementById('loaderVideo');
+  const hide = ()=>loader.classList.add('hide');
+  let hidden = false;
+  const doHide = ()=>{ if(hidden) return; hidden = true; hide(); };
+  vid.addEventListener('ended', doHide);
+  setTimeout(doHide, 6000); // safety fallback, never blocks the site more than ~6s
+  vid.addEventListener('error', ()=>setTimeout(doHide, 300));
+})();
 // ----- NAV SCROLL -----
 const header = document.getElementById('siteHeader');
 window.addEventListener('scroll', ()=>header.classList.toggle('solid', window.scrollY>50));
