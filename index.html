@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover">
   <title>Go Down Herbs (PTY) Ltd · Premium Wellness</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-  </script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -147,13 +146,8 @@
     }
 
     @keyframes pulse {
-      0%,
-      100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.08);
-      }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
 
     .wrap {
@@ -163,15 +157,10 @@
     }
 
     @media(max-width:640px) {
-      .wrap {
-        padding: 0 16px;
-      }
+      .wrap { padding: 0 16px; }
     }
 
-    h1,
-    h2,
-    h3,
-    h4 {
+    h1, h2, h3, h4 {
       font-family: var(--display);
       font-weight: 600;
       line-height: 1.1;
@@ -341,12 +330,8 @@
     }
 
     @media(max-width:860px) {
-      .nav-links {
-        display: none;
-      }
-      .menu-toggle {
-        display: flex;
-      }
+      .nav-links { display: none; }
+      .menu-toggle { display: flex; }
     }
 
     .hero {
@@ -418,35 +403,18 @@
     }
 
     @media(max-width:768px) {
-      .hero .wrap {
-        flex-direction: column;
-        text-align: center;
-      }
-      .hero-logo img {
-        height: 120px;
-      }
+      .hero .wrap { flex-direction: column; text-align: center; }
+      .hero-logo img { height: 120px; }
     }
 
     @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(60px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(60px); }
+      to { opacity: 1; transform: translateX(0); }
     }
 
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     section {
@@ -475,9 +443,7 @@
     }
 
     @media(max-width:760px) {
-      .cat-grid {
-        grid-template-columns: 1fr;
-      }
+      .cat-grid { grid-template-columns: 1fr; }
     }
 
     .cat-card {
@@ -493,23 +459,14 @@
       cursor: pointer;
     }
 
-    .cat-card:hover {
-      transform: scale(1.02);
-    }
-
-    .cat-card.herb {
-      background: linear-gradient(135deg, #1a4a3a, #2b6b55);
-    }
-
-    .cat-card.merch {
-      background: linear-gradient(135deg, #2d2a26, #4a4438);
-    }
-
+    .cat-card:hover { transform: scale(1.02); }
+    .cat-card.herb { background: linear-gradient(135deg, #1a4a3a, #2b6b55); }
+    .cat-card.merch { background: linear-gradient(135deg, #2d2a26, #4a4438); }
     .cat-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(0deg, rgba(0, 0, 0, .6), transparent);
+      background: linear-gradient(0deg, rgba(0,0,0,.6), transparent);
     }
 
     .cat-card-content {
@@ -530,22 +487,17 @@
     }
 
     @media(max-width:860px) {
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media(max-width:540px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
+      .product-grid { grid-template-columns: 1fr; }
     }
 
     .pcard {
       background: white;
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid rgba(26, 74, 58, .06);
+      border: 1px solid rgba(26,74,58,.06);
       transition: .5s;
       cursor: pointer;
       display: flex;
@@ -554,7 +506,7 @@
 
     .pcard:hover {
       transform: translateY(-8px);
-      box-shadow: 0 20px 48px rgba(26, 74, 58, .1);
+      box-shadow: 0 20px 48px rgba(26,74,58,.1);
     }
 
     .pcard-media {
@@ -622,14 +574,12 @@
       transition: background 0.3s;
     }
 
-    .add-btn:hover {
-      background: var(--lime-bright);
-    }
-
+    .add-btn:hover { background: var(--lime-bright); }
     .add-btn:disabled {
       background: #ccc;
-      color: #999;
+      color: #666;
       cursor: not-allowed;
+      pointer-events: none;
     }
 
     .sizes {
@@ -647,17 +597,6 @@
       font-weight: 500;
     }
 
-    .sold-out-badge {
-      background: #fbeef0;
-      color: #8a3a42;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: 600;
-      display: inline-block;
-      margin-top: 6px;
-    }
-
     .locator-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -665,16 +604,14 @@
     }
 
     @media(max-width:860px) {
-      .locator-container {
-        grid-template-columns: 1fr;
-      }
+      .locator-container { grid-template-columns: 1fr; }
     }
 
     #map {
       height: 450px;
       width: 100%;
       border-radius: 8px;
-      border: 1px solid rgba(26, 74, 58, .08);
+      border: 1px solid rgba(26,74,58,.08);
       z-index: 1;
     }
 
@@ -683,12 +620,12 @@
       overflow-y: auto;
       background: var(--white);
       border-radius: 8px;
-      border: 1px solid rgba(26, 74, 58, .08);
+      border: 1px solid rgba(26,74,58,.08);
     }
 
     .shop-item {
       padding: 18px;
-      border-bottom: 1px solid rgba(26, 74, 58, .08);
+      border-bottom: 1px solid rgba(26,74,58,.08);
       cursor: pointer;
       transition: background 0.3s;
       display: flex;
@@ -696,14 +633,8 @@
       align-items: center;
     }
 
-    .shop-item:hover {
-      background: var(--warm);
-    }
-
-    .shop-item.active {
-      background: var(--warm);
-      border-left: 3px solid var(--ember);
-    }
+    .shop-item:hover { background: var(--warm); }
+    .shop-item.active { background: var(--warm); border-left: 3px solid var(--ember); }
 
     .shop-item h5 {
       font-family: var(--body);
@@ -715,11 +646,6 @@
     .shop-item p {
       font-size: 12px;
       color: #6a6357;
-    }
-
-    .shop-item .arrow {
-      color: var(--ember);
-      font-size: 18px;
     }
 
     .location-popup {
@@ -738,56 +664,52 @@
       transition: transform 0.3s;
     }
 
-    .location-popup img:hover {
-      transform: scale(1.05);
-    }
+    .location-popup img:hover { transform: scale(1.05); }
 
-    /* Full Screen Image Viewer */
+    /* Full screen image viewer */
     .fullscreen-viewer {
       position: fixed;
       inset: 0;
-      z-index: 2000;
-      background: rgba(0, 0, 0, 0.95);
-      display: none;
+      z-index: 9500;
+      background: rgba(0,0,0,0.95);
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
     .fullscreen-viewer.show {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
     }
 
     .fullscreen-viewer img {
-      max-width: 90%;
-      max-height: 90%;
+      max-width: 95vw;
+      max-height: 95vh;
       object-fit: contain;
-      border-radius: 4px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
     }
 
     .fullscreen-close {
       position: absolute;
       top: 20px;
-      right: 20px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
+      right: 25px;
       color: white;
-      font-size: 22px;
+      font-size: 36px;
+      background: rgba(255,255,255,0.15);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: background 0.3s;
-      z-index: 2001;
-      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .fullscreen-close:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
+    .fullscreen-close:hover { background: rgba(255,255,255,0.3); }
 
     .goals-slider-section {
       position: relative;
@@ -795,7 +717,6 @@
       min-height: 500px;
       overflow: hidden;
       background: #0e211d;
-      margin-top: 0;
     }
 
     .goals-slider-bg {
@@ -810,13 +731,12 @@
       height: 100%;
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
     }
 
     .goals-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(14, 33, 29, 0.75);
+      background: rgba(14,33,29,0.75);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -828,24 +748,18 @@
       max-width: 800px;
       text-align: center;
       color: white;
-      padding-top: 20px;
     }
 
     .goals-content h2 {
       color: var(--lime);
       font-size: clamp(28px, 4vw, 42px);
       margin-bottom: 24px;
-      font-family: var(--display);
-      margin-top: 0;
-      position: relative;
-      z-index: 3;
     }
 
     .goals-content p {
       font-size: 16px;
       line-height: 1.8;
-      color: rgba(244, 239, 227, 0.9);
-      font-family: var(--body);
+      color: rgba(244,239,227,0.9);
     }
 
     .goals-dots {
@@ -862,14 +776,11 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255,255,255,0.4);
       cursor: pointer;
-      transition: background 0.3s;
     }
 
-    .goals-dot.active {
-      background: var(--lime);
-    }
+    .goals-dot.active { background: var(--lime); }
 
     .delivery-grid {
       display: grid;
@@ -891,12 +802,6 @@
       font-size: 18px;
     }
 
-    .delivery-card .name {
-      font-weight: 600;
-      color: var(--forest);
-      font-size: 16px;
-    }
-
     .delivery-warn {
       background: #fbeef0;
       border: 1px solid #e6b8bd;
@@ -904,31 +809,6 @@
       padding: 16px;
       border-radius: 8px;
       margin-top: 18px;
-    }
-
-    .event-section {
-      background: var(--warm);
-      border-radius: 12px;
-      padding: 0;
-      border-left: 4px solid var(--lime);
-      overflow: hidden;
-    }
-
-    .event-img {
-      width: 100%;
-      height: 400px;
-      background: #e0d7c6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      font-size: 14px;
-    }
-
-    .event-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     footer {
@@ -944,20 +824,7 @@
     }
 
     @media(max-width:760px) {
-      .foot-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .foot-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .foot-brand img {
-      height: 50px;
-      width: auto;
+      .foot-grid { grid-template-columns: 1fr 1fr; }
     }
 
     .social-icons {
@@ -967,14 +834,8 @@
       font-size: 20px;
     }
 
-    .social-icons a {
-      color: white;
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: var(--lime);
-    }
+    .social-icons a { color: white; transition: color 0.3s; }
+    .social-icons a:hover { color: var(--lime); }
 
     .wa-float {
       position: fixed;
@@ -990,7 +851,7 @@
       align-items: center;
       justify-content: center;
       font-size: 28px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+      box-shadow: 0 4px 12px rgba(0,0,0,.2);
     }
 
     .detail-page {
@@ -1003,9 +864,7 @@
       padding: 80px 30px;
     }
 
-    .detail-page.show {
-      display: block;
-    }
+    .detail-page.show { display: block; }
 
     .detail-container {
       max-width: 1000px;
@@ -1016,11 +875,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
-    }
-
-    .detail-images {
-      flex: 1 1 300px;
-      position: relative;
     }
 
     .detail-images .main-image-container {
@@ -1040,8 +894,7 @@
       top: 0;
       left: 0;
       opacity: 0;
-      transition: opacity 0.8s ease-in-out;
-      cursor: zoom-in;
+      transition: opacity 0.8s;
     }
 
     .detail-images .main-image-container img.active {
@@ -1053,7 +906,6 @@
       display: flex;
       gap: 10px;
       margin-top: 14px;
-      flex-wrap: wrap;
     }
 
     .detail-images .thumbnails img {
@@ -1063,38 +915,21 @@
       border-radius: 4px;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: border 0.3s;
     }
 
-    .detail-images .thumbnails img:hover,
-    .detail-images .thumbnails img.active-thumb {
-      border-color: var(--ember);
-    }
-
-    .detail-info {
-      flex: 1 1 300px;
-    }
-
-    .back-btn {
-      font-size: 24px;
-      margin-bottom: 20px;
-      display: inline-block;
-      cursor: pointer;
-    }
+    .detail-images .thumbnails img.active-thumb { border-color: var(--ember); }
 
     .cart-page {
       position: fixed;
       inset: 0;
       z-index: 800;
-      background: rgba(26, 74, 58, .6);
+      background: rgba(26,74,58,.6);
       display: none;
       align-items: center;
       justify-content: center;
     }
 
-    .cart-page.show {
-      display: flex;
-    }
+    .cart-page.show { display: flex; }
 
     .cart-panel {
       background: white;
@@ -1113,22 +948,6 @@
       align-items: center;
       padding: 14px 0;
       border-bottom: 1px solid #eee;
-      gap: 12px;
-    }
-
-    .cart-item-info {
-      flex: 1;
-    }
-
-    .cart-item-name {
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    .cart-item-price {
-      font-family: var(--mono);
-      font-size: 14px;
-      color: var(--forest);
     }
 
     .cart-remove-btn {
@@ -1140,14 +959,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-
-    .cart-remove-btn:hover {
-      background: #e6b8bd;
-      color: #6b2028;
     }
 
     .toast {
@@ -1164,9 +975,7 @@
       transition: .4s;
     }
 
-    .toast.show {
-      opacity: 1;
-    }
+    .toast.show { opacity: 1; }
 
     .notice-box {
       background: #fef9e7;
@@ -1186,19 +995,12 @@
       font-family: var(--body);
     }
 
-    .size-selector select option:disabled {
-      color: #999;
-      background: #f5f5f5;
-    }
-
     #main-content {
       opacity: 0;
       transition: opacity 0.5s ease;
     }
 
-    #main-content.visible {
-      opacity: 1;
-    }
+    #main-content.visible { opacity: 1; }
 
     .slider-dots {
       display: flex;
@@ -1211,48 +1013,38 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(26, 74, 58, 0.2);
-      transition: background 0.3s;
+      background: rgba(26,74,58,0.2);
       cursor: pointer;
     }
 
-    .slider-dot.active {
-      background: var(--ember);
-    }
+    .slider-dot.active { background: var(--ember); }
 
-    .rec-card {
-      cursor: pointer;
-    }
+    .rec-card { cursor: pointer; }
+    .rec-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(26,74,58,0.1); }
 
-    .rec-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(26, 74, 58, 0.1);
-    }
-
-    /* Made by SJ credit */
     .made-by-sj {
       text-align: center;
-      padding: 12px 0;
-      font-size: 11px;
-      color: rgba(244, 239, 227, 0.4);
-      border-top: 1px solid rgba(244, 239, 227, 0.08);
-      margin-top: 20px;
-      letter-spacing: 0.05em;
+      padding: 16px 0 8px;
+      font-size: 13px;
+      color: rgba(244,239,227,0.7);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      margin-top: 30px;
     }
 
     .made-by-sj a {
-      color: rgba(244, 239, 227, 0.5);
-      transition: color 0.3s;
+      color: var(--lime);
       font-weight: 500;
     }
 
-    .made-by-sj a:hover {
-      color: var(--lime);
+    .sold-out-msg {
+      font-size: 12px;
+      color: #b33;
+      margin-left: 8px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-
   <div id="loader">
     <video autoplay muted playsinline id="loaderVideo">
       <source src="assets/loader-video.mp4" type="video/mp4">
@@ -1264,37 +1056,22 @@
         <p>Pot of Life</p>
       </div>
     </div>
-    <div class="loading-bar">
-      <div class="loading-bar-fill" id="loadingBarFill"></div>
-    </div>
-  </div>
-
-  <!-- Full Screen Image Viewer -->
-  <div class="fullscreen-viewer" id="fullscreenViewer">
-    <button class="fullscreen-close" id="fullscreenClose"><i class="fas fa-times"></i></button>
-    <img src="" alt="Full screen view" id="fullscreenImage">
+    <div class="loading-bar"><div class="loading-bar-fill" id="loadingBarFill"></div></div>
   </div>
 
   <div id="main-content">
     <header id="siteHeader">
       <nav class="wrap">
         <a href="#home" class="brand">
-          <img src="logo-icon.png" alt="Go Down Herbs (PTY) Ltd logo">
+          <img src="logo-icon.png" alt="logo">
           <span class="brand-text">Go Down Herbs (PTY) Ltd<small>Pot of Life</small></span>
         </a>
         <ul class="nav-links" id="navLinks">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#shop-herbs">Herbal Products</a></li>
-          <li><a href="#shop-merch">Merchandise</a></li>
-          <li><a href="#events">Events</a></li>
-          <li><a href="#goals">Our Goals</a></li>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#delivery">Delivery</a></li>
-          <li><a href="#locator">Stores</a></li>
+          <li><a href="#home">Home</a></li><li><a href="#shop-herbs">Herbal Products</a></li><li><a href="#shop-merch">Merchandise</a></li><li><a href="#events">Events</a></li><li><a href="#goals">Our Goals</a></li><li><a href="#about">About Us</a></li><li><a href="#delivery">Delivery</a></li><li><a href="#locator">Stores</a></li>
         </ul>
         <div class="nav-actions">
-          <a class="icon-btn" href="https://wa.me/27715336706" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-          <button class="icon-btn" id="cartBtn" aria-label="Cart"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></button>
+          <a class="icon-btn" href="https://wa.me/27715336706"><i class="fab fa-whatsapp"></i></a>
+          <button class="icon-btn" id="cartBtn"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></button>
           <button class="menu-toggle icon-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
         </div>
       </nav>
@@ -1302,25 +1079,12 @@
 
     <section class="hero" id="home">
       <div class="wrap">
-        <div class="hero-logo">
-          <img src="logo-icon.png" alt="Go Down Herbs (PTY) Ltd">
-        </div>
-        <div class="hero-text">
-          <h1><em>Kill Your Pride,</em> Save Your Life</h1>
-          <p>Premium Venda herbal wellness — handcrafted from the Pot of Life.</p>
-          <a href="#shop-herbs" class="btn btn-primary">Explore Herbs</a>
-        </div>
+        <div class="hero-logo"><img src="logo-icon.png" alt="Go Down Herbs"></div>
+        <div class="hero-text"><h1><em>Kill Your Pride,</em> Save Your Life</h1><p>Premium Venda herbal wellness — handcrafted from the Pot of Life.</p><a href="#shop-herbs" class="btn btn-primary">Explore Herbs</a></div>
       </div>
     </section>
 
-    <section>
-      <div class="wrap">
-        <div class="notice-box">
-          <h3 style="margin-top:0;">IMPORTANT NOTICE</h3>
-          <p>These are traditional herbal preparations rooted in Venda cultural practice. They are not medically tested, evaluated, or approved.</p>
-        </div>
-      </div>
-    </section>
+    <section><div class="wrap"><div class="notice-box"><h3>IMPORTANT NOTICE</h3><p>These are traditional herbal preparations rooted in Venda cultural practice. They are not medically tested, evaluated, or approved.</p></div></div></section>
 
     <section class="goals-slider-section" id="goals">
       <div class="goals-slider-bg" id="goalsSliderBg">
@@ -1330,262 +1094,55 @@
         <div class="goals-slide" style="background-image:url('assets/goals-bg-4.jpg')"></div>
         <div class="goals-slide" style="background-image:url('assets/goals-bg-5.jpg')"></div>
       </div>
-      <div class="goals-overlay">
-        <div class="goals-content">
-          <h2>OUR GOALS</h2>
-          <p>Our goal and plan is to once again help our people to manage all their health challenge's, to once again restore the pride and the African way of healing and staying healthy naturally. We are a family that is not only committed on making a different in our medical system but also to save millions of African life's around the world. With pride we wish to bring back the unity and love among our self as we all sustain our roots and culture with this natural herbs. To kill our pride to save our life with African indigenous knowledge. Thank you.</p>
-        </div>
-      </div>
+      <div class="goals-overlay"><div class="goals-content"><h2>OUR GOALS</h2><p>Our goal and plan is to once again help our people to manage all their health challenge's, to once again restore the pride and the African way of healing and staying healthy naturally...</p></div></div>
       <div class="goals-dots" id="goalsDots">
-        <span class="goals-dot active" data-index="0"></span>
-        <span class="goals-dot" data-index="1"></span>
-        <span class="goals-dot" data-index="2"></span>
-        <span class="goals-dot" data-index="3"></span>
-        <span class="goals-dot" data-index="4"></span>
+        <span class="goals-dot active" data-index="0"></span><span class="goals-dot" data-index="1"></span><span class="goals-dot" data-index="2"></span><span class="goals-dot" data-index="3"></span><span class="goals-dot" data-index="4"></span>
       </div>
     </section>
 
-    <section>
-      <div class="wrap">
-        <h2>Two worlds, one heritage</h2>
-        <div class="cat-grid">
-          <div class="cat-card herb" onclick="document.getElementById('shop-herbs').scrollIntoView({behavior:'smooth'})">
-            <div class="cat-card-content"><h3><i class="fas fa-leaf"></i> Herbal Remedies</h3><p>Traditional tonics & blends.</p></div>
-          </div>
-          <div class="cat-card merch" onclick="document.getElementById('shop-merch').scrollIntoView({behavior:'smooth'})">
-            <div class="cat-card-content"><h3><i class="fas fa-tshirt"></i> Merchandise</h3><p>Wear the heritage.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section><div class="wrap"><h2>Two worlds, one heritage</h2><div class="cat-grid"><div class="cat-card herb" onclick="document.getElementById('shop-herbs').scrollIntoView({behavior:'smooth'})"><div class="cat-card-content"><h3><i class="fas fa-leaf"></i> Herbal Remedies</h3><p>Traditional tonics & blends.</p></div></div><div class="cat-card merch" onclick="document.getElementById('shop-merch').scrollIntoView({behavior:'smooth'})"><div class="cat-card-content"><h3><i class="fas fa-tshirt"></i> Merchandise</h3><p>Wear the heritage.</p></div></div></div></div></section>
 
-    <section id="shop-herbs">
-      <div class="wrap">
-        <h2><i class="fas fa-flask"></i> Herbal Products</h2>
-        <div class="product-grid" id="herbGrid"></div>
-      </div>
-    </section>
+    <section id="shop-herbs"><div class="wrap"><h2><i class="fas fa-flask"></i> Herbal Products</h2><div class="product-grid" id="herbGrid"></div></div></section>
+    <section id="shop-merch" style="background:var(--warm)"><div class="wrap"><h2><i class="fas fa-tshirt"></i> Merchandise</h2><div class="product-grid" id="merchGrid"></div></div></section>
 
-    <section id="shop-merch" style="background:var(--warm)">
-      <div class="wrap">
-        <h2><i class="fas fa-tshirt"></i> Merchandise</h2>
-        <div class="product-grid" id="merchGrid"></div>
-      </div>
-    </section>
+    <section id="delivery"><div class="wrap"><h2>Delivery Options</h2><div class="delivery-grid"><div class="delivery-card"><div class="amt">From R145</div><div class="name">The Courier Guy</div></div><div class="delivery-card"><div class="amt">From R110</div><div class="name">PostNet</div></div><div class="delivery-card"><div class="amt">From R80</div><div class="name">Pudo Locker</div></div><div class="delivery-card"><div class="amt">By distance</div><div class="name">Bolt / Uber</div></div></div><div class="delivery-warn">Liquids cannot travel via PEP/Paxi.</div></div></section>
 
-    <section id="delivery">
-      <div class="wrap">
-        <h2>Delivery Options</h2>
-        <div class="delivery-grid">
-          <div class="delivery-card"><div class="amt">From R145</div><div class="name">The Courier Guy</div><p>Door delivery · 2–4 business days</p></div>
-          <div class="delivery-card"><div class="amt">From R110</div><div class="name">PostNet</div><p>Nearest branch · 2–3 business days</p></div>
-          <div class="delivery-card"><div class="amt">From R80</div><div class="name">Pudo Locker</div><p>Locker collection · 1–4 business days</p></div>
-          <div class="delivery-card"><div class="amt">By distance</div><div class="name">Bolt / Uber</div><p>Same-day delivery</p></div>
-        </div>
-        <div class="delivery-warn">Liquids cannot travel via PEP/Paxi. Please choose one of the available delivery methods.</div>
-      </div>
-    </section>
+    <section id="events" style="background:var(--warm)"><div class="wrap"><h2><i class="far fa-calendar-alt"></i> Upcoming Events</h2><div class="event-section"><div class="event-img" id="eventImagePlaceholder"><i class="far fa-image" style="font-size:40px;"></i><span>Event Image</span></div></div></div></section>
 
-    <section id="events" style="background:var(--warm)">
-      <div class="wrap">
-        <h2><i class="far fa-calendar-alt"></i> Upcoming Events</h2>
-        <div class="event-section">
-          <div class="event-img" id="eventImagePlaceholder">
-            <i class="far fa-image" style="font-size:40px;"></i>
-            <span style="display:block;margin-top:8px;">Event Image</span>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section id="about"><div class="wrap"><h2>The Pot of Life</h2><div style="display:flex;flex-wrap:wrap;gap:30px;"><div style="flex:1;"><p>Go Down Herbs (PTY) Ltd is rooted in Venda tradition...</p></div><div style="flex:1;background:var(--warm);padding:20px;border-radius:8px;"><p><strong>Founder:</strong> Makhadzi Ramabulana</p><p><strong>Heritage:</strong> Venda traditional healing since 1998</p></div></div></div></section>
 
-    <section id="about">
-      <div class="wrap">
-        <h2>The Pot of Life</h2>
-        <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:center;">
-          <div style="flex:1;">
-            <p style="line-height:1.8;">Go Down Herbs (PTY) Ltd is rooted in Venda tradition, prepared using ancestral recipes passed down through generations. Founded by a traditional healer with deep community ties, every product is handcrafted while honouring nature and heritage. We believe in sharing the Pot of Life with the world, blending ancient wisdom with modern wellness.</p>
-          </div>
-          <div style="flex:1;background:var(--warm);padding:20px;border-radius:8px;">
-            <p><strong>Founder:</strong> Makhadzi Ramabulana</p>
-            <p><strong>Heritage:</strong> Venda traditional healing since 1998</p>
-            <p><strong>Community:</strong> Supporting local farmers and gatherers</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="locator">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="eyebrow">Find us</div>
-          <h2>8 stores nationwide</h2>
-        </div>
-        <div class="locator-container">
-          <div id="map"></div>
-          <div class="shop-list" id="shopList"></div>
-        </div>
-      </div>
-    </section>
+    <section id="locator"><div class="wrap"><div class="section-head"><div class="eyebrow">Find us</div><h2>8 stores nationwide</h2></div><div class="locator-container"><div id="map"></div><div class="shop-list" id="shopList"></div></div></div></section>
 
     <footer>
       <div class="wrap">
         <div class="foot-grid">
-          <div>
-            <div class="foot-brand">
-              <a href="#home" style="display:flex;align-items:center;gap:12px;">
-                <img src="logo-icon.png" alt="logo">
-                <span style="font-family:var(--display);color:white;font-size:18px;">Go Down Herbs (PTY) Ltd</span>
-              </a>
-            </div>
-            <p>Venda wellness delivered nationwide.</p>
-            <div class="social-icons">
-              <a href="https://facebook.com/godownherbs" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-              <a href="https://instagram.com/godownherbs" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-              <a href="https://wa.me/27715336706" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
-              <a href="https://youtube.com/@godownherbs" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-            </div>
-          </div>
-          <div>
-            <h4>Shop</h4>
-            <ul>
-              <li><a href="#shop-herbs" style="color:rgba(244,239,227,.7);font-size:13px;">Herbs</a></li>
-              <li><a href="#shop-merch" style="color:rgba(244,239,227,.7);font-size:13px;">Merchandise</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Company</h4>
-            <ul>
-              <li><a href="#about" style="color:rgba(244,239,227,.7);font-size:13px;">About</a></li>
-              <li><a href="#delivery" style="color:rgba(244,239,227,.7);font-size:13px;">Delivery</a></li>
-              <li><a href="#locator" style="color:rgba(244,239,227,.7);font-size:13px;">Stores</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Contact</h4>
-            <ul>
-              <li><a href="tel:+27715336706" style="color:rgba(244,239,227,.7);font-size:13px;">071 533 6706</a></li>
-              <li><a href="tel:+27799280149" style="color:rgba(244,239,227,.7);font-size:13px;">079 928 0149</a></li>
-              <li><a href="mailto:info@godownherbs.co.za" style="color:rgba(244,239,227,.7);font-size:13px;">info@godownherbs.co.za</a></li>
-            </ul>
-          </div>
+          <div><div class="foot-brand"><a href="#home" style="display:flex;align-items:center;gap:12px;"><img src="logo-icon.png" alt="logo"><span style="font-family:var(--display);color:white;">Go Down Herbs (PTY) Ltd</span></a></div><p>Venda wellness delivered nationwide.</p><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
+          <div><h4>Shop</h4><ul><li><a href="#shop-herbs" style="color:rgba(244,239,227,.7);">Herbs</a></li><li><a href="#shop-merch" style="color:rgba(244,239,227,.7);">Merchandise</a></li></ul></div>
+          <div><h4>Company</h4><ul><li><a href="#about" style="color:rgba(244,239,227,.7);">About</a></li><li><a href="#delivery" style="color:rgba(244,239,227,.7);">Delivery</a></li></ul></div>
+          <div><h4>Contact</h4><ul><li><a href="tel:+27715336706" style="color:rgba(244,239,227,.7);">071 533 6706</a></li></ul></div>
         </div>
         <div class="made-by-sj">
-          Made by <a href="https://sjnjen.github.io/SJ-dev/" target="_blank" rel="noopener">SJ</a>
+          <span>Made by <a href="https://sjnjen.github.io/SJ-dev/" target="_blank" rel="noopener noreferrer">SJ</a></span>
         </div>
       </div>
     </footer>
 
-    <a class="wa-float" href="https://wa.me/27715336706" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
-
-    <div class="detail-page" id="detailPage">
-      <div class="detail-container" id="detailContent"></div>
-    </div>
-
-    <div class="cart-page" id="cartPage">
-      <div class="cart-panel">
-        <button id="closeCartPage" style="float:right;font-size:20px;"><i class="fas fa-times"></i></button>
-        <h2>Your Basket</h2>
-        <div id="cartItemsList"></div>
-        <h3 id="cartTotalDisplay" style="margin-top:16px;">Total: R0</h3>
-        <button class="btn btn-primary" id="checkoutBtn" style="width:100%;justify-content:center;margin-top:12px;">Checkout</button>
-      </div>
-    </div>
-
+    <a class="wa-float" href="https://wa.me/27715336706" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <div class="detail-page" id="detailPage"><div class="detail-container" id="detailContent"></div></div>
+    <div class="cart-page" id="cartPage"><div class="cart-panel"><button id="closeCartPage" style="float:right;font-size:20px;"><i class="fas fa-times"></i></button><h2>Your Basket</h2><div id="cartItemsList"></div><h3 id="cartTotalDisplay">Total: R0</h3><button class="btn btn-primary" id="checkoutBtn" style="width:100%;">Checkout</button></div></div>
     <div class="toast" id="toast"></div>
+    <div class="fullscreen-viewer" id="fullscreenViewer"><span class="fullscreen-close" id="fullscreenClose">&times;</span><img src="" alt="full screen view" id="fullscreenImg"></div>
   </div>
 
   <script>
     (function() {
-      // ===== INVENTORY SYSTEM =====
-      // Owner can edit stock quantities here
-      const inventory = {
-        herbs: {
-          "gdh": 50,
-          "ugh": 40,
-          "sil": 35,
-          "stc": 60,
-          "mps": 45,
-          "oil": 30
-        },
-        merch: {
-          "m-black": { "S": 30, "M": 20, "L": 15, "XL": 10, "XXL": 8 },
-          "m-white": { "S": 25, "M": 22, "L": 18, "XL": 12, "XXL": 6 },
-          "m-leaf": { "S": 28, "M": 24, "L": 16, "XL": 14, "XXL": 10 }
-        }
-      };
-
-      function getHerbStock(productId) {
-        return inventory.herbs[productId] || 0;
-      }
-
-      function getMerchStock(productId, size) {
-        if (!inventory.merch[productId]) return 0;
-        return inventory.merch[productId][size] || 0;
-      }
-
-      function reduceHerbStock(productId, quantity) {
-        if (inventory.herbs[productId]) {
-          inventory.herbs[productId] = Math.max(0, inventory.herbs[productId] - quantity);
-        }
-      }
-
-      function reduceMerchStock(productId, size, quantity) {
-        if (inventory.merch[productId] && inventory.merch[productId][size]) {
-          inventory.merch[productId][size] = Math.max(0, inventory.merch[productId][size] - quantity);
-        }
-      }
-
-      function isHerbInStock(productId) {
-        return getHerbStock(productId) > 0;
-      }
-
-      function isMerchSizeInStock(productId, size) {
-        return getMerchStock(productId, size) > 0;
-      }
-
-      // ===== FULL SCREEN IMAGE VIEWER =====
-      const fullscreenViewer = document.getElementById('fullscreenViewer');
-      const fullscreenImage = document.getElementById('fullscreenImage');
-      const fullscreenClose = document.getElementById('fullscreenClose');
-
-      function openFullscreen(imageSrc) {
-        fullscreenImage.src = imageSrc;
-        fullscreenViewer.classList.add('show');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeFullscreen() {
-        fullscreenViewer.classList.remove('show');
-        document.body.style.overflow = '';
-      }
-
-      fullscreenClose.addEventListener('click', function(e) {
-        e.stopPropagation();
-        closeFullscreen();
-      });
-
-      fullscreenViewer.addEventListener('click', function(e) {
-        if (e.target === fullscreenViewer) {
-          closeFullscreen();
-        }
-      });
-
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && fullscreenViewer.classList.contains('show')) {
-          closeFullscreen();
-        }
-      });
-
-      // ===== LOADER =====
       const loader = document.getElementById('loader');
-      const loaderVideo = document.getElementById('loaderVideo');
       const loadingBarFill = document.getElementById('loadingBarFill');
       const mainContent = document.getElementById('main-content');
       const VIDEO_DURATION = 5000;
       let loaderStartTime = Date.now();
-      const barInterval = setInterval(function() {
-        const elapsed = Date.now() - loaderStartTime;
-        const progress = Math.min((elapsed / VIDEO_DURATION) * 100, 100);
+      const barInterval = setInterval(() => {
+        const progress = Math.min(((Date.now() - loaderStartTime) / VIDEO_DURATION) * 100, 100);
         loadingBarFill.style.width = progress + '%';
         if (progress >= 100) clearInterval(barInterval);
       }, 50);
@@ -1593,71 +1150,67 @@
       function hideLoader() {
         clearInterval(barInterval);
         loadingBarFill.style.width = '100%';
-        setTimeout(function() {
+        setTimeout(() => {
           loader.classList.add('hide');
           mainContent.classList.add('visible');
           document.body.style.overflow = '';
           if (window.initMap) window.initMap();
         }, 300);
       }
-      loaderVideo.addEventListener('ended', hideLoader);
+      document.getElementById('loaderVideo').addEventListener('ended', hideLoader);
       setTimeout(hideLoader, VIDEO_DURATION + 500);
       document.body.style.overflow = 'hidden';
 
-      // ===== GOALS SLIDER =====
+      // Goals slider
       const goalsSliderBg = document.getElementById('goalsSliderBg');
       const goalsDots = document.querySelectorAll('.goals-dot');
-      let goalsCurrentSlide = 0;
-      const totalGoalsSlides = 5;
-      let goalsSliderInterval;
-
-      function goToGoalsSlide(index) {
-        goalsCurrentSlide = index;
-        goalsSliderBg.style.transform = 'translateX(-' + (index * 100) + '%)';
-        goalsDots.forEach(function(dot, i) {
-          dot.classList.toggle('active', i === index);
-        });
+      let goalsCurrent = 0;
+      function goToGoalsSlide(i) {
+        goalsCurrent = i;
+        goalsSliderBg.style.transform = `translateX(-${i*100}%)`;
+        goalsDots.forEach((d,idx)=> d.classList.toggle('active', idx===i));
       }
+      setInterval(() => { goalsCurrent = (goalsCurrent+1)%5; goToGoalsSlide(goalsCurrent); }, 4000);
+      goalsDots.forEach(dot => dot.addEventListener('click', function(){ goToGoalsSlide(parseInt(this.dataset.index)); }));
 
-      function nextGoalsSlide() {
-        goalsCurrentSlide = (goalsCurrentSlide + 1) % totalGoalsSlides;
-        goToGoalsSlide(goalsCurrentSlide);
-      }
-      goalsDots.forEach(function(dot) {
-        dot.addEventListener('click', function() {
-          const index = parseInt(this.getAttribute('data-index'));
-          goToGoalsSlide(index);
-          clearInterval(goalsSliderInterval);
-          goalsSliderInterval = setInterval(nextGoalsSlide, 4000);
-        });
-      });
-      goalsSliderInterval = setInterval(nextGoalsSlide, 4000);
+      const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f2ede4'%3E%3Crect width='400' height='400'/%3E%3C/svg%3E";
+      
+      // Inventory system (owner can modify these numbers)
+      const inventory = {
+        herbs: {
+          gdh: 40, ugh: 25, sil: 15, stc: 60, mps: 55, oil: 30
+        },
+        merch: {
+          'm-black': { S: 30, M: 20, L: 15, XL: 10, XXL: 8 },
+          'm-white': { S: 28, M: 22, L: 18, XL: 12, XXL: 5 },
+          'm-leaf': { S: 35, M: 25, L: 20, XL: 15, XXL: 10 }
+        }
+      };
 
-      // ===== DATA =====
-      const PLACEHOLDER_IMG = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f2ede4'%3E%3Crect width='400' height='400'/%3E%3C/svg%3E";
       const HERBS = [
-        { id: "gdh", name: "Go Down Herb (Ndaa)", price: 150, desc: "Daily immune support tonic", images: ["gdh1.jpg", "gdh2.jpg", "gdh3.jpg"] },
-        { id: "ugh", name: "Underground Herb (Ndaa)", price: 200, desc: "Stamina & vitality blend", images: ["ugh1.jpg", "ugh2.jpg", "ugh3.jpg"] },
-        { id: "sil", name: "Silent Herb", price: 250, desc: "Quarter cup morning and evening", images: ["sil1.jpg", "sil2.jpg", "sil3.jpg"] },
-        { id: "stc", name: "Go Down Cleanser", price: 50, desc: "Body cleansing blend", images: ["stc1.jpg", "stc2.jpg", "stc3.jpg"] },
-        { id: "mps", name: "Go Down Mpesu", price: 50, desc: "Energy and purification", images: ["mps1.jpg", "mps2.jpg", "mps3.jpg"] },
-        { id: "oil", name: "Anointed Go Down Oil", price: 200, desc: "Skin and wellness oil", images: ["oil1.jpg", "oil2.jpg", "oil3.jpg"] }
+        { id:"gdh", name:"Go Down Herb (Ndaa)", price:150, desc:"Daily immune support tonic", images:["gdh1.jpg","gdh2.jpg","gdh3.jpg"] },
+        { id:"ugh", name:"Underground Herb (Ndaa)", price:200, desc:"Stamina & vitality blend", images:["ugh1.jpg","ugh2.jpg","ugh3.jpg"] },
+        { id:"sil", name:"Silent Herb", price:250, desc:"Quarter cup morning and evening", images:["sil1.jpg","sil2.jpg","sil3.jpg"] },
+        { id:"stc", name:"Go Down Cleanser", price:50, desc:"Body cleansing blend", images:["stc1.jpg","stc2.jpg","stc3.jpg"] },
+        { id:"mps", name:"Go Down Mpesu", price:50, desc:"Energy and purification", images:["mps1.jpg","mps2.jpg","mps3.jpg"] },
+        { id:"oil", name:"Anointed Go Down Oil", price:200, desc:"Skin and wellness oil", images:["oil1.jpg","oil2.jpg","oil3.jpg"] }
       ];
+
       const MERCH = [
-        { id: "m-black", name: "Go Down Herbs Tee Black", price: 100, images: ["m-black1.jpg", "m-black2.jpg", "m-black3.jpg", "m-black4.jpg", "m-black5.jpg"], sizes: ["S", "M", "L", "XL", "XXL"] },
-        { id: "m-white", name: "Go Down Herbs Tee White", price: 100, images: ["m-white1.jpg", "m-white2.jpg", "m-white3.jpg", "m-white4.jpg", "m-white5.jpg"], sizes: ["S", "M", "L", "XL", "XXL"] },
-        { id: "m-leaf", name: "Go Down Leaf Tee", price: 100, images: ["m-leaf1.jpg", "m-leaf2.jpg", "m-leaf3.jpg", "m-leaf4.jpg", "m-leaf5.jpg"], sizes: ["S", "M", "L", "XL", "XXL"] }
+        { id:"m-black", name:"Go Down Herbs Tee Black", price:100, images:["m-black1.jpg","m-black2.jpg","m-black3.jpg","m-black4.jpg","m-black5.jpg"], sizes:["S","M","L","XL","XXL"] },
+        { id:"m-white", name:"Go Down Herbs Tee White", price:100, images:["m-white1.jpg","m-white2.jpg","m-white3.jpg","m-white4.jpg","m-white5.jpg"], sizes:["S","M","L","XL","XXL"] },
+        { id:"m-leaf", name:"Go Down Leaf Tee", price:100, images:["m-leaf1.jpg","m-leaf2.jpg","m-leaf3.jpg","m-leaf4.jpg","m-leaf5.jpg"], sizes:["S","M","L","XL","XXL"] }
       ];
 
       const STORES = [
-        { name: 'Pretoria', address: 'Shop 37, Barclay Square, Sunnyside', lat: -25.7545, lng: 28.2201, images: ['pretoria1.jpg', 'pretoria2.jpg', 'pretoria3.jpg'] },
-        { name: 'Johannesburg', address: 'Shop 3, Braamfontein', lat: -26.1929, lng: 28.0401, images: ['joburg1.jpg', 'joburg2.jpg', 'joburg3.jpg'] },
-        { name: 'Polokwane', address: 'Shop 10, Dada Square', lat: -23.9045, lng: 29.4507, images: ['polokwane1.jpg', 'polokwane2.jpg', 'polokwane3.jpg'] },
-        { name: 'Makhado', address: 'Shop 02, Louis Trichardt', lat: -23.0466, lng: 29.9014, images: ['makhado1.jpg', 'makhado2.jpg', 'makhado3.jpg'] },
-        { name: 'Thohoyandou', address: 'Jerice Palace Complex', lat: -22.9764, lng: 30.4854, images: ['thohoyandou1.jpg', 'thohoyandou2.jpg', 'thohoyandou3.jpg'] },
-        { name: 'Nzhelele', address: 'Biaba Shopping Center', lat: -22.927, lng: 30.178, images: ['nzhelele1.jpg', 'nzhelele2.jpg', 'nzhelele3.jpg'] },
-        { name: 'Soweto', address: 'Bara, Chris Hani & Dynamo', lat: -26.2485, lng: 27.8933, images: ['soweto1.jpg', 'soweto2.jpg', 'soweto3.jpg'] },
-        { name: 'Online', address: 'godownherbs.co.za', lat: -24.5, lng: 29.2, images: ['online1.jpg', 'online2.jpg', 'online3.jpg'] }
+        { name:'Pretoria', address:'Shop 37, Barclay Square, Sunnyside', lat:-25.7545, lng:28.2201, images:['pretoria1.jpg','pretoria2.jpg','pretoria3.jpg'] },
+        { name:'Johannesburg', address:'Shop 3, Braamfontein', lat:-26.1929, lng:28.0401, images:['joburg1.jpg','joburg2.jpg','joburg3.jpg'] },
+        { name:'Polokwane', address:'Shop 10, Dada Square', lat:-23.9045, lng:29.4507, images:['polokwane1.jpg','polokwane2.jpg','polokwane3.jpg'] },
+        { name:'Makhado', address:'Shop 02, Louis Trichardt', lat:-23.0466, lng:29.9014, images:['makhado1.jpg','makhado2.jpg','makhado3.jpg'] },
+        { name:'Thohoyandou', address:'Jerice Palace Complex', lat:-22.9764, lng:30.4854, images:['thohoyandou1.jpg','thohoyandou2.jpg','thohoyandou3.jpg'] },
+        { name:'Nzhelele', address:'Biaba Shopping Center', lat:-22.927, lng:30.178, images:['nzhelele1.jpg','nzhelele2.jpg','nzhelele3.jpg'] },
+        { name:'Soweto', address:'Bara, Chris Hani & Dynamo', lat:-26.2485, lng:27.8933, images:['soweto1.jpg','soweto2.jpg','soweto3.jpg'] },
+        { name:'Online', address:'godownherbs.co.za', lat:-24.5, lng:29.2, images:['online1.jpg','online2.jpg','online3.jpg'] }
       ];
 
       let cart = [];
@@ -1669,485 +1222,188 @@
       const merchGrid = document.getElementById("merchGrid");
       const detailPage = document.getElementById("detailPage");
       const detailContent = document.getElementById("detailContent");
-      const activeSliders = new Map();
+      const fullscreenViewer = document.getElementById('fullscreenViewer');
+      const fullscreenImg = document.getElementById('fullscreenImg');
+      const fullscreenClose = document.getElementById('fullscreenClose');
 
-      function createImageSlideshow(container, images, options) {
-        options = options || {};
-        const interval = options.interval || 3000;
-        if (activeSliders.has(container)) {
-          clearInterval(activeSliders.get(container));
-          activeSliders.delete(container);
-        }
-        const imgElements = container.querySelectorAll('img');
-        if (imgElements.length <= 1) return;
-        let currentIndex = 0;
-        let userInteracted = false;
-        let interactionTimeout = null;
+      function openFullscreen(src) {
+        fullscreenImg.src = src;
+        fullscreenViewer.classList.add('show');
+      }
 
-        function showImage(index) {
-          imgElements.forEach(function(img, i) {
-            img.classList.toggle('active', i === index);
-          });
-          const thumbs = container.parentElement && container.parentElement.querySelectorAll('.thumbnails img');
-          if (thumbs) {
-            thumbs.forEach(function(thumb, i) {
-              thumb.classList.toggle('active-thumb', i === index);
-            });
-          }
-          const dots = container.parentElement && container.parentElement.querySelectorAll('.slider-dot');
-          if (dots) {
-            dots.forEach(function(dot, i) {
-              dot.classList.toggle('active', i === index);
-            });
-          }
-        }
+      fullscreenClose.addEventListener('click', () => fullscreenViewer.classList.remove('show'));
+      fullscreenViewer.addEventListener('click', function(e) { if (e.target === fullscreenViewer) fullscreenViewer.classList.remove('show'); });
 
-        function nextImage() {
-          if (userInteracted) return;
-          currentIndex = (currentIndex + 1) % imgElements.length;
-          showImage(currentIndex);
-        }
+      function isHerbInStock(id) { return inventory.herbs[id] > 0; }
+      function isMerchSizeInStock(id, size) { return inventory.merch[id] && inventory.merch[id][size] > 0; }
 
-        function goToImage(index) {
-          currentIndex = index;
-          showImage(currentIndex);
-          userInteracted = true;
-          if (interactionTimeout) clearTimeout(interactionTimeout);
-          interactionTimeout = setTimeout(function() {
-            userInteracted = false;
-          }, 5000);
+      function decreaseHerbStock(id) { if (inventory.herbs[id] > 0) inventory.herbs[id]--; }
+      function decreaseMerchStock(id, size) { if (inventory.merch[id] && inventory.merch[id][size] > 0) inventory.merch[id][size]--; }
+
+      function createImageSlideshow(container, images, interval=3000) {
+        if (!container) return;
+        const imgs = container.querySelectorAll('img');
+        if (imgs.length <= 1) return;
+        let idx = 0, userInteracted = false, timeout;
+        function show(i) {
+          imgs.forEach((img, j) => img.classList.toggle('active', j===i));
+          const thumbs = container.parentElement?.querySelectorAll('.thumbnails img');
+          thumbs?.forEach((t,j) => t.classList.toggle('active-thumb', j===i));
         }
-        const thumbs = container.parentElement && container.parentElement.querySelectorAll('.thumbnails img');
-        if (thumbs) {
-          thumbs.forEach(function(thumb, i) {
-            thumb.addEventListener('click', function() { goToImage(i); });
-          });
-        }
-        const dots = container.parentElement && container.parentElement.querySelectorAll('.slider-dot');
-        if (dots) {
-          dots.forEach(function(dot, i) {
-            dot.addEventListener('click', function() { goToImage(i); });
-          });
-        }
-        let touchStartX = 0;
-        container.addEventListener('touchstart', function(e) {
-          touchStartX = e.touches[0].clientX;
-        });
-        container.addEventListener('touchend', function(e) {
-          const touchEndX = e.changedTouches[0].clientX;
-          const diff = touchStartX - touchEndX;
-          if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-              goToImage((currentIndex + 1) % imgElements.length);
-            } else {
-              goToImage((currentIndex - 1 + imgElements.length) % imgElements.length);
-            }
-          }
-        });
-        showImage(0);
-        const sliderInterval = setInterval(nextImage, interval);
-        activeSliders.set(container, sliderInterval);
+        function next() { if(!userInteracted) { idx = (idx+1)%imgs.length; show(idx); } }
+        let timer = setInterval(next, interval);
+        container.addEventListener('touchstart', e => { const startX = e.touches[0].clientX; container.ontouchend = ev => { if(Math.abs(startX - ev.changedTouches[0].clientX) > 50) { userInteracted=true; clearTimeout(timeout); timeout=setTimeout(()=>userInteracted=false,5000); } }; });
       }
 
       function renderHerbs() {
         herbGrid.innerHTML = '';
-        HERBS.forEach(function(p) {
+        HERBS.forEach(p => {
           const inStock = isHerbInStock(p.id);
-          const card = document.createElement("div");
-          card.className = "pcard";
-          const imagesHtml = p.images.map(function(img, i) {
-            return '<img src="' + img + '" loading="lazy" alt="' + p.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" data-fullscreen="' + img + '">';
-          }).join('');
-          card.innerHTML = '<div class="pcard-media slideshow-container">' + imagesHtml + '</div><div class="pcard-body"><h4>' + p.name + '</h4><div class="desc">' + p.desc + '</div>' + (!inStock ? '<span class="sold-out-badge">Sold Out — Available Again Soon</span>' : '') + '<div class="pcard-foot"><span class="price">R' + p.price + '</span><button class="add-btn"' + (!inStock ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (inStock ? 'Add' : 'Sold Out') + '</button></div></div>';
-          
-          const slideshowContainer = card.querySelector('.slideshow-container');
-          createImageSlideshow(slideshowContainer, p.images, { interval: 3000 });
-          
-          // Full screen on image click
-          card.querySelectorAll('.pcard-media img').forEach(function(img) {
-            img.addEventListener('click', function(e) {
-              e.stopPropagation();
-              openFullscreen(this.getAttribute('data-fullscreen'));
-            });
-          });
-          
-          card.querySelector('.pcard-media').addEventListener('click', function(e) {
-            if (e.target.tagName === 'IMG') return;
-            openDetail('herb', p);
-          });
-          
-          if (inStock) {
-            card.querySelector('.add-btn').addEventListener('click', function(e) {
-              e.stopPropagation();
-              addToCart({ name: p.name, price: p.price, image: p.images[0], productId: p.id, type: 'herb' }, e.currentTarget);
-            });
-          }
+          const card = document.createElement('div'); card.className='pcard';
+          card.innerHTML = `<div class="pcard-media slideshow-container">${p.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
+            <div class="pcard-body"><h4>${p.name}</h4><div class="desc">${p.desc}</div><div class="pcard-foot"><span class="price">R${p.price}</span>
+            <button class="add-btn" ${!inStock?'disabled':''}>${inStock?'<i class="fas fa-cart-plus"></i> Add':'Sold Out'}</button></div></div>`;
+          const btn = card.querySelector('.add-btn');
+          btn.addEventListener('click', e => { e.stopPropagation(); if(isHerbInStock(p.id)){ addToCart({name:p.name, price:p.price, image:p.images[0], herbId:p.id}); } });
+          card.querySelector('.pcard-media').addEventListener('click', ()=> openDetail('herb',p));
           herbGrid.appendChild(card);
         });
       }
 
       function renderMerch() {
         merchGrid.innerHTML = '';
-        MERCH.forEach(function(p) {
-          // Check which sizes are in stock
-          const availableSizes = p.sizes.filter(function(s) {
-            return isMerchSizeInStock(p.id, s);
-          });
-          const hasAnyStock = availableSizes.length > 0;
-          
-          const card = document.createElement("div");
-          card.className = "pcard";
-          const imagesHtml = p.images.map(function(img, i) {
-            return '<img src="' + img + '" loading="lazy" alt="' + p.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" data-fullscreen="' + img + '">';
-          }).join('');
-          
-          const sizesHtml = p.sizes.map(function(s) {
-            const inStock = isMerchSizeInStock(p.id, s);
-            return '<span style="' + (!inStock ? 'opacity:0.4;text-decoration:line-through;' : '') + '">' + s + '</span>';
-          }).join('');
-          
-          card.innerHTML = '<div class="pcard-media slideshow-container">' + imagesHtml + '</div><div class="pcard-body"><h4>' + p.name + '</h4><div class="sizes">' + sizesHtml + '</div>' + (!hasAnyStock ? '<span class="sold-out-badge">Sold Out — Available Again Soon</span>' : '') + '<div class="pcard-foot"><span class="price">R' + p.price + '</span><button class="add-btn"' + (!hasAnyStock ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (hasAnyStock ? 'Add' : 'Sold Out') + '</button></div></div>';
-          
-          const slideshowContainer = card.querySelector('.slideshow-container');
-          createImageSlideshow(slideshowContainer, p.images, { interval: 3000 });
-          
-          // Full screen on image click
-          card.querySelectorAll('.pcard-media img').forEach(function(img) {
-            img.addEventListener('click', function(e) {
-              e.stopPropagation();
-              openFullscreen(this.getAttribute('data-fullscreen'));
-            });
-          });
-          
-          card.querySelector('.pcard-media').addEventListener('click', function(e) {
-            if (e.target.tagName === 'IMG') return;
-            openDetail('merch', p);
-          });
-          
-          if (hasAnyStock) {
-            card.querySelector('.add-btn').addEventListener('click', function(e) {
-              e.stopPropagation();
-              openMerchSizeSelector(p, e.currentTarget);
-            });
-          }
+        MERCH.forEach(p => {
+          const card = document.createElement('div'); card.className='pcard';
+          card.innerHTML = `<div class="pcard-media slideshow-container">${p.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
+            <div class="pcard-body"><h4>${p.name}</h4><div class="sizes">${p.sizes.map(s => {
+              const available = isMerchSizeInStock(p.id, s);
+              return `<span style="${available?'':'text-decoration:line-through;opacity:0.6'}">${s}${available?'':' (sold out)'}</span>`;
+            }).join('')}</div><div class="pcard-foot"><span class="price">R${p.price}</span>
+            <button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div></div>`;
+          card.querySelector('.add-btn').addEventListener('click', e => { e.stopPropagation(); openMerchSizeSelector(p); });
+          card.querySelector('.pcard-media').addEventListener('click', ()=> openDetail('merch',p));
           merchGrid.appendChild(card);
         });
       }
 
-      function openMerchSizeSelector(product, buttonElement) {
-        const availableSizes = product.sizes.filter(function(s) {
-          return isMerchSizeInStock(product.id, s);
-        });
-        
-        if (availableSizes.length === 0) {
-          showToast("This item is currently sold out");
-          return;
-        }
-        
-        const size = prompt('Select size for ' + product.name + ': ' + availableSizes.join(', '), availableSizes[0]);
+      function openMerchSizeSelector(product) {
+        const availableSizes = product.sizes.filter(s => isMerchSizeInStock(product.id, s));
+        if (availableSizes.length === 0) { showToast("All sizes sold out"); return; }
+        const size = prompt(`Select size: ${availableSizes.join(', ')}`, availableSizes[0]);
         if (size && availableSizes.includes(size.toUpperCase())) {
-          addToCart({ name: product.name + ' (' + size.toUpperCase() + ')', price: product.price, image: product.images[0], productId: product.id, size: size.toUpperCase(), type: 'merch' }, buttonElement);
-        } else if (size) {
-          alert('Please select a valid size from: ' + availableSizes.join(', '));
-        }
+          addToCart({ name: `${product.name} (${size.toUpperCase()})`, price: product.price, image: product.images[0], merchId: product.id, size: size.toUpperCase() });
+        } else if (size) { alert('Invalid or sold out size.'); }
       }
 
       function addToCart(item, buttonElement) {
-        cart.push({ name: item.name, price: item.price, image: item.image, id: Date.now() + Math.random(), productId: item.productId, size: item.size, type: item.type });
-        updateCart();
-        animateCartAdd(buttonElement);
-        showToast(item.name + " added to basket");
+        cart.push({ ...item, id: Date.now()+Math.random() });
+        updateCart(); renderCart();
+        if (buttonElement) animateCartAdd(buttonElement);
+        showToast(item.name + " added");
       }
 
-      function removeFromCart(cartIndex) {
-        if (cartIndex >= 0 && cartIndex < cart.length) {
-          const removedItem = cart[cartIndex];
-          cart.splice(cartIndex, 1);
-          updateCart();
-          renderCart();
-          showToast(removedItem.name + " removed from basket");
+      function removeFromCart(index) {
+        if (index >= 0 && index < cart.length) {
+          const removed = cart[index];
+          cart.splice(index, 1);
+          updateCart(); renderCart();
+          showToast(removed.name + " removed");
         }
       }
 
-      function animateCartAdd(button) {
-        if (!button) return;
-        const img = (button.closest('.pcard') && button.closest('.pcard').querySelector('img.active')) || (button.closest('.pcard') && button.closest('.pcard').querySelector('img'));
-        if (!img) return;
-        const cartIcon = document.getElementById('cartBtn');
-        const imgClone = img.cloneNode(true);
-        const rect = img.getBoundingClientRect();
-        const cartRect = cartIcon.getBoundingClientRect();
-        imgClone.style.position = 'fixed';
-        imgClone.style.left = rect.left + 'px';
-        imgClone.style.top = rect.top + 'px';
-        imgClone.style.width = rect.width + 'px';
-        imgClone.style.height = rect.height + 'px';
-        imgClone.style.transition = 'all 0.8s ease-in-out';
-        imgClone.style.zIndex = '1000';
-        imgClone.style.borderRadius = '8px';
-        document.body.appendChild(imgClone);
-        requestAnimationFrame(function() {
-          imgClone.style.left = (cartRect.left + cartRect.width / 2 - rect.width / 2) + 'px';
-          imgClone.style.top = (cartRect.top + cartRect.height / 2 - rect.height / 2) + 'px';
-          imgClone.style.width = '20px';
-          imgClone.style.height = '20px';
-          imgClone.style.opacity = '0.5';
+      function processOrder() {
+        if (cart.length === 0) return;
+        cart.forEach(item => {
+          if (item.herbId) decreaseHerbStock(item.herbId);
+          if (item.merchId && item.size) decreaseMerchStock(item.merchId, item.size);
         });
-        setTimeout(function() { imgClone.remove(); }, 800);
+        cart = [];
+        updateCart(); renderCart();
+        renderHerbs(); renderMerch();
+        showToast("Order placed! Inventory updated.");
       }
 
-      function updateCart() {
-        cartCount.textContent = cart.length;
-        cartCount.classList.add('pulse');
-        setTimeout(function() { cartCount.classList.remove('pulse'); }, 400);
-      }
-
+      function updateCart() { cartCount.textContent = cart.length; cartCount.classList.add('pulse'); setTimeout(()=>cartCount.classList.remove('pulse'),400); }
       function renderCart() {
         cartItemsList.innerHTML = '';
         let total = 0;
-        if (cart.length === 0) {
-          cartItemsList.innerHTML = '<p style="color:#7a7266;text-align:center;padding:20px;">Your basket is empty.</p>';
-          cartTotalDisplay.textContent = "Total: R0";
-          return;
-        }
-        cart.forEach(function(item, index) {
+        if (cart.length === 0) { cartItemsList.innerHTML = '<p style="color:#7a7266;text-align:center;">Empty basket.</p>'; cartTotalDisplay.textContent="Total: R0"; return; }
+        cart.forEach((item, i) => {
           total += item.price;
-          const div = document.createElement("div");
-          div.className = "cart-item";
-          div.innerHTML = '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div></div><div class="cart-item-price">R' + item.price + '</div><button class="cart-remove-btn" data-index="' + index + '" title="Remove item"><i class="fas fa-times"></i></button>';
+          const div = document.createElement('div'); div.className='cart-item';
+          div.innerHTML = `<div><div class="cart-item-name">${item.name}</div></div><div>R${item.price}</div><button class="cart-remove-btn" data-index="${i}"><i class="fas fa-times"></i></button>`;
           cartItemsList.appendChild(div);
         });
-        cartItemsList.querySelectorAll('.cart-remove-btn').forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            removeFromCart(parseInt(this.getAttribute('data-index')));
-          });
-        });
+        document.querySelectorAll('.cart-remove-btn').forEach(b => b.addEventListener('click', function(){ removeFromCart(parseInt(this.dataset.index)); }));
         cartTotalDisplay.textContent = "Total: R" + total;
       }
 
-      // Process order and update inventory
-      function processOrder() {
-        cart.forEach(function(item) {
-          if (item.type === 'herb') {
-            reduceHerbStock(item.productId, 1);
-          } else if (item.type === 'merch' && item.size) {
-            reduceMerchStock(item.productId, item.size, 1);
-          }
-        });
-        cart = [];
-        updateCart();
-        renderCart();
-        renderHerbs();
-        renderMerch();
-        showToast("Order confirmed! Inventory updated.");
-      }
-
       function openDetail(type, product) {
-        const oldSlider = detailContent.querySelector('.main-image-container');
-        if (oldSlider && activeSliders.has(oldSlider)) {
-          clearInterval(activeSliders.get(oldSlider));
-          activeSliders.delete(oldSlider);
-        }
-        let html = '<button class="back-btn" onclick="document.getElementById(\'detailPage\').classList.remove(\'show\')"><i class="fas fa-arrow-left"></i> Back</button>';
-        html += '<div class="detail-images"><div class="main-image-container">';
-        product.images.forEach(function(img, i) {
-          html += '<img src="' + img + '" alt="' + product.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" data-fullscreen="' + img + '" style="cursor:zoom-in;">';
-        });
-        html += '</div><div class="thumbnails">';
-        product.images.forEach(function(img, i) {
-          html += '<img src="' + img + '" alt="Thumbnail ' + (i + 1) + '" class="' + (i === 0 ? 'active-thumb' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'">';
-        });
-        html += '</div><div class="slider-dots">';
-        product.images.forEach(function(_, i) {
-          html += '<span class="slider-dot ' + (i === 0 ? 'active' : '') + '"></span>';
-        });
-        html += '</div></div><div class="detail-info"><h2>' + product.name + '</h2><p>' + (product.desc || '') + '</p><p class="price" style="font-size:24px;">R' + product.price + '</p>';
-        
-        if (product.sizes) {
-          const availableSizes = product.sizes.filter(function(s) {
-            return isMerchSizeInStock(product.id, s);
-          });
-          html += '<div class="size-selector"><label>Size: <select id="detailSize">';
-          product.sizes.forEach(function(s) {
-            const inStock = isMerchSizeInStock(product.id, s);
-            html += '<option value="' + s + '"' + (!inStock ? ' disabled' : '') + '>' + s + (!inStock ? ' (Sold Out)' : '') + '</option>';
-          });
-          html += '</select></label></div>';
-          html += '<button class="btn btn-primary" id="detailAddBtn"' + (availableSizes.length === 0 ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (availableSizes.length === 0 ? 'Sold Out' : 'Add to Cart') + '</button>';
-        } else {
-          const inStock = isHerbInStock(product.id);
-          html += '<button class="btn btn-primary" id="detailAddBtn"' + (!inStock ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (!inStock ? 'Sold Out' : 'Add to Cart') + '</button>';
-          if (!inStock) {
-            html += '<p class="sold-out-badge" style="margin-top:8px;">Sold Out — Available Again Soon</p>';
-          }
-        }
-        
-        html += '<div style="margin-top:30px;"><h4>Recommended</h4><div class="product-grid" style="grid-template-columns:1fr 1fr;" id="recommendedGrid">';
-        const related = type === 'herb' ? HERBS.filter(function(h) { return h.id !== product.id; }).slice(0, 2) : MERCH.filter(function(m) { return m.id !== product.id; }).slice(0, 2);
-        related.forEach(function(r) {
-          const rType = r.sizes ? 'merch' : 'herb';
-          html += '<div class="pcard rec-card" data-product-id="' + r.id + '" data-product-type="' + rType + '"><div class="pcard-media"><img src="' + r.images[0] + '" alt="' + r.name + '" style="position:relative;opacity:1;"></div><div class="pcard-body"><h4>' + r.name + '</h4><span class="price">R' + r.price + '</span></div></div>';
-        });
-        html += '</div></div></div>';
-        detailContent.innerHTML = html;
+        detailContent.innerHTML = `<button class="back-btn" onclick="document.getElementById('detailPage').classList.remove('show')"><i class="fas fa-arrow-left"></i> Back</button>
+          <div class="detail-images"><div class="main-image-container">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
+          <div class="thumbnails">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active-thumb':''}" onclick="document.querySelectorAll('.main-image-container img').forEach((im,idx)=>im.classList.toggle('active',idx===${i})); this.parentElement.querySelectorAll('img').forEach(t=>t.classList.remove('active-thumb')); this.classList.add('active-thumb')">`).join('')}</div></div>
+          <div class="detail-info"><h2>${product.name}</h2><p>${product.desc||''}</p><p class="price">R${product.price}</p>
+          ${product.sizes ? `<div class="size-selector"><select id="detailSize">${product.sizes.map(s=>`<option ${isMerchSizeInStock(product.id,s)?'':'disabled'}>${s}${isMerchSizeInStock(product.id,s)?'':' (sold out)'}</option>`).join('')}</select></div>`:''}
+          <button class="btn btn-primary" id="detailAddBtn">Add to Cart</button></div>`;
         detailPage.classList.add('show');
-        
-        // Full screen on detail image click
-        detailContent.querySelectorAll('.main-image-container img').forEach(function(img) {
-          img.addEventListener('click', function(e) {
-            e.stopPropagation();
-            openFullscreen(this.getAttribute('data-fullscreen'));
-          });
+        document.getElementById('detailAddBtn').addEventListener('click', ()=>{
+          let item = { name: product.name, price: product.price, image: product.images[0] };
+          if (product.sizes) {
+            const sel = document.getElementById('detailSize');
+            if (sel.selectedOptions[0].disabled) { showToast("Size sold out"); return; }
+            item.name += ` (${sel.value})`; item.merchId = product.id; item.size = sel.value;
+          } else { item.herbId = product.id; }
+          addToCart(item);
         });
-        
-        detailContent.querySelectorAll('.rec-card').forEach(function(card) {
-          card.addEventListener('click', function() {
-            const pid = this.getAttribute('data-product-id');
-            const ptype = this.getAttribute('data-product-type');
-            const found = (ptype === 'herb' ? HERBS : MERCH).find(function(p) { return p.id === pid; });
-            if (found) openDetail(ptype, found);
-          });
-        });
-        const mainContainer = detailContent.querySelector('.main-image-container');
-        if (mainContainer) createImageSlideshow(mainContainer, product.images, { interval: 4000 });
-        
-        const addBtn = document.getElementById('detailAddBtn');
-        if (addBtn && !addBtn.disabled) {
-          addBtn.addEventListener('click', function() {
-            let item = { name: product.name, price: product.price, image: product.images[0], productId: product.id, type: product.sizes ? 'merch' : 'herb' };
-            if (product.sizes) {
-              const sizeSelect = document.getElementById('detailSize');
-              item.name += ' (' + sizeSelect.value + ')';
-              item.size = sizeSelect.value;
-            }
-            addToCart(item, addBtn);
-          });
-        }
       }
 
-      function showToast(msg) {
-        const toast = document.getElementById("toast");
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(function() { toast.classList.remove("show"); }, 2500);
-      }
+      function showToast(msg) { const t = document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2500); }
 
-      document.getElementById('menuToggle').addEventListener('click', function() {
-        const navLinks = document.getElementById('navLinks');
-        if (navLinks.style.display === 'flex') {
-          navLinks.style.display = '';
-          document.getElementById('menuToggle').innerHTML = '<i class="fas fa-bars"></i>';
-        } else {
-          navLinks.style.cssText = 'display:flex;position:fixed;top:70px;left:16px;right:16px;background:var(--cream);flex-direction:column;gap:8px;padding:18px;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.15);z-index:600;';
-          document.getElementById('menuToggle').innerHTML = '✕';
-        }
+      document.getElementById('menuToggle').addEventListener('click', function(){
+        const nav = document.getElementById('navLinks');
+        if (nav.style.display === 'flex') { nav.style.display=''; this.innerHTML='<i class="fas fa-bars"></i>'; }
+        else { nav.style.cssText='display:flex;position:fixed;top:70px;left:16px;right:16px;background:var(--cream);flex-direction:column;gap:8px;padding:18px;border-radius:8px;z-index:600;'; this.innerHTML='✕'; }
       });
 
-      document.getElementById("cartBtn").addEventListener("click", function() { renderCart(); cartPage.classList.add("show"); });
-      document.getElementById("closeCartPage").addEventListener("click", function() { cartPage.classList.remove("show"); });
-      document.getElementById("checkoutBtn").addEventListener("click", function() {
-        if (cart.length === 0) { showToast("Your basket is empty"); return; }
-        const total = cart.reduce(function(sum, item) { return sum + item.price; }, 0);
+      document.getElementById("cartBtn").addEventListener("click", ()=>{ renderCart(); cartPage.classList.add("show"); });
+      document.getElementById("closeCartPage").addEventListener("click", ()=> cartPage.classList.remove("show"));
+      document.getElementById("checkoutBtn").addEventListener("click", ()=>{
+        if (cart.length===0) { showToast("Basket empty"); return; }
         processOrder();
         cartPage.classList.remove("show");
-        showToast("Order confirmed! Total: R" + total + ". Inventory updated.");
-      });
-      window.addEventListener("scroll", function() {
-        document.getElementById("siteHeader").classList.toggle("solid", window.scrollY > 50);
       });
 
-      // ===== MAP =====
+      window.addEventListener("scroll", ()=> document.getElementById("siteHeader").classList.toggle("solid", window.scrollY>50));
+
+      // Map initialization with fullscreen image viewer for location photos
       window.initMap = function() {
-        const mapElement = document.getElementById('map');
-        if (!mapElement || mapElement._leaflet_id) return;
-
+        const mapEl = document.getElementById('map');
+        if (!mapEl || mapEl._leaflet_id) return;
         const map = L.map('map', { scrollWheelZoom: false }).setView([-24.5, 29.2], 6);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          maxZoom: 18
-        }).addTo(map);
-
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
         const shopList = document.getElementById('shopList');
-        if (!shopList) return;
         shopList.innerHTML = '';
-
-        STORES.forEach(function(store) {
-          const popupContent = document.createElement('div');
-          popupContent.innerHTML = '<b>' + store.name + '</b><br>' + store.address + '<br><div class="location-popup">' +
-            store.images.map(function(img) {
-              return '<img src="' + img + '" alt="' + store.name + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" loading="lazy" class="location-img" data-fullscreen="' + img + '">';
-            }).join('') + '</div>';
-
-          const marker = L.marker([store.lat, store.lng]).addTo(map).bindPopup(popupContent, {
-            maxWidth: 320,
-            className: 'location-popup-wrapper'
+        STORES.forEach(store => {
+          const popupDiv = document.createElement('div');
+          popupDiv.innerHTML = `<b>${store.name}</b><br>${store.address}<br><div class="location-popup">${store.images.map(img => `<img src="${img}" onerror="this.src='${PLACEHOLDER}'" class="loc-img-click" style="cursor:pointer;">`).join('')}</div>`;
+          const marker = L.marker([store.lat, store.lng]).addTo(map).bindPopup(popupDiv, { maxWidth:320 });
+          marker.on('popupopen', () => {
+            document.querySelectorAll('.loc-img-click').forEach(img => {
+              img.addEventListener('click', function(e) { e.stopPropagation(); openFullscreen(this.src); });
+            });
           });
-
-          // Full screen on location image click
-          marker.on('popupopen', function() {
-            setTimeout(function() {
-              document.querySelectorAll('.location-img').forEach(function(img) {
-                img.addEventListener('click', function(e) {
-                  e.stopPropagation();
-                  openFullscreen(this.getAttribute('data-fullscreen'));
-                });
-              });
-            }, 100);
-          });
-
-          const shopItem = document.createElement('div');
-          shopItem.className = 'shop-item';
-          shopItem.innerHTML = '<div><h5>' + store.name + '</h5><p>' + store.address + '</p></div><div class="arrow">→</div>';
-
-          shopItem.addEventListener('click', function() {
-            document.querySelectorAll('.shop-item').forEach(function(item) { item.classList.remove('active'); });
-            shopItem.classList.add('active');
-            map.flyTo([store.lat, store.lng], 13, { duration: 1.2 });
-            marker.openPopup();
-          });
-
+          const shopItem = document.createElement('div'); shopItem.className='shop-item';
+          shopItem.innerHTML = `<div><h5>${store.name}</h5><p>${store.address}</p></div><div class="arrow">→</div>`;
+          shopItem.addEventListener('click', ()=>{ map.flyTo([store.lat, store.lng], 13); marker.openPopup(); });
           shopList.appendChild(shopItem);
         });
-
-        if (shopList.firstChild) {
-          shopList.firstChild.classList.add('active');
-        }
-
-        setTimeout(function() {
-          map.invalidateSize();
-        }, 100);
+        setTimeout(()=> map.invalidateSize(), 100);
       };
 
-      if (mainContent.classList.contains('visible')) {
-        window.initMap();
-      }
+      if (mainContent.classList.contains('visible')) window.initMap();
+      window.addEventListener('load', ()=> setTimeout(()=> { if (!document.getElementById('map')._leaflet_id) window.initMap(); }, 200));
 
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          if (!document.getElementById('map')._leaflet_id) {
-            window.initMap();
-          }
-        }, 200);
-      });
-
-      document.querySelectorAll('footer a[href^="#"]').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            e.preventDefault();
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-
-      document.querySelectorAll("img").forEach(function(img) {
-        img.onerror = function() { if (this.src !== PLACEHOLDER_IMG) this.src = PLACEHOLDER_IMG; };
-      });
-
-      renderHerbs();
-      renderMerch();
+      renderHerbs(); renderMerch();
     })();
   </script>
 </body>
