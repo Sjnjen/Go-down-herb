@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-  <title>Go Down Herbs · Premium Wellness</title>
+  <title>Go Down Herbs (PTY) Ltd · Premium Wellness</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -105,7 +105,7 @@
     }
 
     #loader .loader-logo img {
-      height: 80px;
+      height: 120px;
       margin: 0 auto 20px;
       animation: pulse 1.5s ease-in-out infinite;
     }
@@ -152,7 +152,7 @@
         transform: scale(1);
       }
       50% {
-        transform: scale(1.05);
+        transform: scale(1.08);
       }
     }
 
@@ -231,7 +231,8 @@
     }
 
     .brand img {
-      height: 44px;
+      height: 55px;
+      width: auto;
     }
 
     .brand-text {
@@ -353,7 +354,7 @@
       background: linear-gradient(145deg, var(--forest), #0f2e24), url('hero-bg.jpg') center/cover fixed;
       display: flex;
       align-items: center;
-      padding-top: 80px;
+      padding-top: 100px;
       position: relative;
       overflow: hidden;
     }
@@ -368,6 +369,26 @@
     .hero .wrap {
       position: relative;
       z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-logo {
+      flex-shrink: 0;
+    }
+
+    .hero-logo img {
+      height: 160px;
+      width: auto;
+      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 280px;
     }
 
     .hero h1 {
@@ -379,6 +400,8 @@
     .hero h1 em {
       color: var(--lime);
       font-style: italic;
+      display: block;
+      font-size: clamp(24px, 4vw, 42px);
     }
 
     .hero p {
@@ -392,6 +415,16 @@
     .hero .btn {
       margin-top: 32px;
       animation: fadeInUp 1s ease-out 0.5s both;
+    }
+
+    @media(max-width:768px) {
+      .hero .wrap {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero-logo img {
+        height: 120px;
+      }
     }
 
     @keyframes slideInRight {
@@ -672,12 +705,34 @@
       font-size: 18px;
     }
 
+    /* Location image popup */
+    .location-popup {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: 300px;
+    }
+
+    .location-popup img {
+      width: 90px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .location-popup img:hover {
+      transform: scale(1.05);
+    }
+
     .goals-slider-section {
       position: relative;
-      padding: 0;
-      height: 500px;
+      padding: 100px 0 80px;
+      min-height: 500px;
       overflow: hidden;
       background: #0e211d;
+      margin-top: 0;
     }
 
     .goals-slider-bg {
@@ -702,7 +757,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px;
+      padding: 60px 40px 40px;
       z-index: 2;
     }
 
@@ -710,6 +765,7 @@
       max-width: 800px;
       text-align: center;
       color: white;
+      padding-top: 20px;
     }
 
     .goals-content h2 {
@@ -717,6 +773,9 @@
       font-size: clamp(28px, 4vw, 42px);
       margin-bottom: 24px;
       font-family: var(--display);
+      margin-top: 0;
+      position: relative;
+      z-index: 3;
     }
 
     .goals-content p {
@@ -787,24 +846,26 @@
     .event-section {
       background: var(--warm);
       border-radius: 12px;
-      padding: 40px;
+      padding: 0;
       border-left: 4px solid var(--lime);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      align-items: center;
+      overflow: hidden;
     }
 
     .event-img {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      height: 400px;
       background: #e0d7c6;
-      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #666;
       font-size: 14px;
+    }
+
+    .event-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     footer {
@@ -832,7 +893,8 @@
     }
 
     .foot-brand img {
-      height: 38px;
+      height: 50px;
+      width: auto;
     }
 
     .social-icons {
@@ -1107,8 +1169,8 @@
     </video>
     <div class="loader-overlay">
       <div class="loader-logo">
-        <img src="logo-icon.png" alt="Go Down Herbs" onerror="this.style.display='none'">
-        <h2>Go Down Herbs</h2>
+        <img src="logo-icon.png" alt="Go Down Herbs (PTY) Ltd" onerror="this.style.display='none'">
+        <h2>Go Down Herbs (PTY) Ltd</h2>
         <p>Pot of Life</p>
       </div>
     </div>
@@ -1121,8 +1183,8 @@
     <header id="siteHeader">
       <nav class="wrap">
         <a href="#home" class="brand">
-          <img src="logo-icon.png" alt="Go Down Herbs logo">
-          <span class="brand-text">Go Down Herbs<small>Pot of Life</small></span>
+          <img src="logo-icon.png" alt="Go Down Herbs (PTY) Ltd logo">
+          <span class="brand-text">Go Down Herbs (PTY) Ltd<small>Pot of Life</small></span>
         </a>
         <ul class="nav-links" id="navLinks">
           <li><a href="#home">Home</a></li>
@@ -1144,9 +1206,14 @@
 
     <section class="hero" id="home">
       <div class="wrap">
-        <h1>Rooted in Tradition, <em>Raised in Nature</em></h1>
-        <p>Premium Venda herbal wellness — handcrafted from the Pot of Life.</p>
-        <a href="#shop-herbs" class="btn btn-primary">Explore Herbs</a>
+        <div class="hero-logo">
+          <img src="logo-icon.png" alt="Go Down Herbs (PTY) Ltd">
+        </div>
+        <div class="hero-text">
+          <h1><em>Kill Your Pride,</em> Save Your Life</h1>
+          <p>Premium Venda herbal wellness — handcrafted from the Pot of Life.</p>
+          <a href="#shop-herbs" class="btn btn-primary">Explore Herbs</a>
+        </div>
       </div>
     </section>
 
@@ -1231,12 +1298,6 @@
             <i class="far fa-image" style="font-size:40px;"></i>
             <span style="display:block;margin-top:8px;">Event Image</span>
           </div>
-          <div>
-            <h3>Wellness Workshop</h3>
-            <p><i class="far fa-calendar"></i> 15 August 2026 · 10:00 AM</p>
-            <p><i class="fas fa-map-marker-alt"></i> Polokwane Store</p>
-            <p>Traditional herbal remedies workshop. Learn about Venda wellness practices.</p>
-          </div>
         </div>
       </div>
     </section>
@@ -1246,7 +1307,7 @@
         <h2>The Pot of Life</h2>
         <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:center;">
           <div style="flex:1;">
-            <p style="line-height:1.8;">Go Down Herbs is rooted in Venda tradition, prepared using ancestral recipes passed down through generations. Founded by a traditional healer with deep community ties, every product is handcrafted while honouring nature and heritage. We believe in sharing the Pot of Life with the world, blending ancient wisdom with modern wellness.</p>
+            <p style="line-height:1.8;">Go Down Herbs (PTY) Ltd is rooted in Venda tradition, prepared using ancestral recipes passed down through generations. Founded by a traditional healer with deep community ties, every product is handcrafted while honouring nature and heritage. We believe in sharing the Pot of Life with the world, blending ancient wisdom with modern wellness.</p>
           </div>
           <div style="flex:1;background:var(--warm);padding:20px;border-radius:8px;">
             <p><strong>Founder:</strong> Makhadzi Ramabulana</p>
@@ -1277,7 +1338,7 @@
             <div class="foot-brand">
               <a href="#home" style="display:flex;align-items:center;gap:12px;">
                 <img src="logo-icon.png" alt="logo">
-                <span style="font-family:var(--display);color:white;font-size:18px;">Go Down Herbs</span>
+                <span style="font-family:var(--display);color:white;font-size:18px;">Go Down Herbs (PTY) Ltd</span>
               </a>
             </div>
             <p>Venda wellness delivered nationwide.</p>
@@ -1356,7 +1417,6 @@
           loader.classList.add('hide');
           mainContent.classList.add('visible');
           document.body.style.overflow = '';
-          // Initialize map after content is visible
           if (window.initMap) window.initMap();
         }, 300);
       }
@@ -1406,15 +1466,65 @@
         { id: "m-white", name: "Go Down Herbs Tee White", price: 100, images: ["m-white1.jpg", "m-white2.jpg", "m-white3.jpg", "m-white4.jpg", "m-white5.jpg"], sizes: ["S", "M", "L", "XL", "XXL"] },
         { id: "m-leaf", name: "Go Down Leaf Tee", price: 100, images: ["m-leaf1.jpg", "m-leaf2.jpg", "m-leaf3.jpg", "m-leaf4.jpg", "m-leaf5.jpg"], sizes: ["S", "M", "L", "XL", "XXL"] }
       ];
+
+      // Store data with location-specific images
       const STORES = [
-        { name: 'Pretoria', address: 'Shop 37, Barclay Square, Sunnyside', lat: -25.7545, lng: 28.2201 },
-        { name: 'Johannesburg', address: 'Shop 3, Braamfontein', lat: -26.1929, lng: 28.0401 },
-        { name: 'Polokwane', address: 'Shop 10, Dada Square', lat: -23.9045, lng: 29.4507 },
-        { name: 'Makhado', address: 'Shop 02, Louis Trichardt', lat: -23.0466, lng: 29.9014 },
-        { name: 'Thohoyandou', address: 'Jerice Palace Complex', lat: -22.9764, lng: 30.4854 },
-        { name: 'Nzhelele', address: 'Biaba Shopping Center', lat: -22.927, lng: 30.178 },
-        { name: 'Soweto', address: 'Bara, Chris Hani & Dynamo', lat: -26.2485, lng: 27.8933 },
-        { name: 'Online', address: 'godownherbs.co.za', lat: -24.5, lng: 29.2 }
+        { 
+          name: 'Pretoria', 
+          address: 'Shop 37, Barclay Square, Sunnyside', 
+          lat: -25.7545, 
+          lng: 28.2201,
+          images: ['pretoria1.jpg', 'pretoria2.jpg', 'pretoria3.jpg']
+        },
+        { 
+          name: 'Johannesburg', 
+          address: 'Shop 3, Braamfontein', 
+          lat: -26.1929, 
+          lng: 28.0401,
+          images: ['joburg1.jpg', 'joburg2.jpg', 'joburg3.jpg']
+        },
+        { 
+          name: 'Polokwane', 
+          address: 'Shop 10, Dada Square', 
+          lat: -23.9045, 
+          lng: 29.4507,
+          images: ['polokwane1.jpg', 'polokwane2.jpg', 'polokwane3.jpg']
+        },
+        { 
+          name: 'Makhado', 
+          address: 'Shop 02, Louis Trichardt', 
+          lat: -23.0466, 
+          lng: 29.9014,
+          images: ['makhado1.jpg', 'makhado2.jpg', 'makhado3.jpg']
+        },
+        { 
+          name: 'Thohoyandou', 
+          address: 'Jerice Palace Complex', 
+          lat: -22.9764, 
+          lng: 30.4854,
+          images: ['thohoyandou1.jpg', 'thohoyandou2.jpg', 'thohoyandou3.jpg']
+        },
+        { 
+          name: 'Nzhelele', 
+          address: 'Biaba Shopping Center', 
+          lat: -22.927, 
+          lng: 30.178,
+          images: ['nzhelele1.jpg', 'nzhelele2.jpg', 'nzhelele3.jpg']
+        },
+        { 
+          name: 'Soweto', 
+          address: 'Bara, Chris Hani & Dynamo', 
+          lat: -26.2485, 
+          lng: 27.8933,
+          images: ['soweto1.jpg', 'soweto2.jpg', 'soweto3.jpg']
+        },
+        { 
+          name: 'Online', 
+          address: 'godownherbs.co.za', 
+          lat: -24.5, 
+          lng: 29.2,
+          images: ['online1.jpg', 'online2.jpg', 'online3.jpg']
+        }
       ];
 
       let cart = [];
@@ -1710,7 +1820,7 @@
         document.getElementById("siteHeader").classList.toggle("solid", window.scrollY > 50);
       });
 
-      // Map initialization function
+      // Map with location-specific images
       window.initMap = function() {
         const mapElement = document.getElementById('map');
         if (!mapElement || mapElement._leaflet_id) return;
@@ -1724,11 +1834,21 @@
 
         const shopList = document.getElementById('shopList');
         if (!shopList) return;
-
         shopList.innerHTML = '';
 
         STORES.forEach(function(store) {
-          const marker = L.marker([store.lat, store.lng]).addTo(map).bindPopup('<b>' + store.name + '</b><br>' + store.address);
+          // Create custom popup with 3 location images
+          const popupContent = document.createElement('div');
+          popupContent.className = 'location-popup-container';
+          popupContent.innerHTML = '<b>' + store.name + '</b><br>' + store.address + '<br><div class="location-popup">' +
+            store.images.map(function(img) {
+              return '<img src="' + img + '" alt="' + store.name + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" loading="lazy">';
+            }).join('') + '</div>';
+
+          const marker = L.marker([store.lat, store.lng]).addTo(map).bindPopup(popupContent, {
+            maxWidth: 320,
+            className: 'location-popup-wrapper'
+          });
 
           const shopItem = document.createElement('div');
           shopItem.className = 'shop-item';
@@ -1748,18 +1868,15 @@
           shopList.firstChild.classList.add('active');
         }
 
-        // Force map to recalculate size
         setTimeout(function() {
           map.invalidateSize();
         }, 100);
       };
 
-      // Initialize map immediately if content is already visible
       if (mainContent.classList.contains('visible')) {
         window.initMap();
       }
 
-      // Also initialize on window load as backup
       window.addEventListener('load', function() {
         setTimeout(function() {
           if (!document.getElementById('map')._leaflet_id) {
