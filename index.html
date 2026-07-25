@@ -626,6 +626,12 @@
       background: var(--lime-bright);
     }
 
+    .add-btn:disabled {
+      background: #ccc;
+      color: #999;
+      cursor: not-allowed;
+    }
+
     .sizes {
       display: flex;
       gap: 6px;
@@ -639,6 +645,17 @@
       border-radius: 20px;
       font-size: 11px;
       font-weight: 500;
+    }
+
+    .sold-out-badge {
+      background: #fbeef0;
+      color: #8a3a42;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 6px;
     }
 
     .locator-container {
@@ -705,7 +722,6 @@
       font-size: 18px;
     }
 
-    /* Location image popup */
     .location-popup {
       display: flex;
       gap: 8px;
@@ -724,6 +740,53 @@
 
     .location-popup img:hover {
       transform: scale(1.05);
+    }
+
+    /* Full Screen Image Viewer */
+    .fullscreen-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .fullscreen-viewer.show {
+      display: flex;
+    }
+
+    .fullscreen-viewer img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .fullscreen-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 2001;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .fullscreen-close:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
 
     .goals-slider-section {
@@ -978,6 +1041,7 @@
       left: 0;
       opacity: 0;
       transition: opacity 0.8s ease-in-out;
+      cursor: zoom-in;
     }
 
     .detail-images .main-image-container img.active {
@@ -1122,6 +1186,11 @@
       font-family: var(--body);
     }
 
+    .size-selector select option:disabled {
+      color: #999;
+      background: #f5f5f5;
+    }
+
     #main-content {
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -1159,6 +1228,27 @@
       transform: translateY(-4px);
       box-shadow: 0 8px 20px rgba(26, 74, 58, 0.1);
     }
+
+    /* Made by SJ credit */
+    .made-by-sj {
+      text-align: center;
+      padding: 12px 0;
+      font-size: 11px;
+      color: rgba(244, 239, 227, 0.4);
+      border-top: 1px solid rgba(244, 239, 227, 0.08);
+      margin-top: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .made-by-sj a {
+      color: rgba(244, 239, 227, 0.5);
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .made-by-sj a:hover {
+      color: var(--lime);
+    }
   </style>
 </head>
 <body>
@@ -1177,6 +1267,12 @@
     <div class="loading-bar">
       <div class="loading-bar-fill" id="loadingBarFill"></div>
     </div>
+  </div>
+
+  <!-- Full Screen Image Viewer -->
+  <div class="fullscreen-viewer" id="fullscreenViewer">
+    <button class="fullscreen-close" id="fullscreenClose"><i class="fas fa-times"></i></button>
+    <img src="" alt="Full screen view" id="fullscreenImage">
   </div>
 
   <div id="main-content">
@@ -1373,6 +1469,9 @@
             </ul>
           </div>
         </div>
+        <div class="made-by-sj">
+          Made by <a href="https://sjnjen.github.io/SJ-dev/" target="_blank" rel="noopener">SJ</a>
+        </div>
       </div>
     </footer>
 
@@ -1397,6 +1496,87 @@
 
   <script>
     (function() {
+      // ===== INVENTORY SYSTEM =====
+      // Owner can edit stock quantities here
+      const inventory = {
+        herbs: {
+          "gdh": 50,
+          "ugh": 40,
+          "sil": 35,
+          "stc": 60,
+          "mps": 45,
+          "oil": 30
+        },
+        merch: {
+          "m-black": { "S": 30, "M": 20, "L": 15, "XL": 10, "XXL": 8 },
+          "m-white": { "S": 25, "M": 22, "L": 18, "XL": 12, "XXL": 6 },
+          "m-leaf": { "S": 28, "M": 24, "L": 16, "XL": 14, "XXL": 10 }
+        }
+      };
+
+      function getHerbStock(productId) {
+        return inventory.herbs[productId] || 0;
+      }
+
+      function getMerchStock(productId, size) {
+        if (!inventory.merch[productId]) return 0;
+        return inventory.merch[productId][size] || 0;
+      }
+
+      function reduceHerbStock(productId, quantity) {
+        if (inventory.herbs[productId]) {
+          inventory.herbs[productId] = Math.max(0, inventory.herbs[productId] - quantity);
+        }
+      }
+
+      function reduceMerchStock(productId, size, quantity) {
+        if (inventory.merch[productId] && inventory.merch[productId][size]) {
+          inventory.merch[productId][size] = Math.max(0, inventory.merch[productId][size] - quantity);
+        }
+      }
+
+      function isHerbInStock(productId) {
+        return getHerbStock(productId) > 0;
+      }
+
+      function isMerchSizeInStock(productId, size) {
+        return getMerchStock(productId, size) > 0;
+      }
+
+      // ===== FULL SCREEN IMAGE VIEWER =====
+      const fullscreenViewer = document.getElementById('fullscreenViewer');
+      const fullscreenImage = document.getElementById('fullscreenImage');
+      const fullscreenClose = document.getElementById('fullscreenClose');
+
+      function openFullscreen(imageSrc) {
+        fullscreenImage.src = imageSrc;
+        fullscreenViewer.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeFullscreen() {
+        fullscreenViewer.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+
+      fullscreenClose.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeFullscreen();
+      });
+
+      fullscreenViewer.addEventListener('click', function(e) {
+        if (e.target === fullscreenViewer) {
+          closeFullscreen();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && fullscreenViewer.classList.contains('show')) {
+          closeFullscreen();
+        }
+      });
+
+      // ===== LOADER =====
       const loader = document.getElementById('loader');
       const loaderVideo = document.getElementById('loaderVideo');
       const loadingBarFill = document.getElementById('loadingBarFill');
@@ -1424,6 +1604,7 @@
       setTimeout(hideLoader, VIDEO_DURATION + 500);
       document.body.style.overflow = 'hidden';
 
+      // ===== GOALS SLIDER =====
       const goalsSliderBg = document.getElementById('goalsSliderBg');
       const goalsDots = document.querySelectorAll('.goals-dot');
       let goalsCurrentSlide = 0;
@@ -1452,6 +1633,7 @@
       });
       goalsSliderInterval = setInterval(nextGoalsSlide, 4000);
 
+      // ===== DATA =====
       const PLACEHOLDER_IMG = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f2ede4'%3E%3Crect width='400' height='400'/%3E%3C/svg%3E";
       const HERBS = [
         { id: "gdh", name: "Go Down Herb (Ndaa)", price: 150, desc: "Daily immune support tonic", images: ["gdh1.jpg", "gdh2.jpg", "gdh3.jpg"] },
@@ -1467,64 +1649,15 @@
         { id: "m-leaf", name: "Go Down Leaf Tee", price: 100, images: ["m-leaf1.jpg", "m-leaf2.jpg", "m-leaf3.jpg", "m-leaf4.jpg", "m-leaf5.jpg"], sizes: ["S", "M", "L", "XL", "XXL"] }
       ];
 
-      // Store data with location-specific images
       const STORES = [
-        { 
-          name: 'Pretoria', 
-          address: 'Shop 37, Barclay Square, Sunnyside', 
-          lat: -25.7545, 
-          lng: 28.2201,
-          images: ['pretoria1.jpg', 'pretoria2.jpg', 'pretoria3.jpg']
-        },
-        { 
-          name: 'Johannesburg', 
-          address: 'Shop 3, Braamfontein', 
-          lat: -26.1929, 
-          lng: 28.0401,
-          images: ['joburg1.jpg', 'joburg2.jpg', 'joburg3.jpg']
-        },
-        { 
-          name: 'Polokwane', 
-          address: 'Shop 10, Dada Square', 
-          lat: -23.9045, 
-          lng: 29.4507,
-          images: ['polokwane1.jpg', 'polokwane2.jpg', 'polokwane3.jpg']
-        },
-        { 
-          name: 'Makhado', 
-          address: 'Shop 02, Louis Trichardt', 
-          lat: -23.0466, 
-          lng: 29.9014,
-          images: ['makhado1.jpg', 'makhado2.jpg', 'makhado3.jpg']
-        },
-        { 
-          name: 'Thohoyandou', 
-          address: 'Jerice Palace Complex', 
-          lat: -22.9764, 
-          lng: 30.4854,
-          images: ['thohoyandou1.jpg', 'thohoyandou2.jpg', 'thohoyandou3.jpg']
-        },
-        { 
-          name: 'Nzhelele', 
-          address: 'Biaba Shopping Center', 
-          lat: -22.927, 
-          lng: 30.178,
-          images: ['nzhelele1.jpg', 'nzhelele2.jpg', 'nzhelele3.jpg']
-        },
-        { 
-          name: 'Soweto', 
-          address: 'Bara, Chris Hani & Dynamo', 
-          lat: -26.2485, 
-          lng: 27.8933,
-          images: ['soweto1.jpg', 'soweto2.jpg', 'soweto3.jpg']
-        },
-        { 
-          name: 'Online', 
-          address: 'godownherbs.co.za', 
-          lat: -24.5, 
-          lng: 29.2,
-          images: ['online1.jpg', 'online2.jpg', 'online3.jpg']
-        }
+        { name: 'Pretoria', address: 'Shop 37, Barclay Square, Sunnyside', lat: -25.7545, lng: 28.2201, images: ['pretoria1.jpg', 'pretoria2.jpg', 'pretoria3.jpg'] },
+        { name: 'Johannesburg', address: 'Shop 3, Braamfontein', lat: -26.1929, lng: 28.0401, images: ['joburg1.jpg', 'joburg2.jpg', 'joburg3.jpg'] },
+        { name: 'Polokwane', address: 'Shop 10, Dada Square', lat: -23.9045, lng: 29.4507, images: ['polokwane1.jpg', 'polokwane2.jpg', 'polokwane3.jpg'] },
+        { name: 'Makhado', address: 'Shop 02, Louis Trichardt', lat: -23.0466, lng: 29.9014, images: ['makhado1.jpg', 'makhado2.jpg', 'makhado3.jpg'] },
+        { name: 'Thohoyandou', address: 'Jerice Palace Complex', lat: -22.9764, lng: 30.4854, images: ['thohoyandou1.jpg', 'thohoyandou2.jpg', 'thohoyandou3.jpg'] },
+        { name: 'Nzhelele', address: 'Biaba Shopping Center', lat: -22.927, lng: 30.178, images: ['nzhelele1.jpg', 'nzhelele2.jpg', 'nzhelele3.jpg'] },
+        { name: 'Soweto', address: 'Bara, Chris Hani & Dynamo', lat: -26.2485, lng: 27.8933, images: ['soweto1.jpg', 'soweto2.jpg', 'soweto3.jpg'] },
+        { name: 'Online', address: 'godownherbs.co.za', lat: -24.5, lng: 29.2, images: ['online1.jpg', 'online2.jpg', 'online3.jpg'] }
       ];
 
       let cart = [];
@@ -1619,19 +1752,36 @@
       function renderHerbs() {
         herbGrid.innerHTML = '';
         HERBS.forEach(function(p) {
+          const inStock = isHerbInStock(p.id);
           const card = document.createElement("div");
           card.className = "pcard";
           const imagesHtml = p.images.map(function(img, i) {
-            return '<img src="' + img + '" loading="lazy" alt="' + p.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'">';
+            return '<img src="' + img + '" loading="lazy" alt="' + p.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" data-fullscreen="' + img + '">';
           }).join('');
-          card.innerHTML = '<div class="pcard-media slideshow-container">' + imagesHtml + '</div><div class="pcard-body"><h4>' + p.name + '</h4><div class="desc">' + p.desc + '</div><div class="pcard-foot"><span class="price">R' + p.price + '</span><button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div></div>';
+          card.innerHTML = '<div class="pcard-media slideshow-container">' + imagesHtml + '</div><div class="pcard-body"><h4>' + p.name + '</h4><div class="desc">' + p.desc + '</div>' + (!inStock ? '<span class="sold-out-badge">Sold Out — Available Again Soon</span>' : '') + '<div class="pcard-foot"><span class="price">R' + p.price + '</span><button class="add-btn"' + (!inStock ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (inStock ? 'Add' : 'Sold Out') + '</button></div></div>';
+          
           const slideshowContainer = card.querySelector('.slideshow-container');
           createImageSlideshow(slideshowContainer, p.images, { interval: 3000 });
-          card.querySelector('.pcard-media').addEventListener('click', function() { openDetail('herb', p); });
-          card.querySelector('.add-btn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            addToCart({ name: p.name, price: p.price, image: p.images[0] }, e.currentTarget);
+          
+          // Full screen on image click
+          card.querySelectorAll('.pcard-media img').forEach(function(img) {
+            img.addEventListener('click', function(e) {
+              e.stopPropagation();
+              openFullscreen(this.getAttribute('data-fullscreen'));
+            });
           });
+          
+          card.querySelector('.pcard-media').addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') return;
+            openDetail('herb', p);
+          });
+          
+          if (inStock) {
+            card.querySelector('.add-btn').addEventListener('click', function(e) {
+              e.stopPropagation();
+              addToCart({ name: p.name, price: p.price, image: p.images[0], productId: p.id, type: 'herb' }, e.currentTarget);
+            });
+          }
           herbGrid.appendChild(card);
         });
       }
@@ -1639,34 +1789,71 @@
       function renderMerch() {
         merchGrid.innerHTML = '';
         MERCH.forEach(function(p) {
+          // Check which sizes are in stock
+          const availableSizes = p.sizes.filter(function(s) {
+            return isMerchSizeInStock(p.id, s);
+          });
+          const hasAnyStock = availableSizes.length > 0;
+          
           const card = document.createElement("div");
           card.className = "pcard";
           const imagesHtml = p.images.map(function(img, i) {
-            return '<img src="' + img + '" loading="lazy" alt="' + p.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'">';
+            return '<img src="' + img + '" loading="lazy" alt="' + p.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" data-fullscreen="' + img + '">';
           }).join('');
-          card.innerHTML = '<div class="pcard-media slideshow-container">' + imagesHtml + '</div><div class="pcard-body"><h4>' + p.name + '</h4><div class="sizes">' + p.sizes.map(function(s) { return '<span>' + s + '</span>'; }).join("") + '</div><div class="pcard-foot"><span class="price">R' + p.price + '</span><button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div></div>';
+          
+          const sizesHtml = p.sizes.map(function(s) {
+            const inStock = isMerchSizeInStock(p.id, s);
+            return '<span style="' + (!inStock ? 'opacity:0.4;text-decoration:line-through;' : '') + '">' + s + '</span>';
+          }).join('');
+          
+          card.innerHTML = '<div class="pcard-media slideshow-container">' + imagesHtml + '</div><div class="pcard-body"><h4>' + p.name + '</h4><div class="sizes">' + sizesHtml + '</div>' + (!hasAnyStock ? '<span class="sold-out-badge">Sold Out — Available Again Soon</span>' : '') + '<div class="pcard-foot"><span class="price">R' + p.price + '</span><button class="add-btn"' + (!hasAnyStock ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (hasAnyStock ? 'Add' : 'Sold Out') + '</button></div></div>';
+          
           const slideshowContainer = card.querySelector('.slideshow-container');
           createImageSlideshow(slideshowContainer, p.images, { interval: 3000 });
-          card.querySelector('.pcard-media').addEventListener('click', function() { openDetail('merch', p); });
-          card.querySelector('.add-btn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            openMerchSizeSelector(p, e.currentTarget);
+          
+          // Full screen on image click
+          card.querySelectorAll('.pcard-media img').forEach(function(img) {
+            img.addEventListener('click', function(e) {
+              e.stopPropagation();
+              openFullscreen(this.getAttribute('data-fullscreen'));
+            });
           });
+          
+          card.querySelector('.pcard-media').addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') return;
+            openDetail('merch', p);
+          });
+          
+          if (hasAnyStock) {
+            card.querySelector('.add-btn').addEventListener('click', function(e) {
+              e.stopPropagation();
+              openMerchSizeSelector(p, e.currentTarget);
+            });
+          }
           merchGrid.appendChild(card);
         });
       }
 
       function openMerchSizeSelector(product, buttonElement) {
-        const size = prompt('Select size for ' + product.name + ': ' + product.sizes.join(', '), 'M');
-        if (size && product.sizes.includes(size.toUpperCase())) {
-          addToCart({ name: product.name + ' (' + size.toUpperCase() + ')', price: product.price, image: product.images[0] }, buttonElement);
+        const availableSizes = product.sizes.filter(function(s) {
+          return isMerchSizeInStock(product.id, s);
+        });
+        
+        if (availableSizes.length === 0) {
+          showToast("This item is currently sold out");
+          return;
+        }
+        
+        const size = prompt('Select size for ' + product.name + ': ' + availableSizes.join(', '), availableSizes[0]);
+        if (size && availableSizes.includes(size.toUpperCase())) {
+          addToCart({ name: product.name + ' (' + size.toUpperCase() + ')', price: product.price, image: product.images[0], productId: product.id, size: size.toUpperCase(), type: 'merch' }, buttonElement);
         } else if (size) {
-          alert('Please select a valid size.');
+          alert('Please select a valid size from: ' + availableSizes.join(', '));
         }
       }
 
       function addToCart(item, buttonElement) {
-        cart.push({ name: item.name, price: item.price, image: item.image, id: Date.now() + Math.random() });
+        cart.push({ name: item.name, price: item.price, image: item.image, id: Date.now() + Math.random(), productId: item.productId, size: item.size, type: item.type });
         updateCart();
         animateCartAdd(buttonElement);
         showToast(item.name + " added to basket");
@@ -1738,6 +1925,23 @@
         cartTotalDisplay.textContent = "Total: R" + total;
       }
 
+      // Process order and update inventory
+      function processOrder() {
+        cart.forEach(function(item) {
+          if (item.type === 'herb') {
+            reduceHerbStock(item.productId, 1);
+          } else if (item.type === 'merch' && item.size) {
+            reduceMerchStock(item.productId, item.size, 1);
+          }
+        });
+        cart = [];
+        updateCart();
+        renderCart();
+        renderHerbs();
+        renderMerch();
+        showToast("Order confirmed! Inventory updated.");
+      }
+
       function openDetail(type, product) {
         const oldSlider = detailContent.querySelector('.main-image-container');
         if (oldSlider && activeSliders.has(oldSlider)) {
@@ -1747,7 +1951,7 @@
         let html = '<button class="back-btn" onclick="document.getElementById(\'detailPage\').classList.remove(\'show\')"><i class="fas fa-arrow-left"></i> Back</button>';
         html += '<div class="detail-images"><div class="main-image-container">';
         product.images.forEach(function(img, i) {
-          html += '<img src="' + img + '" alt="' + product.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'">';
+          html += '<img src="' + img + '" alt="' + product.name + ' image ' + (i + 1) + '" class="' + (i === 0 ? 'active' : '') + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" data-fullscreen="' + img + '" style="cursor:zoom-in;">';
         });
         html += '</div><div class="thumbnails">';
         product.images.forEach(function(img, i) {
@@ -1758,11 +1962,26 @@
           html += '<span class="slider-dot ' + (i === 0 ? 'active' : '') + '"></span>';
         });
         html += '</div></div><div class="detail-info"><h2>' + product.name + '</h2><p>' + (product.desc || '') + '</p><p class="price" style="font-size:24px;">R' + product.price + '</p>';
+        
         if (product.sizes) {
-          html += '<div class="size-selector"><label>Size: <select id="detailSize">' + product.sizes.map(function(s) { return '<option>' + s + '</option>'; }).join('') + '</select></label></div><button class="btn btn-primary" id="detailAddBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button>';
+          const availableSizes = product.sizes.filter(function(s) {
+            return isMerchSizeInStock(product.id, s);
+          });
+          html += '<div class="size-selector"><label>Size: <select id="detailSize">';
+          product.sizes.forEach(function(s) {
+            const inStock = isMerchSizeInStock(product.id, s);
+            html += '<option value="' + s + '"' + (!inStock ? ' disabled' : '') + '>' + s + (!inStock ? ' (Sold Out)' : '') + '</option>';
+          });
+          html += '</select></label></div>';
+          html += '<button class="btn btn-primary" id="detailAddBtn"' + (availableSizes.length === 0 ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (availableSizes.length === 0 ? 'Sold Out' : 'Add to Cart') + '</button>';
         } else {
-          html += '<button class="btn btn-primary" id="detailAddBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button>';
+          const inStock = isHerbInStock(product.id);
+          html += '<button class="btn btn-primary" id="detailAddBtn"' + (!inStock ? ' disabled' : '') + '><i class="fas fa-cart-plus"></i> ' + (!inStock ? 'Sold Out' : 'Add to Cart') + '</button>';
+          if (!inStock) {
+            html += '<p class="sold-out-badge" style="margin-top:8px;">Sold Out — Available Again Soon</p>';
+          }
         }
+        
         html += '<div style="margin-top:30px;"><h4>Recommended</h4><div class="product-grid" style="grid-template-columns:1fr 1fr;" id="recommendedGrid">';
         const related = type === 'herb' ? HERBS.filter(function(h) { return h.id !== product.id; }).slice(0, 2) : MERCH.filter(function(m) { return m.id !== product.id; }).slice(0, 2);
         related.forEach(function(r) {
@@ -1772,6 +1991,15 @@
         html += '</div></div></div>';
         detailContent.innerHTML = html;
         detailPage.classList.add('show');
+        
+        // Full screen on detail image click
+        detailContent.querySelectorAll('.main-image-container img').forEach(function(img) {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openFullscreen(this.getAttribute('data-fullscreen'));
+          });
+        });
+        
         detailContent.querySelectorAll('.rec-card').forEach(function(card) {
           card.addEventListener('click', function() {
             const pid = this.getAttribute('data-product-id');
@@ -1782,13 +2010,19 @@
         });
         const mainContainer = detailContent.querySelector('.main-image-container');
         if (mainContainer) createImageSlideshow(mainContainer, product.images, { interval: 4000 });
-        document.getElementById('detailAddBtn').addEventListener('click', function() {
-          let item = { name: product.name, price: product.price, image: product.images[0] };
-          if (product.sizes) {
-            item.name += ' (' + document.getElementById('detailSize').value + ')';
-          }
-          addToCart(item, document.getElementById('detailAddBtn'));
-        });
+        
+        const addBtn = document.getElementById('detailAddBtn');
+        if (addBtn && !addBtn.disabled) {
+          addBtn.addEventListener('click', function() {
+            let item = { name: product.name, price: product.price, image: product.images[0], productId: product.id, type: product.sizes ? 'merch' : 'herb' };
+            if (product.sizes) {
+              const sizeSelect = document.getElementById('detailSize');
+              item.name += ' (' + sizeSelect.value + ')';
+              item.size = sizeSelect.value;
+            }
+            addToCart(item, addBtn);
+          });
+        }
       }
 
       function showToast(msg) {
@@ -1814,13 +2048,15 @@
       document.getElementById("checkoutBtn").addEventListener("click", function() {
         if (cart.length === 0) { showToast("Your basket is empty"); return; }
         const total = cart.reduce(function(sum, item) { return sum + item.price; }, 0);
-        showToast("Payment gateway coming soon. Total: R" + total);
+        processOrder();
+        cartPage.classList.remove("show");
+        showToast("Order confirmed! Total: R" + total + ". Inventory updated.");
       });
       window.addEventListener("scroll", function() {
         document.getElementById("siteHeader").classList.toggle("solid", window.scrollY > 50);
       });
 
-      // Map with location-specific images
+      // ===== MAP =====
       window.initMap = function() {
         const mapElement = document.getElementById('map');
         if (!mapElement || mapElement._leaflet_id) return;
@@ -1837,17 +2073,27 @@
         shopList.innerHTML = '';
 
         STORES.forEach(function(store) {
-          // Create custom popup with 3 location images
           const popupContent = document.createElement('div');
-          popupContent.className = 'location-popup-container';
           popupContent.innerHTML = '<b>' + store.name + '</b><br>' + store.address + '<br><div class="location-popup">' +
             store.images.map(function(img) {
-              return '<img src="' + img + '" alt="' + store.name + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" loading="lazy">';
+              return '<img src="' + img + '" alt="' + store.name + '" onerror="this.src=\'' + PLACEHOLDER_IMG + '\'" loading="lazy" class="location-img" data-fullscreen="' + img + '">';
             }).join('') + '</div>';
 
           const marker = L.marker([store.lat, store.lng]).addTo(map).bindPopup(popupContent, {
             maxWidth: 320,
             className: 'location-popup-wrapper'
+          });
+
+          // Full screen on location image click
+          marker.on('popupopen', function() {
+            setTimeout(function() {
+              document.querySelectorAll('.location-img').forEach(function(img) {
+                img.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  openFullscreen(this.getAttribute('data-fullscreen'));
+                });
+              });
+            }, 100);
           });
 
           const shopItem = document.createElement('div');
