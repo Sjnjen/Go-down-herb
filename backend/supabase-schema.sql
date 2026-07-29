@@ -1,5 +1,3 @@
--- Run this once in your Supabase project: Dashboard > SQL Editor > New Query > paste this > Run
-
 create table orders (
   id uuid primary key default gen_random_uuid(),
   order_number text unique not null,
@@ -20,10 +18,3 @@ create table orders (
   created_at timestamptz not null default now(),
   paid_at timestamptz
 );
-
--- Speeds up looking an order up by its Paystack reference during verification
-create index idx_orders_paystack_reference on orders (paystack_reference);
-
--- Row Level Security: locked down by default. Only your backend's
--- service key (never exposed to the browser) can read/write this table.
-alter table orders enable row level security;
