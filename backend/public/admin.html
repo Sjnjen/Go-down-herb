@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Dashboard · Go Down Herbs</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:inherit; }
+  body { background:#faf8f5; color:#1b1815; font-family:'Work Sans', sans-serif; padding:30px 20px; }
+  h1 { font-family:'Fraunces', serif; color:#1a4a3a; margin-bottom:6px; }
+  .sub { color:#6a6357; font-size:13px; margin-bottom:24px; }
+  .login-box { max-width:360px; margin:80px auto; background:white; padding:30px; border-radius:10px; box-shadow:0 12px 32px rgba(26,74,58,.1); text-align:center; }
+  .login-box input { width:100%; padding:12px; border:1px solid #ddd; border-radius:6px; margin:14px 0; font-size:14px; }
+  .login-box button { width:100%; padding:12px; background:#b3d95a; color:#1a4a3a; font-weight:700; border:none; border-radius:6px; cursor:pointer; font-size:13px; text-transform:uppercase; letter-spacing:.04em; }
+  #dashboard { display:none; max-width:1100px; margin:0 auto; }
+  .stats { display:flex; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
+  .stat { background:white; border-radius:8px; padding:16px 20px; flex:1; min-width:140px; box-shadow:0 4px 16px rgba(26,74,58,.06); }
+  .stat .num { font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:700; color:#1a4a3a; }
+  .stat .label { font-size:12px; color:#6a6357; text-transform:uppercase; letter-spacing:.04em; }
+  table { width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden; box-shadow:0 4px 16px rgba(26,74,58,.06); }
+  th, td { text-align:left; padding:12px 14px; font-size:13px; border-bottom:1px solid #f2ede4; vertical-align:top; }
+  th { background:#1a4a3a; color:white; font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:.04em; }
+  .badge { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; }
+  .badge.paid { background:#e4f3d8; color:#3a6b2a; }
+  .badge.pending { background:#fef3d8; color:#8a6a1a; }
+  .badge.completed { background:#dcecf5; color:#26557a; }
+  .mark-btn { background:#1a4a3a; color:white; border:none; padding:6px 12px; border-radius:20px; font-size:11px; cursor:pointer; }
+  .mark-btn:disabled { background:#ccc; cursor:default; }
+  .items-list { font-size:12px; color:#4a453d; }
+  .refresh-btn { background:#f2ede4; border:none; padding:8px 16px; border-radius:20px; font-size:12px; cursor:pointer; margin-bottom:16px; }
+</style>
+</head>
+<body>
+
+  <div class="login-box" id="loginBox">
+    <h1 style="font-size:20px;">Owner Login</h1>
+    <p class="sub">Go Down Herbs order dashboard</p>
+    <input type="password" id="passwordInput" placeholder="Admin password">
+    <button onclick="login()">View Orders</button>
+    <p id="loginError" style="color:#b33;font-size:12px;margin-top:10px;"></p>
+  </div>
+
+  <div id="dashboard">
+    <h1>Order Dashboard</h1>
+    <p class="sub">Go Down Herbs (PTY) Ltd</p>
+    <div class="stats" id="statsRow"></div>
+    <button class="refresh-btn" onclick="loadOrders()"><i class="fas fa-rotate"></i> Refresh</button>
+    <table>
+      <thead><tr><th>Order #</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th></th></tr></thead>
+      <tbody id="ordersBody"></tbody>
+    </table>
+  </div>
+
+<script>
+  let ADMIN_PASSWORD = '';
+
+  function login() {
+    ADMIN_PASSWORD = document.getElementById('passwordInput').value;
+    loadOrders();
+  }
+
+  async function loadOrders() {
+    try {
+      const res = await fetch('/api/admin/orders', { headers: { 'x-admin-password': ADMIN_PASSWORD } });
+      if (res.status === 401) {
+        document.getElementById('loginError').textContent = 'Incorrect password.';
+        return;
+      }
+      const orders = await res.json();
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      renderStats(orders);
+      renderOrders(orders);
+    } catch (err) {
+      document.getElementById('loginError').textContent = 'Could not connect to server.';
+    }
+  }
+
+  function renderStats(orders) {
+    const paid = orders.filter(o => o.payment_status === 'paid').length;
+    const pending = orders.filter(o => o.payment_status === 'pending').length;
+    const revenue = orders.filter(o => o.payment_status === 'paid').reduce((s,o) => s + Number(o.total), 0);
+    document.getElementById('statsRow').innerHTML = `
+      <div class="stat"><div class="num">${orders.length}</div><div class="label">Total Orders</div></div>
+      <div class="stat"><div class="num">${paid}</div><div class="label">Paid</div></div>
+      <div class="stat"><div class="num">${pending}</div><div class="label">Pending</div></div>
+      <div class="stat"><div class="num">R${revenue.toFixed(0)}</div><div class="label">Revenue</div></div>`;
+  }
+
+  function renderOrders(orders) {
+    document.getElementById('ordersBody').innerHTML = orders.map(o => `
+      <tr>
+        <td><strong>${o.order_number}</strong></td>
+        <td>${new Date(o.created_at).toLocaleDateString()} <br>${new Date(o.created_at).toLocaleTimeString()}</td>
+        <td>${o.customer_name}<br><span style="color:#6a6357;">${o.phone}</span></td>
+        <td class="items-list">${(o.items||[]).map(i => `${i.name} x${i.qty}`).join('<br>')}</td>
+        <td>R${Number(o.total).toFixed(2)}</td>
+        <td><span class="badge ${o.payment_status}">${o.payment_status}</span></td>
+        <td><span class="badge ${o.order_status || 'pending'}">${o.order_status || 'pending'}</span></td>
+        <td>${o.order_status === 'completed'
+              ? '<button class="mark-btn" disabled>Done</button>'
+              : `<button class="mark-btn" onclick="markComplete('${o.id}')">Mark Complete</button>`}</td>
+      </tr>`).join('');
+  }
+
+  async function markComplete(orderId) {
+    await fetch(`/api/admin/orders/${orderId}/complete`, {
+      method: 'PATCH',
+      headers: { 'x-admin-password': ADMIN_PASSWORD }
+    });
+    loadOrders();
+  }
+</script>
+</body>
+</html>
 
