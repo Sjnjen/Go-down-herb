@@ -1199,7 +1199,60 @@
 
     <a class="wa-float" href="https://wa.me/27715336706" target="_blank"><i class="fab fa-whatsapp"></i></a>
     <div class="detail-page" id="detailPage"><div class="detail-container" id="detailContent"></div></div>
-    <div class="cart-page" id="cartPage"><div class="cart-panel"><button id="closeCartPage" style="float:right;font-size:20px;"><i class="fas fa-times"></i></button><h2>Your Basket</h2><div id="cartItemsList"></div><h3 id="cartTotalDisplay">Total: R0</h3><button class="btn btn-primary" id="checkoutBtn" style="width:100%;">Checkout</button></div></div>
+    <div class="cart-page" id="cartPage">
+  <div class="cart-panel">
+
+    <button id="closeCartPage" style="float:right;font-size:20px;">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2>Your Basket</h2>
+
+    <div id="cartItemsList"></div>
+
+    <h3 id="cartTotalDisplay">Total: R0</h3>
+
+
+    <div id="checkoutForm" style="margin-top:25px;">
+
+      <h3>Delivery Details</h3>
+
+      <input id="customerName" placeholder="Full Name" required>
+
+      <input id="customerPhone" placeholder="Phone Number" required>
+
+      <input id="customerEmail" placeholder="Email" required>
+
+      <input id="customerAddress" placeholder="Delivery Address" required>
+
+      <input id="customerCity" placeholder="City" required>
+
+      <input id="customerProvince" placeholder="Province" required>
+
+
+      <select id="deliveryMethod">
+        <option value="courierguy">
+          The Courier Guy - From R145
+        </option>
+
+        <option value="postnet">
+          PostNet - From R110
+        </option>
+
+        <option value="pudo">
+          Pudo Locker - From R80
+        </option>
+      </select>
+
+
+      <button class="btn btn-primary" id="checkoutBtn" style="width:100%;">
+        Proceed To Payment
+      </button>
+
+    </div>
+
+  </div>
+    </div>
     <div class="toast" id="toast"></div>
     <div class="fullscreen-viewer" id="fullscreenViewer"><span class="fullscreen-close" id="fullscreenClose">&times;</span><img src="" alt="full screen view" id="fullscreenImg"></div>
 
