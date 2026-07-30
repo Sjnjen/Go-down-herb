@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmation · Go Down Herbs</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#faf8f5; color:#1b1815; font-family:'Work Sans', sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .card { background:white; max-width:480px; width:100%; border-radius:12px; padding:40px 32px; text-align:center; box-shadow:0 20px 48px rgba(26,74,58,.1); }
+  h1 { font-family:'Fraunces', serif; color:#1a4a3a; font-size:26px; margin:16px 0 8px; }
+  p { color:#4a453d; font-size:14px; line-height:1.6; margin-bottom:8px; }
+  .icon { font-size:48px; }
+  .icon.success { color:#b3d95a; }
+  .icon.fail { color:#c0812f; }
+  .icon.loading { color:#1a4a3a; }
+  .order-number { font-family:monospace; font-weight:700; background:#f2ede4; padding:8px 16px; border-radius:6px; display:inline-block; margin:12px 0; }
+  .btn { display:inline-flex; align-items:center; gap:8px; margin-top:20px; padding:14px 28px; border-radius:2px; background:#25D366; color:white; font-weight:600; text-decoration:none; font-size:14px; }
+  .btn.secondary { background:#1a4a3a; }
+  a.home-link { display:block; margin-top:20px; font-size:13px; color:#6a6357; }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="icon loading"><i class="fas fa-spinner fa-spin"></i></div>
+    <h1>Confirming your payment...</h1>
+    <p>Please wait a moment, this only takes a few seconds.</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const reference = params.get('reference');
+    const card = document.getElementById('card');
+
+    async function verify() {
+      if (!reference) {
+        card.innerHTML = `<div class="icon fail"><i class="fas fa-circle-exclamation"></i></div><h1>Missing order reference</h1><p>We couldn't find an order to confirm.</p><a class="home-link" href="/">Return to homepage</a>`;
+        return;
+      }
+      try {
+        const res = await fetch(`/api/verify?reference=${encodeURIComponent(reference)}`);
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          card.innerHTML = `
+            <div class="icon success"><i class="fas fa-circle-check"></i></div>
+            <h1>Payment Successful</h1>
+            <p>Your order has been placed.</p>
+            <div class="order-number">${data.orderNumber}</div>
+            <p>Total paid: R${Number(data.total).toFixed(2)}</p>
+            <p>Tap below to send your confirmation on WhatsApp - the message is already written for you.</p>
+            <a class="btn" href="${data.whatsappUrl}" target="_blank"><i class="fab fa-whatsapp"></i> Confirm on WhatsApp</a>
+            <a class="home-link" href="/">Return to homepage</a>`;
+          // Automatically open WhatsApp too, in case the customer misses the button.
+          setTimeout(() => { window.open(data.whatsappUrl, '_blank'); }, 1200);
+        } else {
+          card.innerHTML = `
+            <div class="icon fail"><i class="fas fa-circle-exclamation"></i></div>
+            <h1>We couldn't confirm this payment</h1>
+            <p>${data.error || 'Please contact us if you believe this is a mistake.'}</p>
+            <a class="btn secondary" href="https://wa.me/27715360884" target="_blank"><i class="fab fa-whatsapp"></i> Message us on WhatsApp</a>
+            <a class="home-link" href="/">Return to homepage</a>`;
+        }
+      } catch (err) {
+        card.innerHTML = `<div class="icon fail"><i class="fas fa-circle-exclamation"></i></div><h1>Something went wrong</h1><p>Please contact us on WhatsApp to confirm your order.</p><a class="btn secondary" href="https://wa.me/27715360884" target="_blank"><i class="fab fa-whatsapp"></i> Message us</a>`;
+      }
+    }
+    verify();
+  </script>
+</body>
+</html>
