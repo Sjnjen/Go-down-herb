@@ -1548,11 +1548,58 @@
 
       document.getElementById("cartBtn").addEventListener("click", ()=>{ renderCart(); cartPage.classList.add("show"); });
       document.getElementById("closeCartPage").addEventListener("click", ()=> cartPage.classList.remove("show"));
-      document.getElementById("checkoutBtn").addEventListener("click", ()=>{
-        if (cart.length===0) { showToast("Basket empty"); return; }
-        processOrder();
-        cartPage.classList.remove("show");
-      });
+      document.getElementById("checkoutBtn").addEventListener("click", async ()=>{
+
+  if (cart.length===0) {
+    showToast("Basket empty");
+    return;
+  }
+
+  const customer = {
+    name: prompt("Enter your full name"),
+    phone: prompt("Enter your phone number"),
+    email: prompt("Enter your email"),
+    address: prompt("Enter delivery address"),
+    city: prompt("Enter city"),
+    province: prompt("Enter province")
+  };
+
+  const items = cart.map(item => ({
+    type: item.merchId ? "merch" : "herb",
+    id: item.herbId || item.merchId,
+    name: item.name,
+    qty: 1,
+    size: item.size || null
+  }));
+
+  try {
+
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        customer,
+        items,
+        deliveryMethod: "courierguy"
+      })
+    });
+
+    const data = await response.json();
+
+    if(data.authorization_url){
+      window.location.href = data.authorization_url;
+    } else {
+      showToast(data.error || "Payment failed");
+    }
+
+  } catch(error){
+    console.error(error);
+    showToast("Could not connect to payment server");
+  }
+
+});
 
       // NEW: Review page + Get In Touch page nav wiring
       document.getElementById('navReviewLink').addEventListener('click', function(e){
