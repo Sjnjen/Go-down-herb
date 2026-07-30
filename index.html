@@ -1609,13 +1609,73 @@
   }
 
   const customer = {
-    name: prompt("Enter your full name"),
-    phone: prompt("Enter your phone number"),
-    email: prompt("Enter your email"),
-    address: prompt("Enter delivery address"),
-    city: prompt("Enter city"),
-    province: prompt("Enter province")
+    name: document.getElementById("customerName").value,
+    phone: document.getElementById("customerPhone").value,
+    email: document.getElementById("customerEmail").value,
+    address: document.getElementById("customerAddress").value,
+    city: document.getElementById("customerCity").value,
+    province: document.getElementById("customerProvince").value
   };
+
+  const deliveryMethod = document.getElementById("deliveryMethod").value;
+
+
+  if (!customer.name || !customer.phone || !customer.email || !customer.address || !customer.city || !customer.province) {
+    showToast("Please complete delivery details");
+    return;
+  }
+
+
+  const items = cart.map(item => ({
+    type: item.herbId ? "herb" : "merch",
+    id: item.herbId || item.merchId,
+    name: item.name,
+    qty: 1,
+    size: item.size || null
+  }));
+
+
+  try {
+
+    const response = await fetch("https://go-down-herb-backend.onrender.com/api/checkout", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        customer,
+        items,
+        deliveryMethod
+      })
+
+    });
+
+
+    const data = await response.json();
+
+
+    if (data.authorization_url) {
+
+      window.location.href = data.authorization_url;
+
+    } else {
+
+      showToast(data.error || "Payment could not start");
+
+    }
+
+
+  } catch(error) {
+
+    console.error(error);
+    showToast("Could not connect to payment server");
+
+  }
+
+});
 
   const items = cart.map(item => ({
     type: item.merchId ? "merch" : "herb",
