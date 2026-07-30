@@ -16,7 +16,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 // Serves your existing site (index.html, admin.html, etc.) exactly as-is.
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '..')));
 
 // All payment/order logic lives under /api - this is what the frontend calls.
 app.use('/api', checkoutRoutes);
