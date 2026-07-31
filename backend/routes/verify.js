@@ -49,11 +49,37 @@ router.get('/verify', async (req, res) => {
 function buildResponse(order) {
   const itemLines = order.items.map(i => `${i.name} x${i.qty}`).join(', ');
   const whatsappText =
-    `Hello Go Down Herbs,\n\nI have completed my payment.\n\n` +
-    `Order Number: ${order.order_number}\n\n` +
-    `My order:\n${order.items.map(i => `${i.name} - Qty: ${i.qty}`).join('\n')}\n\n` +
-    `Delivery Address: ${order.address}, ${order.city}, ${order.province}\n\n` +
-    `Please confirm my order.`;
+`Hello Go Down Herbs,
+
+I have completed my payment.
+
+ORDER DETAILS
+------------------
+Order Number: ${order.order_number}
+
+CUSTOMER DETAILS
+------------------
+Name: ${order.customer_name}
+Phone: ${order.phone}
+Email: ${order.email}
+
+ORDER:
+${order.items.map(i => `${i.name} - Qty: ${i.qty}`).join('\n')}
+
+DELIVERY DETAILS
+------------------
+Address: ${order.address}
+City: ${order.city}
+Province: ${order.province}
+Delivery Method: ${order.delivery_method}
+Delivery Fee: R${order.delivery_fee.toFixed(2)}
+
+PAYMENT
+------------------
+Total Paid: R${order.total.toFixed(2)}
+Payment Status: PAID
+
+Please confirm my order.`;
 
   return {
     success: true,
