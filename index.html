@@ -1181,31 +1181,7 @@
       // opens a pre-filled WhatsApp message summarising the order for the community group. =====
       
 
-      function sendWhatsAppOrderConfirmation(customer, items, deliveryMethod, total, orderNumber) {
-        const itemLines = items.map(it => `• ${it.name} x${it.qty} — R${it.price * it.qty}`).join('\n');
-        const message = [
-          `New Go Down Herbs Order`,
-          `Order No: ${orderNumber}`,
-          ``,
-          `Customer: ${customer.name}`,
-          `Phone: ${customer.phone}`,
-          `Email: ${customer.email}`,
-          `Address: ${customer.address}, ${customer.suburb}, ${customer.city}, ${customer.province}, ${customer.postalCode}`,
-          ``,
-          `Delivery Method: ${DELIVERY_LABELS[deliveryMethod] || deliveryMethod}`,
-          ``,
-          `Items:`,
-          itemLines,
-          ``,
-          `Total Paid: R${total}`
-        ].join('\n');
-        window.open(`${WHATSAPP_ORDER_GROUP}`, '_blank');
-        // A pre-filled message can't be attached to a WhatsApp group invite link directly,
-        // so we also copy it to the clipboard for the customer/owner to paste into the group.
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(message).catch(()=>{});
-        }
-      }
+      
 
       let checkoutInFlight = false;
       document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
