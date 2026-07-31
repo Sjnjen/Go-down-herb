@@ -1224,7 +1224,7 @@
           const response = await fetch("https://go-down-herb-backend.onrender.com/api/checkout", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ customer, items, deliveryMethod, orderNumber })
+            body: JSON.stringify({ customer, items, deliveryMethod })
           });
 
           if (!response.ok) {
@@ -1234,7 +1234,7 @@
           const data = await response.json();
 
           if (data.authorization_url) {
-            sendWhatsAppOrderConfirmation(customer, items, deliveryMethod, total, orderNumber);
+          
             showPaymentLoader();
             setTimeout(() => {
               window.location.href = data.authorization_url;
