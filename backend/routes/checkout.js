@@ -12,8 +12,18 @@ router.post('/checkout', async (req, res) => {
     const { customer, items, deliveryMethod } = req.body;
 
     // --- Basic validation ---
-    if (!customer || !customer.name || !customer.phone || !customer.email || !customer.address || !customer.city || !customer.province) {
-      return res.status(400).json({ error: 'Missing required customer details.' });
+    if (
+  !customer ||
+  !customer.name ||
+  !customer.phone ||
+  !customer.email ||
+  !customer.address ||
+  !customer.suburb ||
+  !customer.city ||
+  !customer.province ||
+  !customer.postalCode
+) {
+  return res.status(400).json({ error: 'Missing required customer details.' });
     }
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Cart is empty.' });
