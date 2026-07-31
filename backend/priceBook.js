@@ -21,7 +21,7 @@ const MERCH_PRICES = {
 // Flat delivery fees. "bolt" is intentionally left out - that method
 // is distance-based and is routed to WhatsApp for a manual quote instead
 // of being charged automatically at checkout.
-const DELIVERY_FEES = {
+const DELIVERY_RATES = {
   courierguy: 145,
   postnet: 110,
   pudo: 80
@@ -36,12 +36,12 @@ function getMerchPrice(id) {
 }
 
 function getDeliveryFee(method) {
-  return DELIVERY_FEES[method] ?? null;
+  return DELIVERY_RATES[method] ?? null;
 }
 
-module.exports = { 
-  getHerbPrice, 
-  getMerchPrice, 
-  getDeliveryFee, 
-  DELIVERY_FEES 
+module.exports = {
+  getHerbPrice,
+  getMerchPrice,
+  getDeliveryFee,
+  DELIVERY_RATES
 };
