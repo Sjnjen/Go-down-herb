@@ -36,8 +36,12 @@ function getMerchPrice(id) {
 }
 
 function getDeliveryFee(method) {
-  return DELIVERY_RATES[method] ?? null;
+  return DELIVERY_FEES[method] ?? null;
 }
 
-module.exports = { getHerbPrice, getMerchPrice, getDeliveryFee, DELIVERY_RATES };
-
+module.exports = { 
+  getHerbPrice, 
+  getMerchPrice, 
+  getDeliveryFee, 
+  DELIVERY_FEES 
+};
