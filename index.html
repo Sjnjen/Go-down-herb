@@ -1214,8 +1214,7 @@
         const deliveryMethod = getSelectedDeliveryMethod();
         const items = buildOrderItems();
         const total = items.reduce((sum, it) => sum + (it.price * it.qty), 0);
-        const orderNumber = generateOrderNumber();
-        lastOrderNumber = orderNumber;
+        
 
         checkoutInFlight = true;
         setCheckoutLoading(true);
