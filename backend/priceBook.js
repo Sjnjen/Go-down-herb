@@ -21,10 +21,10 @@ const MERCH_PRICES = {
 // Flat delivery fees. "bolt" is intentionally left out - that method
 // is distance-based and is routed to WhatsApp for a manual quote instead
 // of being charged automatically at checkout.
-const DELIVERY_RATES = {
+const DELIVERY_FEES = {
   courierguy: 145,
   postnet: 110,
-  pickup:0
+  pudo: 80
 };
 
 function getHerbPrice(id) {
