@@ -40,7 +40,7 @@
         return;
       }
       try {
-        const res = await fetch(`/api/verify?reference=${encodeURIComponent(reference)}`);
+        const res = await fetch(`https://go-down-herb-backend.onrender.com/api/verify?reference=${encodeURIComponent(reference)}`);
         const data = await res.json();
 
         if (res.ok && data.success) {
