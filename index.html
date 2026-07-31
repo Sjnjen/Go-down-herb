@@ -1179,12 +1179,7 @@
       // ===== NEW: WhatsApp order confirmation, sent after payment has started successfully.
       // Paystack flow, email system and order verification logic are untouched — this only
       // opens a pre-filled WhatsApp message summarising the order for the community group. =====
-      const WHATSAPP_ORDER_GROUP = "https://chat.whatsapp.com/ChD0y1O6i00AsjnvcSylDi?s=cl&p=i&ilr=4";
-
-      function generateOrderNumber() {
-        const stamp = Date.now().toString(36).toUpperCase();
-        return `GDH-${stamp}`;
-      }
+      
 
       function sendWhatsAppOrderConfirmation(customer, items, deliveryMethod, total, orderNumber) {
         const itemLines = items.map(it => `• ${it.name} x${it.qty} — R${it.price * it.qty}`).join('\n');
