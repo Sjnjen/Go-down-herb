@@ -24,7 +24,6 @@ const MERCH_PRICES = {
 const DELIVERY_RATES = {
   courierguy: 145,
   postnet: 110,
-  pudo: 80,
   pickup:0
 };
 
