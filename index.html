@@ -121,6 +121,25 @@
     .sizes { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0; }
     .sizes span { background:var(--warm); padding:2px 12px; border-radius:20px; font-size:11px; font-weight:500; }
 
+    /* ===== Merchandise: image-based design/type selector ===== */
+    .merch-pcard { position:relative; }
+    .merch-media { position:relative; }
+    .merch-main-img { transition:opacity .45s ease, transform .45s ease; }
+    .merch-type-row { display:flex; gap:8px; padding:12px 14px 0; }
+    .merch-type-thumb {
+      width:44px; height:44px; border-radius:6px; overflow:hidden; padding:0;
+      border:2px solid rgba(26,74,58,.12); background:var(--warm);
+      transition:border-color .25s ease, transform .2s ease;
+      flex-shrink:0;
+    }
+    .merch-type-thumb img { width:100%; height:100%; object-fit:cover; }
+    .merch-type-thumb:hover { transform:translateY(-2px); }
+    .merch-type-thumb.selected { border-color:var(--ember); box-shadow:0 2px 8px rgba(192,129,47,.25); }
+    .merch-variant-tag {
+      display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--forest-light); background:var(--warm); padding:3px 10px; border-radius:20px; margin:6px 0 10px;
+    }
+
     .locator-container { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
     @media(max-width:860px){ .locator-container{ grid-template-columns:1fr; } }
     #map { height:450px; width:100%; border-radius:8px; border:1px solid rgba(26,74,58,.08); z-index:1; }
@@ -443,7 +462,7 @@
     <footer>
       <div class="wrap">
         <div class="foot-grid">
-          <div><div class="foot-brand"><a href="#home" style="display:flex;align-items:center;gap:12px;"><img src="logo-icon.png" alt="logo"><span style="font-family:var(--display);color:white;">Go Down Herbs (PTY) Ltd</span></a></div><p>Venda wellness delivered nationwide.</p><div class="social-icons"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
+          <div><div class="foot-brand"><a href="#home" style="display:flex;align-items:center;gap:12px;"><img src="logo-icon.png" alt="logo"><span style="font-family:var(--display);color:white;">Go Down Herbs (PTY) Ltd</span></a></div><p>Venda wellness delivered nationwide.</p><div class="social-icons"><a href="https://www.facebook.com/share/1PRwsgtVoq/?mibextid=qi2Omg" target="_blank" rel="noopener noreferrer" aria-label="Go Down Herbs on Facebook"><i class="fab fa-facebook-f"></i></a><a href="https://www.instagram.com/go_down_herbs?igsh=YWZ3amg0OWliOGRw" target="_blank" rel="noopener noreferrer" aria-label="Go Down Herbs on Instagram"><i class="fab fa-instagram"></i></a><a href="https://www.tiktok.com/@go.down.herbs?_r=1&_t=ZS-98WFbhvFM4v" target="_blank" rel="noopener noreferrer" aria-label="Go Down Herbs on TikTok"><i class="fab fa-tiktok"></i></a><a href="https://wa.me/27715336706" target="_blank" rel="noopener noreferrer" aria-label="Go Down Herbs on WhatsApp"><i class="fab fa-whatsapp"></i></a></div></div>
           <div><h4>Shop</h4><ul><li><a href="#shop-herbs" style="color:rgba(244,239,227,.7);">Herbs</a></li><li><a href="#shop-merch" style="color:rgba(244,239,227,.7);">Merchandise</a></li></ul></div>
           <div><h4>Company</h4><ul><li><a href="#" id="footAboutLink" style="color:rgba(244,239,227,.7);">About</a></li><li><a href="#delivery" style="color:rgba(244,239,227,.7);">Delivery</a></li></ul></div>
           <div><h4>Contact</h4><ul><li><a href="tel:+27715336706" style="color:rgba(244,239,227,.7);">071 533 6706</a></li></ul></div>
@@ -730,12 +749,7 @@
       const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f2ede4'%3E%3Crect width='400' height='400'/%3E%3C/svg%3E";
 
       const inventory = {
-        herbs: { gdh:40, ugh:25, sil:15, stc:60, mps:55, oil:30 },
-        merch: {
-          'm-black': { S:30, M:20, L:15, XL:10, XXL:8 },
-          'm-white': { S:28, M:22, L:18, XL:12, XXL:5 },
-          'm-leaf':  { S:35, M:25, L:20, XL:15, XXL:10 }
-        }
+        herbs: { gdh:40, ugh:25, sil:15, stc:60, mps:55, oil:30 }
       };
 
       const HERBS = [
@@ -798,9 +812,16 @@
       ];
 
       const MERCH = [
-        { id:"m-black", name:"Go Down Herbs Tee Black", price:100, images:["m-black1.jpg","m-black2.jpg","m-black3.jpg","m-black4.jpg","m-black5.jpg"], sizes:["S","M","L","XL","XXL"] },
-        { id:"m-white", name:"Go Down Herbs Tee White", price:100, images:["m-white1.jpg","m-white2.jpg","m-white3.jpg","m-white4.jpg","m-white5.jpg"], sizes:["S","M","L","XL","XXL"] },
-        { id:"m-leaf", name:"Go Down Leaf Tee", price:100, images:["m-leaf1.jpg","m-leaf2.jpg","m-leaf3.jpg","m-leaf4.jpg","m-leaf5.jpg"], sizes:["S","M","L","XL","XXL"] }
+        { id:"m-clans", name:"Go Down Clans", price:100, images:["m-clans1.png"] },
+        { id:"m-black-1", name:"Go Down Merchandise Black T-Shirt", variantLabel:"Design 1", price:100, images:["m-black-1_type1.png","m-black-1_type2.png"] },
+        { id:"m-black-2", name:"Go Down Merchandise Black T-Shirt", variantLabel:"Design 2", price:100, images:["m-black-2_type1.png","m-black-2_type2.png"] },
+        { id:"m-white-1", name:"Go Down Merchandise White T-Shirt", variantLabel:"Design 1", price:100, images:["m-white-1_type1.png","m-white-1_type2.png"] },
+        { id:"m-white-2", name:"Go Down Merchandise White T-Shirt", variantLabel:"Design 2", price:100, images:["m-white-2_type1.png","m-white-2_type2.png"] },
+        { id:"m-godown", name:"Go Down T-Shirt", price:100, images:["m-godown1.png"] },
+        { id:"m-hands", name:"Go Down T-Shirt Hands", price:100, images:["m-hands1.png"] },
+        { id:"m-ikho", name:"Ikho Verify", price:100, images:["m-ikho1.png"] },
+        { id:"m-itsaherb", name:"It's A Herb T-Shirt", price:100, images:["m-itsaherb_type1.png","m-itsaherb_type2.png","m-itsaherb_type3.png"] },
+        { id:"m-ndaaweeh", name:"Ndaa Weeh T-Shirt", price:100, images:["m-ndaaweeh_type1.png","m-ndaaweeh_type2.png","m-ndaaweeh_type3.png"] }
       ];
 
       const STORES = [
@@ -817,7 +838,7 @@
       const REVIEWS_IMAGES = Array.from({length:17}, (_,i) => `review${i+1}.jpg`);
 
       document.getElementById('heritageHerbCard').style.backgroundImage = `url('${HERBS[0].images[0]}')`;
-      document.getElementById('heritageMerchCard').style.backgroundImage = `url('${MERCH[0].images[0]}')`;
+      document.getElementById('heritageMerchCard').style.backgroundImage = `url('${MERCH[8].images[0]}')`;
 
       let cart = [];
       let lastOrderNumber = null;
@@ -852,9 +873,7 @@
       }
 
       function isHerbInStock(id) { return inventory.herbs[id] > 0; }
-      function isMerchSizeInStock(id, size) { return inventory.merch[id] && inventory.merch[id][size] > 0; }
       function decreaseHerbStock(id) { if (inventory.herbs[id] > 0) inventory.herbs[id]--; }
-      function decreaseMerchStock(id, size) { if (inventory.merch[id] && inventory.merch[id][size] > 0) inventory.merch[id][size]--; }
 
       function renderHerbs() {
         herbGrid.innerHTML = '';
@@ -871,29 +890,60 @@
         });
       }
 
+      // ===== MERCHANDISE: image-based type/design selection =====
+      // Each MERCH product carries an `images` array. If it has more than one image,
+      // those images ARE the type/design selector (no text dropdown, no sizes):
+      // clicking a thumbnail selects that design, the card's main image and Add button
+      // both reflect the current selection, and the selected image is what gets added
+      // to the cart.
+      const merchSelection = {}; // productId -> selected image index
+
       function renderMerch() {
         merchGrid.innerHTML = '';
         MERCH.forEach(p => {
-          const card = document.createElement('div'); card.className='pcard';
-          card.innerHTML = `<div class="pcard-media slideshow-container">${p.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
-            <div class="pcard-body"><h4>${p.name}</h4><div class="sizes">${p.sizes.map(s => {
-              const available = isMerchSizeInStock(p.id, s);
-              return `<span style="${available?'':'text-decoration:line-through;opacity:0.6'}">${s}${available?'':' (sold out)'}</span>`;
-            }).join('')}</div><div class="pcard-foot"><span class="price">R${p.price}</span>
-            <button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div></div>`;
-          card.querySelector('.add-btn').addEventListener('click', e => { e.stopPropagation(); openMerchSizeSelector(p); });
-          card.querySelector('.pcard-media').addEventListener('click', ()=> openDetail('merch',p));
+          merchSelection[p.id] = 0;
+          const hasMultipleTypes = p.images.length > 1;
+          const card = document.createElement('div'); card.className='pcard merch-pcard';
+          card.innerHTML = `
+            <div class="pcard-media merch-media">
+              ${p.images.map((img,i)=>`<img src="${img}" class="merch-main-img ${i===0?'active':''}" data-idx="${i}" onerror="this.src='${PLACEHOLDER}'">`).join('')}
+            </div>
+            ${hasMultipleTypes ? `<div class="merch-type-row">${p.images.map((img,i)=>`<button type="button" class="merch-type-thumb ${i===0?'selected':''}" data-idx="${i}"><img src="${img}" onerror="this.src='${PLACEHOLDER}'"></button>`).join('')}</div>` : ''}
+            <div class="pcard-body">
+              <h4>${p.name}</h4>
+              ${p.variantLabel ? `<div class="merch-variant-tag">${p.variantLabel}</div>` : ''}
+              <div class="pcard-foot"><span class="price">R${p.price}</span>
+              <button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div>
+            </div>`;
+
+          function selectType(idx) {
+            merchSelection[p.id] = idx;
+            card.querySelectorAll('.merch-main-img').forEach(im => im.classList.toggle('active', parseInt(im.dataset.idx)===idx));
+            card.querySelectorAll('.merch-type-thumb').forEach(t => t.classList.toggle('selected', parseInt(t.dataset.idx)===idx));
+          }
+
+          if (hasMultipleTypes) {
+            card.querySelectorAll('.merch-type-thumb').forEach(thumb => {
+              thumb.addEventListener('click', e => { e.stopPropagation(); selectType(parseInt(thumb.dataset.idx)); });
+            });
+          }
+
+          card.querySelector('.add-btn').addEventListener('click', e => {
+            e.stopPropagation();
+            const idx = merchSelection[p.id] || 0;
+            const item = {
+              name: hasMultipleTypes ? `${p.name}${p.variantLabel?(' - '+p.variantLabel):''} (Type ${idx+1})` : `${p.name}${p.variantLabel?(' - '+p.variantLabel):''}`,
+              price: p.price,
+              image: p.images[idx],
+              merchId: p.id,
+              typeIndex: idx
+            };
+            addToCart(item, e.currentTarget);
+          });
+
+          card.querySelector('.merch-media').addEventListener('click', ()=> openDetail('merch', p));
           merchGrid.appendChild(card);
         });
-      }
-
-      function openMerchSizeSelector(product) {
-        const availableSizes = product.sizes.filter(s => isMerchSizeInStock(product.id, s));
-        if (availableSizes.length === 0) { showToast("All sizes sold out"); return; }
-        const size = prompt(`Select size: ${availableSizes.join(', ')}`, availableSizes[0]);
-        if (size && availableSizes.includes(size.toUpperCase())) {
-          addToCart({ name: `${product.name} (${size.toUpperCase()})`, price: product.price, image: product.images[0], merchId: product.id, size: size.toUpperCase() });
-        } else if (size) { alert('Invalid or sold out size.'); }
       }
 
       function animateCartAdd(buttonElement) {
@@ -942,7 +992,7 @@
         cart.forEach((item, i) => {
           total += item.price;
           const div = document.createElement('div'); div.className='cart-item';
-          div.innerHTML = `<div class="cart-item-info"><img class="cart-item-thumb" src="${item.image||''}" onerror="this.src='${PLACEHOLDER}'" alt="${item.name}"><div><div class="cart-item-name">${item.name}</div><div class="cart-item-meta">Qty: 1${item.size?(' · Size: '+item.size):''}</div></div></div><div>R${item.price}</div><button class="cart-remove-btn" data-index="${i}"><i class="fas fa-times"></i></button>`;
+          div.innerHTML = `<div class="cart-item-info"><img class="cart-item-thumb" src="${item.image||''}" onerror="this.src='${PLACEHOLDER}'" alt="${item.name}"><div><div class="cart-item-name">${item.name}</div><div class="cart-item-meta">Qty: 1</div></div></div><div>R${item.price}</div><button class="cart-remove-btn" data-index="${i}"><i class="fas fa-times"></i></button>`;
           cartItemsList.appendChild(div);
         });
         document.querySelectorAll('.cart-remove-btn').forEach(b => b.addEventListener('click', function(){ removeFromCart(parseInt(this.dataset.index)); }));
@@ -952,29 +1002,38 @@
 
       function openDetail(type, product) {
         const isHerb = type === 'herb';
+        const isMerch = type === 'merch';
+
         const ratingHtml = isHerb ? `<div class="star-rating">${renderStars(product.rating)}<span class="rating-num">${product.rating.toFixed(1)}</span><span class="review-count">(${product.reviewCount} reviews)</span></div>` : '';
         const instructionsHtml = isHerb ? `<div class="pdetail-block"><h4>Instructions</h4><p>${product.instructions}</p></div>` : '';
         const benefitsHtml = isHerb ? `<div class="pdetail-block"><h4>Benefits</h4><ul class="benefit-list">${product.benefits.map(b=>`<li>${b}</li>`).join('')}</ul></div>` : '';
         const reviewsHtml = isHerb ? `<div class="reviews-section"><h3>Customer Reviews</h3>${product.reviews.map(r=>`<div class="review-item"><div class="review-head"><span class="review-name">${r.name}</span><span class="review-stars">${renderStars(r.rating)}</span></div><p>${r.text}</p></div>`).join('')}</div>` : '';
         const relatedHtml = isHerb ? `<div class="related-section"><h3>Related Products</h3><div class="related-grid">${HERBS.filter(h=>h.id!==product.id).map(h=>`<div class="related-card" data-id="${h.id}"><img src="${h.images[0]}" onerror="this.src='${PLACEHOLDER}'"><div class="related-body"><h5>${h.name}</h5><span class="price">R${h.price}</span></div></div>`).join('')}</div></div>` : '';
 
+        // Merch detail: images ARE the type selector here too (thumbnails), no dropdown.
+        const merchTypeNote = (isMerch && product.images.length > 1) ? `<p style="font-size:12.5px;color:#6a6357;margin-top:6px;">Tap a design below to choose your type.</p>` : '';
+
         detailContent.innerHTML = `<button class="back-btn" onclick="document.getElementById('detailPage').classList.remove('show'); document.body.style.overflow='';"><i class="fas fa-arrow-left"></i> Back</button>
           <div class="detail-images"><div class="main-image-container">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
-          <div class="thumbnails">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active-thumb':''}" onclick="document.querySelectorAll('.main-image-container img').forEach((im,idx)=>im.classList.toggle('active',idx===${i})); this.parentElement.querySelectorAll('img').forEach(t=>t.classList.remove('active-thumb')); this.classList.add('active-thumb')">`).join('')}</div></div>
-          <div class="detail-info"><h2>${product.name}</h2>${ratingHtml}<p>${product.desc||''}</p><p class="price">R${product.price}</p>
-          ${product.sizes ? `<div class="size-selector"><select id="detailSize">${product.sizes.map(s=>`<option ${isMerchSizeInStock(product.id,s)?'':'disabled'}>${s}${isMerchSizeInStock(product.id,s)?'':' (sold out)'}</option>`).join('')}</select></div>`:''}
+          <div class="thumbnails">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active-thumb':''}" onclick="document.querySelectorAll('.main-image-container img').forEach((im,idx)=>im.classList.toggle('active',idx===${i})); this.parentElement.querySelectorAll('img').forEach(t=>t.classList.remove('active-thumb')); this.classList.add('active-thumb'); window.__detailSelectedIdx=${i};">`).join('')}</div></div>
+          <div class="detail-info"><h2>${product.name}${product.variantLabel?(' — '+product.variantLabel):''}</h2>${ratingHtml}<p>${product.desc||''}</p><p class="price">R${product.price}</p>
+          ${merchTypeNote}
           <button class="btn btn-primary" id="detailAddBtn">Add to Cart</button>
           ${instructionsHtml}${benefitsHtml}</div>
           ${reviewsHtml}${relatedHtml}`;
         detailPage.classList.add('show');
         document.body.style.overflow = 'hidden';
+        window.__detailSelectedIdx = 0;
         document.getElementById('detailAddBtn').addEventListener('click', ()=>{
-          let item = { name: product.name, price: product.price, image: product.images[0] };
-          if (product.sizes) {
-            const sel = document.getElementById('detailSize');
-            if (sel.selectedOptions[0].disabled) { showToast("Size sold out"); return; }
-            item.name += ` (${sel.value})`; item.merchId = product.id; item.size = sel.value;
-          } else { item.herbId = product.id; }
+          const idx = window.__detailSelectedIdx || 0;
+          let item = { name: product.name, price: product.price, image: product.images[idx] };
+          if (isMerch) {
+            item.merchId = product.id;
+            item.typeIndex = idx;
+            item.name = product.images.length > 1 ? `${product.name}${product.variantLabel?(' - '+product.variantLabel):''} (Type ${idx+1})` : `${product.name}${product.variantLabel?(' - '+product.variantLabel):''}`;
+          } else {
+            item.herbId = product.id;
+          }
           addToCart(item);
         });
         if (isHerb) {
@@ -1045,7 +1104,7 @@
 
       const DELIVERY_LABELS = { courierguy: 'The Courier Guy', postnet: 'PostNet', pudo: 'PUDO Locker' };
 
-      // ===== NEW: Use My Location =====
+      // ===== Use My Location =====
       const useLocationBtn = document.getElementById('useLocationBtn');
       const useLocationStatus = document.getElementById('useLocationStatus');
 
@@ -1149,10 +1208,10 @@
         cart.forEach(item => {
           const type = item.herbId ? 'herb' : 'merch';
           const id = item.herbId || item.merchId;
-          const size = item.size || null;
-          const key = `${type}::${id}::${size || ''}`;
+          const typeIndex = (item.typeIndex !== undefined && item.typeIndex !== null) ? item.typeIndex : null;
+          const key = `${type}::${id}::${typeIndex}`;
           if (!grouped[key]) {
-            grouped[key] = { type, id, name: item.name, qty: 0, size, price: item.price };
+            grouped[key] = { type, id, name: item.name, qty: 0, typeIndex, price: item.price };
           }
           grouped[key].qty += 1;
         });
@@ -1175,13 +1234,6 @@
       window.addEventListener('pageshow', function(e) {
         if (e.persisted) { hidePaymentLoader(); setCheckoutLoading(false); }
       });
-
-      // ===== NEW: WhatsApp order confirmation, sent after payment has started successfully.
-      // Paystack flow, email system and order verification logic are untouched — this only
-      // opens a pre-filled WhatsApp message summarising the order for the community group. =====
-      
-
-      
 
       let checkoutInFlight = false;
       document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
@@ -1214,7 +1266,6 @@
         const deliveryMethod = getSelectedDeliveryMethod();
         const items = buildOrderItems();
         const total = items.reduce((sum, it) => sum + (it.price * it.qty), 0);
-        
 
         checkoutInFlight = true;
         setCheckoutLoading(true);
@@ -1233,7 +1284,6 @@
           const data = await response.json();
 
           if (data.authorization_url) {
-          
             showPaymentLoader();
             setTimeout(() => {
               window.location.href = data.authorization_url;
