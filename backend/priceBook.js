@@ -21,7 +21,21 @@ const MERCH_PRICES = {
   'm-hands':    100, // Go Down T-Shirt Hands (1 type)
   'm-ikho':     100, // Ikho Verify (1 type)
   'm-itsaherb': 100, // It's A Herb T-Shirt (3 types)
-  'm-ndaaweeh': 100  // Ndaa Weeh T-Shirt (3 types)
+  'm-ndaaweeh': 100, // Ndaa Weeh T-Shirt (3 types)
+
+  // NEW: Hoodies & tees (added — see /mnt/user-data/outputs delivery notes)
+  'm-hoodie-black-vision': 350, // Go Down Hoodie Black Vision (3 designs)
+  'm-hoodie-white-vision': 350, // Go Down Hoodie White Vision (3 designs)
+  'm-tee-white-vision':    250, // New High Quality Tee White Vision (1 design)
+  'm-tee-black-vision':    250, // New High Quality Tee Black Vision (2 designs)
+
+  // NEW: Hats (colour-only selection, no size/design types)
+  'h-godown-cap': 100, // Go Down Cap (Green / Black / Pink / Blue)
+  'h-ukho-cap':   100, // Ukhou Verify Cap (Green / Black / Pink / Blue)
+
+  // NEW: Cups (colour-only selection, no size/design types)
+  'c-stanley': 150, // Go Down Herbs Stanley Cup (White / Green / Purple)
+  'c-flax':    150  // Flax Cup (Silver / Black / Gold / Blue / Red)
 };
 
 // Flat delivery fees. "bolt" is intentionally left out - that method
