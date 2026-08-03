@@ -89,6 +89,28 @@
     @keyframes slideInRight { from{opacity:0; transform:translateX(60px);} to{opacity:1; transform:translateX(0);} }
     @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
 
+    /* NEW: Physical Stores hero card */
+    .hero-stores-card { display:flex; align-items:center; gap:18px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:20px 24px; margin-top:32px; cursor:pointer; transition:.4s; max-width:520px; animation:fadeInUp 1s ease-out .6s both; }
+    .hero-stores-card:hover { background:rgba(255,255,255,.1); transform:translateY(-3px); border-color:var(--lime); }
+    .hero-stores-icon { width:52px; height:52px; border-radius:50%; background:var(--lime); color:var(--forest); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+    .hero-stores-text h4 { color:white; font-family:var(--body); font-size:14px; text-transform:uppercase; letter-spacing:.06em; font-weight:700; margin-bottom:4px; }
+    .hero-stores-text p { color:rgba(255,255,255,.65); font-size:13px; margin:0; max-width:340px; }
+    .hero-stores-arrow { color:var(--lime); font-size:16px; margin-left:auto; flex-shrink:0; }
+    @media(max-width:768px){ .hero-stores-card{ margin-left:auto; margin-right:auto; } }
+
+    /* NEW: Physical Stores overlay page */
+    .stores-list-grid { display:grid; gap:14px; width:100%; }
+    .store-list-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--warm); border-radius:10px; padding:18px 20px; flex-wrap:wrap; }
+    .store-list-card.plant { border:1.5px solid var(--ember); background:rgba(192,129,47,.08); }
+    .store-list-card .store-info { flex:1; min-width:200px; }
+    .store-list-card .store-info h5 { font-family:var(--body); font-size:15px; color:var(--forest); margin-bottom:4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .store-list-card .plant-tag { font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; background:var(--ember); color:white; padding:2px 8px; border-radius:20px; }
+    .store-list-card p { font-size:13px; color:#6a6357; line-height:1.6; margin:0; }
+    .store-list-card .view-map-btn { flex-shrink:0; background:var(--forest); color:white; padding:9px 18px; border-radius:30px; font-size:12px; font-weight:600; display:inline-flex; align-items:center; gap:6px; transition:background .3s; }
+    .store-list-card .view-map-btn:hover { background:var(--forest-light); }
+    .store-list-card .view-map-btn.online-btn { background:var(--lime); color:var(--forest); }
+    .store-list-card .view-map-btn.online-btn:hover { background:var(--lime-bright); }
+
     section { padding:80px 0; opacity:1; transform:none; }
     .section-head { max-width:600px; margin-bottom:48px; }
     .eyebrow { font-family:var(--mono); font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--ember); }
@@ -405,7 +427,13 @@
     <section class="hero" id="home">
       <div class="wrap">
         <div class="hero-logo"><img src="logo-icon.png" alt="Go Down Herbs"></div>
-        <div class="hero-text"><h1><em>Kill Your Pride,</em> Save Your Life</h1><p>Premium Venda herbal wellness — handcrafted from the Pot of Life.</p><a href="#shop-herbs" class="btn btn-primary">Explore Herbs</a></div>
+        <div class="hero-text"><h1><em>Kill Your Pride,</em> Save Your Life</h1><p>Premium Venda herbal wellness — handcrafted from the Pot of Life.</p><a href="#shop-herbs" class="btn btn-primary">Explore Herbs</a>
+          <div class="hero-stores-card" id="heroStoresCard">
+            <div class="hero-stores-icon"><i class="fas fa-store"></i></div>
+            <div class="hero-stores-text"><h4>Physical Stores</h4><p>Find our plant and 8 stores nationwide near you.</p></div>
+            <div class="hero-stores-arrow"><i class="fas fa-arrow-right"></i></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -465,7 +493,7 @@
       </div>
     </section>
 
-    <section id="locator"><div class="wrap"><div class="section-head"><div class="eyebrow">Find us</div><h2>8 stores nationwide</h2></div><div class="locator-container"><div id="map"></div><div class="shop-list" id="shopList"></div></div></div></section>
+    <section id="locator"><div class="wrap"><div class="section-head"><div class="eyebrow">Find us</div><h2>9 locations nationwide</h2></div><div class="locator-container"><div id="map"></div><div class="shop-list" id="shopList"></div></div></div></section>
 
     <footer>
       <div class="wrap">
@@ -619,6 +647,15 @@
     </div>
 
     <div class="fullscreen-viewer" id="fullscreenViewer"><span class="fullscreen-close" id="fullscreenClose">&times;</span><img src="" alt="full screen view" id="fullscreenImg"></div>
+
+    <div class="detail-page" id="physicalStoresPage">
+      <div class="detail-container" style="flex-direction:column;max-width:900px;">
+        <button class="back-btn" onclick="document.getElementById('physicalStoresPage').classList.remove('show'); document.body.style.overflow='';"><i class="fas fa-arrow-left"></i> Back</button>
+        <h2 style="margin:10px 0 6px;">Physical Stores</h2>
+        <p style="color:#6a6357;margin-bottom:24px;">Visit our plant or any of our 8 stores nationwide.</p>
+        <div class="stores-list-grid" id="physicalStoresList"></div>
+      </div>
+    </div>
 
     <div class="detail-page" id="reviewPage">
       <div class="detail-container" style="flex-direction:column;max-width:1100px;">
@@ -835,6 +872,7 @@
       ];
 
       const STORES = [
+        { name:'Tshaulu, Tshilaphala', address:'Plant / Factory — Tshaulu-Tshilaphala, Thulamela, Limpopo', lat:-22.80072, lng:30.74769, images:['plant1.jpg','plant2.jpg','plant3.jpg'], isPlant:true },
         { name:'Pretoria', address:'Shop 37, Barclay Square, Sunnyside', lat:-25.7545, lng:28.2201, images:['pretoria1.jpg','pretoria2.jpg','pretoria3.jpg'] },
         { name:'Johannesburg', address:'Shop 3, Braamfontein', lat:-26.1929, lng:28.0401, images:['joburg1.jpg','joburg2.jpg','joburg3.jpg'] },
         { name:'Polokwane', address:'Shop 10, Dada Square', lat:-23.9045, lng:29.4507, images:['polokwane1.jpg','polokwane2.jpg','polokwane3.jpg'] },
@@ -1368,32 +1406,94 @@
 
       window.addEventListener("scroll", ()=> document.getElementById("siteHeader").classList.toggle("solid", window.scrollY>50));
 
+      window.__storeMarkers = [];
+
       window.initMap = function() {
         const mapEl = document.getElementById('map');
         if (!mapEl || mapEl._leaflet_id) return;
         const map = L.map('map', { scrollWheelZoom: false }).setView([-24.5, 29.2], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+        window.__leafletMap = map;
         const shopList = document.getElementById('shopList');
         shopList.innerHTML = '';
-        STORES.forEach(store => {
+        window.__storeMarkers = [];
+        STORES.forEach((store, idx) => {
           const popupDiv = document.createElement('div');
-          popupDiv.innerHTML = `<b>${store.name}</b><br>${store.address}<br><div class="location-popup">${store.images.map(img => `<img src="${img}" onerror="this.src='${PLACEHOLDER}'" class="loc-img-click" style="cursor:pointer;">`).join('')}</div>`;
+          popupDiv.innerHTML = `<b>${store.name}</b>${store.isPlant?' <span style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;background:var(--ember);color:#fff;padding:2px 6px;border-radius:10px;">Plant</span>':''}<br>${store.address}<br><div class="location-popup">${store.images.map(img => `<img src="${img}" onerror="this.src='${PLACEHOLDER}'" class="loc-img-click" style="cursor:pointer;">`).join('')}</div>`;
           const marker = L.marker([store.lat, store.lng]).addTo(map).bindPopup(popupDiv, { maxWidth:320 });
           marker.on('popupopen', () => {
             document.querySelectorAll('.loc-img-click').forEach(img => {
               img.addEventListener('click', function(e) { e.stopPropagation(); openFullscreen(this.src); });
             });
           });
-          const shopItem = document.createElement('div'); shopItem.className='shop-item';
-          shopItem.innerHTML = `<div><h5>${store.name}</h5><p>${store.address}</p></div><div class="arrow">→</div>`;
-          shopItem.addEventListener('click', ()=>{ map.flyTo([store.lat, store.lng], 13); marker.openPopup(); });
+          window.__storeMarkers.push(marker);
+          const shopItem = document.createElement('div'); shopItem.className='shop-item'; shopItem.dataset.storeIndex = idx;
+          shopItem.innerHTML = `<div><h5>${store.name}${store.isPlant?' <span style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;background:var(--ember);color:#fff;padding:2px 6px;border-radius:10px;">Plant</span>':''}</h5><p>${store.address}</p></div><div class="arrow">→</div>`;
+          shopItem.addEventListener('click', ()=>{ map.flyTo([store.lat, store.lng], 13); marker.openPopup(); highlightShopItem(idx); });
           shopList.appendChild(shopItem);
         });
         setTimeout(()=> map.invalidateSize(), 100);
       };
 
+      function highlightShopItem(idx) {
+        document.querySelectorAll('.shop-item').forEach(el => el.classList.toggle('active', parseInt(el.dataset.storeIndex)===idx));
+        const target = document.querySelector(`.shop-item[data-store-index="${idx}"]`);
+        if (target) target.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      }
+
       if (mainContent.classList.contains('visible')) window.initMap();
       window.addEventListener('load', ()=> setTimeout(()=> { if (!document.getElementById('map')._leaflet_id) window.initMap(); }, 200));
+
+      // ===== NEW: Physical Stores page =====
+      const PHYSICAL_STORES = [
+        { storeIndex:0, isPlant:true, name:'Tshaulu, Tshilaphala', tag:'Plant / Factory', lines:['Main production location'] },
+        { storeIndex:1, name:'Pretoria Store', lines:['Shop No. 37 Barclay Square Shopping Centre','296 Justice Mohamed St','Sunnyside, 0002'] },
+        { storeIndex:2, name:'Johannesburg Store', lines:['Shop No. 3 Cnr 16 Station & De Korte St','Braamfontein, 2001','(Behind Wits Museum)'] },
+        { storeIndex:3, name:'Polokwane Store', lines:['Shop No. 10 Dada Square','52a Market St, Polokwane Central, 0699','(Opposite Museum)'] },
+        { storeIndex:4, name:'Makhado Store', lines:['Shop No. 02 (Magulani)','N1 & Commercial St, Louis Trichardt, 0920','(Opposite KFC)'] },
+        { storeIndex:5, name:'Thohoyandou Store', lines:['Jerice Palace Complex','Thohoyandou, 0950','(Behind Star Glass, Coja Shop & Zube Spare Parts)'] },
+        { storeIndex:6, name:'Nzhelele Store', lines:['Biaba Shopping Center','R523 Dzanani','(Red Container Opposite Spar, Next To Mabirimisa Offices)'] },
+        { storeIndex:7, name:'Soweto Store', lines:['Bara, Cnr Chris Hani & Dynamo St','Shop No. 13','(Behind Shell Garage & SARS, Opposite Builders Warehouse)'] },
+        { storeIndex:8, isOnline:true, name:'Online Store', lines:['www.godownherbs.co.za'] }
+      ];
+
+      function renderPhysicalStores() {
+        const grid = document.getElementById('physicalStoresList');
+        if (!grid) return;
+        grid.innerHTML = PHYSICAL_STORES.map(s => {
+          const actionBtn = s.isOnline
+            ? `<a class="view-map-btn online-btn" href="https://www.godownherbs.co.za" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> Visit Website</a>`
+            : `<button type="button" class="view-map-btn" data-store-index="${s.storeIndex}"><i class="fas fa-map-marker-alt"></i> View in Map</button>`;
+          return `<div class="store-list-card ${s.isPlant?'plant':''}">
+            <div class="store-info">
+              <h5>${s.name}${s.tag?`<span class="plant-tag">${s.tag}</span>`:''}</h5>
+              ${s.lines.map(l=>`<p>${l}</p>`).join('')}
+            </div>
+            ${actionBtn}
+          </div>`;
+        }).join('');
+        grid.querySelectorAll('.view-map-btn[data-store-index]').forEach(btn => {
+          btn.addEventListener('click', () => viewStoreOnMap(parseInt(btn.dataset.storeIndex)));
+        });
+      }
+      renderPhysicalStores();
+
+      function viewStoreOnMap(storeIndex) {
+        document.getElementById('physicalStoresPage').classList.remove('show');
+        document.body.style.overflow = '';
+        document.getElementById('locator').scrollIntoView({ behavior:'smooth' });
+        setTimeout(() => {
+          const store = STORES[storeIndex];
+          const marker = window.__storeMarkers[storeIndex];
+          if (window.__leafletMap && store) {
+            window.__leafletMap.flyTo([store.lat, store.lng], 14);
+          }
+          if (marker) marker.openPopup();
+          highlightShopItem(storeIndex);
+        }, 450);
+      }
+
+      document.getElementById('heroStoresCard').addEventListener('click', () => openOverlayPage('physicalStoresPage'));
 
       renderHerbs(); renderMerch(); renderCart();
     })();
