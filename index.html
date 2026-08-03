@@ -49,8 +49,14 @@
     .btn-secondary { background:var(--warm); color:var(--forest); }
     .btn-secondary:hover { background:#e7e0d2; }
 
-    header { position:fixed; top:0; left:0; right:0; z-index:500; padding:16px 0; transition:.4s; }
+    header { position:fixed; top:0; left:0; right:0; z-index:500; padding:16px 0; transition:.4s; overflow:hidden; }
     header.solid { background:rgba(250,248,245,.92); backdrop-filter:blur(12px); box-shadow:0 4px 24px rgba(26,74,58,.06); }
+    .header-bg-slider { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+    .header-bg-slide { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity 1.2s ease-in-out; }
+    .header-bg-slide.active { opacity:1; }
+    .header-bg-overlay { position:absolute; inset:0; z-index:1; background:linear-gradient(100deg, rgba(10,30,22,.88), rgba(26,74,58,.7)); pointer-events:none; transition:opacity .4s ease; }
+    header.solid .header-bg-slider, header.solid .header-bg-overlay { opacity:0; }
+    header nav { position:relative; z-index:2; }
     nav { display:flex; align-items:center; justify-content:space-between; }
     .brand { display:flex; align-items:center; gap:12px; }
     .brand img { height:55px; width:auto; }
@@ -110,6 +116,10 @@
     .store-list-card .view-map-btn:hover { background:var(--forest-light); }
     .store-list-card .view-map-btn.online-btn { background:var(--lime); color:var(--forest); }
     .store-list-card .view-map-btn.online-btn:hover { background:var(--lime-bright); }
+    .store-hours { margin-top:10px; padding-top:10px; border-top:1px dashed rgba(26,74,58,.15); width:100%; }
+    .store-hours-title { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ember); margin-bottom:5px; display:flex; align-items:center; gap:6px; }
+    .store-hours-row { display:flex; justify-content:space-between; gap:14px; font-size:12px; color:#4a453d; padding:2px 0; }
+    .store-hours-row span:first-child { font-weight:600; color:var(--forest); }
 
     section { padding:80px 0; opacity:1; transform:none; }
     .section-head { max-width:600px; margin-bottom:48px; }
@@ -169,6 +179,15 @@
     .merch-size-btn:hover { background:#e7e0d2; }
     .merch-size-btn.selected { background:var(--forest); color:white; border-color:var(--forest); }
     .merch-size-label { font-size:11px; font-weight:600; color:var(--forest); text-transform:uppercase; letter-spacing:.05em; margin-top:4px; display:block; }
+    .merch-desc { font-size:12.5px; color:#6a6357; margin:6px 0 2px; line-height:1.6; }
+
+    /* ===== Colour swatch selector (hats & cups) ===== */
+    .color-swatch-row { display:flex; gap:10px; padding:12px 14px 0; flex-wrap:wrap; }
+    .color-swatch { width:28px; height:28px; border-radius:50%; border:2px solid rgba(26,74,58,.18); cursor:pointer; transition:.25s; flex-shrink:0; box-shadow:inset 0 0 0 2px rgba(255,255,255,.6); }
+    .color-swatch:hover { transform:translateY(-2px); }
+    .color-swatch.selected { border-color:var(--ember); box-shadow:0 0 0 3px rgba(192,129,47,.22); }
+    .color-label { font-size:11px; font-weight:600; color:var(--forest); text-transform:uppercase; letter-spacing:.05em; margin-top:4px; display:block; }
+    .color-name-tag { display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--forest-light); background:var(--warm); padding:3px 10px; border-radius:20px; margin:6px 0 2px; }
 
     .locator-container { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
     @media(max-width:860px){ .locator-container{ grid-template-columns:1fr; } }
@@ -408,13 +427,18 @@
 
   <div id="main-content">
     <header id="siteHeader">
+      <div class="header-bg-slider" id="headerBgSlider">
+        <div class="header-bg-slide active" style="background-image:url('header-bg-1.jpg')"></div>
+        <div class="header-bg-slide" style="background-image:url('header-bg-2.jpg')"></div>
+      </div>
+      <div class="header-bg-overlay"></div>
       <nav class="wrap">
         <a href="#home" class="brand">
           <img src="logo-icon.png" alt="logo">
           <span class="brand-text">Go Down Herbs (PTY) Ltd<small>Pot of Life</small></span>
         </a>
         <ul class="nav-links" id="navLinks">
-          <li><a href="#home">Home</a></li><li><a href="#shop-herbs">Herbal Products</a></li><li><a href="#shop-merch">Merchandise</a></li><li><a href="#events">Events</a></li><li><a href="#goals">Our Goals</a></li><li><a href="#" id="navAboutLink">About Us</a></li><li><a href="#delivery">Delivery</a></li><li><a href="#locator">Stores</a></li><li><a href="#" id="navReviewLink">Review</a></li><li><a href="#" id="navContactLink">Get In Touch</a></li>
+          <li><a href="#home">Home</a></li><li><a href="#shop-herbs">Herbal Products</a></li><li><a href="#shop-merch">Merchandise</a></li><li><a href="#shop-hats">Hats</a></li><li><a href="#shop-cups">Cups</a></li><li><a href="#events">Events</a></li><li><a href="#goals">Our Goals</a></li><li><a href="#" id="navAboutLink">About Us</a></li><li><a href="#delivery">Delivery</a></li><li><a href="#locator">Stores</a></li><li><a href="#" id="navReviewLink">Review</a></li><li><a href="#" id="navContactLink">Get In Touch</a></li>
         </ul>
         <div class="nav-actions">
           <a class="icon-btn" href="https://wa.me/27715336706"><i class="fab fa-whatsapp"></i></a>
@@ -457,6 +481,10 @@
 
     <section id="shop-herbs"><div class="wrap"><h2><i class="fas fa-flask"></i> Herbal Products</h2><div class="product-grid" id="herbGrid"></div></div></section>
     <section id="shop-merch" style="background:var(--warm)"><div class="wrap"><h2><i class="fas fa-tshirt"></i> Merchandise</h2><div class="product-grid" id="merchGrid"></div></div></section>
+
+    <section id="shop-hats"><div class="wrap"><h2><i class="fas fa-hat-cowboy"></i> Hats</h2><div class="product-grid" id="hatsGrid"></div></div></section>
+
+    <section id="shop-cups" style="background:var(--warm)"><div class="wrap"><h2><i class="fas fa-mug-hot"></i> Cups</h2><div class="product-grid" id="cupsGrid"></div></div></section>
 
     <section id="delivery"><div class="wrap"><h2>Delivery Options</h2><div class="delivery-grid"><div class="delivery-card"><div class="amt">From R145</div><div class="name">The Courier Guy</div></div><div class="delivery-card"><div class="amt">From R110</div><div class="name">PostNet</div></div><div class="delivery-card"><div class="amt">From R80</div><div class="name">Pudo Locker</div></div><div class="delivery-card"><div class="amt">By distance</div><div class="name">Bolt / Uber</div></div></div><div class="delivery-warn">Liquids cannot travel via PEP/Paxi.</div></div></section>
 
@@ -868,7 +896,41 @@
         { id:"m-hands", name:"Go Down T-Shirt Hands", price:100, images:["m-hands1.png"] },
         { id:"m-ikho", name:"Ikho Verify", price:100, images:["m-ikho1.png"] },
         { id:"m-itsaherb", name:"It's A Herb T-Shirt", price:100, images:["m-itsaherb_type1.png","m-itsaherb_type2.png","m-itsaherb_type3.png"] },
-        { id:"m-ndaaweeh", name:"Ndaa Weeh T-Shirt", price:100, images:["m-ndaaweeh_type1.png","m-ndaaweeh_type2.png","m-ndaaweeh_type3.png"] }
+        { id:"m-ndaaweeh", name:"Ndaa Weeh T-Shirt", price:100, images:["m-ndaaweeh_type1.png","m-ndaaweeh_type2.png","m-ndaaweeh_type3.png"] },
+        { id:"m-hoodie-black-vision", name:"Go Down Hoodie Black Vision", price:350, desc:"Quality fabric · Soft · Cotton", images:["hoodie-black-vision-1.jpg","hoodie-black-vision-2.jpg","hoodie-black-vision-3.jpg"] },
+        { id:"m-hoodie-white-vision", name:"Go Down Hoodie White Vision", price:350, desc:"Quality fabric · Soft · Cotton", images:["hoodie-white-vision-1.jpg","hoodie-white-vision-2.jpg","hoodie-white-vision-3.jpg"] },
+        { id:"m-tee-white-vision", name:"New High Quality Tee White Vision", price:250, desc:"High-quality premium tee", images:["tee-white-vision-1.jpg"] },
+        { id:"m-tee-black-vision", name:"New High Quality Tee Black Vision", price:250, desc:"High-quality premium tee", images:["tee-black-vision-1.jpg","tee-black-vision-2.jpg"] }
+      ];
+
+      const HATS = [
+        { id:"h-godown-cap", name:"Go Down Cap", price:100, colors:[
+            { name:"Green", hex:"#2f9e44", image:"hat-godown-cap-green.jpg" },
+            { name:"Black", hex:"#1b1815", image:"hat-godown-cap-black.jpg" },
+            { name:"Pink", hex:"#e64998", image:"hat-godown-cap-pink.jpg" },
+            { name:"Blue", hex:"#2b57d9", image:"hat-godown-cap-blue.jpg" }
+          ] },
+        { id:"h-ukho-cap", name:"Ukhou Verify Cap", price:100, colors:[
+            { name:"Green", hex:"#2f9e44", image:"hat-ukho-cap-green.jpg" },
+            { name:"Black", hex:"#1b1815", image:"hat-ukho-cap-black.jpg" },
+            { name:"Pink", hex:"#e64998", image:"hat-ukho-cap-pink.jpg" },
+            { name:"Blue", hex:"#2b57d9", image:"hat-ukho-cap-blue.jpg" }
+          ] }
+      ];
+
+      const CUPS = [
+        { id:"c-stanley", name:"Go Down Herbs Stanley Cup", price:150, colors:[
+            { name:"White", hex:"#ffffff", image:"cup-stanley-white.jpg" },
+            { name:"Green", hex:"#a8e6a1", image:"cup-stanley-green.jpg" },
+            { name:"Purple", hex:"#b9a3e3", image:"cup-stanley-purple.jpg" }
+          ] },
+        { id:"c-flax", name:"Flax Cup", price:150, colors:[
+            { name:"Silver", hex:"#c7c9cc", image:"cup-flax-silver.jpg" },
+            { name:"Black", hex:"#161616", image:"cup-flax-black.jpg" },
+            { name:"Gold", hex:"#b8963e", image:"cup-flax-gold.jpg" },
+            { name:"Blue", hex:"#1f4fcc", image:"cup-flax-blue.jpg" },
+            { name:"Red", hex:"#c1272d", image:"cup-flax-red.jpg" }
+          ] }
       ];
 
       const STORES = [
@@ -900,6 +962,8 @@
       const cartItemCountLabel = document.getElementById("cartItemCountLabel");
       const herbGrid = document.getElementById("herbGrid");
       const merchGrid = document.getElementById("merchGrid");
+      const hatsGrid = document.getElementById("hatsGrid");
+      const cupsGrid = document.getElementById("cupsGrid");
       const detailPage = document.getElementById("detailPage");
       const detailContent = document.getElementById("detailContent");
       const fullscreenViewer = document.getElementById('fullscreenViewer');
@@ -960,6 +1024,7 @@
             <div class="pcard-body">
               <h4>${p.name}</h4>
               ${p.variantLabel ? `<div class="merch-variant-tag">${p.variantLabel}</div>` : ''}
+              ${p.desc ? `<div class="merch-desc">${p.desc}</div>` : ''}
               <span class="merch-size-label">Size</span>
               <div class="merch-size-row">${SIZES.map(s=>`<button type="button" class="merch-size-btn ${s==='M'?'selected':''}" data-size="${s}">${s}</button>`).join('')}</div>
               <div class="pcard-foot"><span class="price">R${p.price}</span>
@@ -1005,6 +1070,61 @@
           merchGrid.appendChild(card);
         });
       }
+
+      // ===== HATS & CUPS: colour-swatch selection (no sizes, no design types — colour only) =====
+      const colorSelection = {}; // productId -> colorIdx
+
+      function renderColorProducts(items, grid, kind) {
+        grid.innerHTML = '';
+        items.forEach(p => {
+          colorSelection[p.id] = 0;
+          const card = document.createElement('div'); card.className='pcard merch-pcard';
+          card.innerHTML = `
+            <div class="pcard-media merch-media">
+              ${p.colors.map((c,i)=>`<img src="${c.image}" class="merch-main-img ${i===0?'active':''}" data-idx="${i}" onerror="this.src='${PLACEHOLDER}'">`).join('')}
+            </div>
+            <div class="pcard-body">
+              <h4>${p.name}</h4>
+              <span class="color-name-tag" id="colorTag-${p.id}">${p.colors[0].name}</span>
+              <span class="color-label">Colour</span>
+              <div class="color-swatch-row">${p.colors.map((c,i)=>`<button type="button" class="color-swatch ${i===0?'selected':''}" data-idx="${i}" title="${c.name}" style="background:${c.hex};"></button>`).join('')}</div>
+              <div class="pcard-foot"><span class="price">R${p.price}</span>
+              <button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div>
+            </div>`;
+
+          function selectColor(idx) {
+            colorSelection[p.id] = idx;
+            card.querySelectorAll('.merch-main-img').forEach(im => im.classList.toggle('active', parseInt(im.dataset.idx)===idx));
+            card.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('selected', parseInt(s.dataset.idx)===idx));
+            const tag = card.querySelector(`#colorTag-${p.id}`);
+            if (tag) tag.textContent = p.colors[idx].name;
+          }
+
+          card.querySelectorAll('.color-swatch').forEach(sw => {
+            sw.addEventListener('click', e => { e.stopPropagation(); selectColor(parseInt(sw.dataset.idx)); });
+          });
+
+          card.querySelector('.add-btn').addEventListener('click', e => {
+            e.stopPropagation();
+            const idx = colorSelection[p.id];
+            const color = p.colors[idx];
+            const item = {
+              name: `${p.name} - ${color.name}`,
+              price: p.price,
+              image: color.image,
+              merchId: p.id,
+              typeIndex: idx,
+              size: null
+            };
+            addToCart(item, e.currentTarget);
+          });
+
+          grid.appendChild(card);
+        });
+      }
+
+      function renderHats() { renderColorProducts(HATS, hatsGrid, 'hat'); }
+      function renderCups() { renderColorProducts(CUPS, cupsGrid, 'cup'); }
 
       function animateCartAdd(buttonElement) {
         if (!buttonElement) return;
@@ -1406,6 +1526,18 @@
 
       window.addEventListener("scroll", ()=> document.getElementById("siteHeader").classList.toggle("solid", window.scrollY>50));
 
+      // Header background slider — crossfades between the two header images every 5s
+      (function() {
+        const slides = document.querySelectorAll('#headerBgSlider .header-bg-slide');
+        if (slides.length < 2) return;
+        let current = 0;
+        setInterval(() => {
+          slides[current].classList.remove('active');
+          current = (current + 1) % slides.length;
+          slides[current].classList.add('active');
+        }, 5000);
+      })();
+
       window.__storeMarkers = [];
 
       window.initMap = function() {
@@ -1445,15 +1577,27 @@
       window.addEventListener('load', ()=> setTimeout(()=> { if (!document.getElementById('map')._leaflet_id) window.initMap(); }, 200));
 
       // ===== NEW: Physical Stores page =====
+      const HOURS_STANDARD = [
+        { day:'Monday - Friday', time:'8:00 AM - 5:00 PM' },
+        { day:'Saturday', time:'9:00 AM - 2:00 PM' },
+        { day:'Sunday', time:'Closed' }
+      ];
+      const HOURS_PTA = [
+        { day:'Monday - Thursday', time:'8:00 AM - 5:00 PM' },
+        { day:'Friday', time:'8:00 AM - 6:00 PM' },
+        { day:'Saturday', time:'9:00 AM - 3:00 PM' },
+        { day:'Sunday', time:'9:00 AM - 2:00 PM' }
+      ];
+
       const PHYSICAL_STORES = [
         { storeIndex:0, isPlant:true, name:'Tshaulu, Tshilaphala', tag:'Plant / Factory', lines:['Main production location'] },
-        { storeIndex:1, name:'Pretoria Store', lines:['Shop No. 37 Barclay Square Shopping Centre','296 Justice Mohamed St','Sunnyside, 0002'] },
-        { storeIndex:2, name:'Johannesburg Store', lines:['Shop No. 3 Cnr 16 Station & De Korte St','Braamfontein, 2001','(Behind Wits Museum)'] },
-        { storeIndex:3, name:'Polokwane Store', lines:['Shop No. 10 Dada Square','52a Market St, Polokwane Central, 0699','(Opposite Museum)'] },
-        { storeIndex:4, name:'Makhado Store', lines:['Shop No. 02 (Magulani)','N1 & Commercial St, Louis Trichardt, 0920','(Opposite KFC)'] },
-        { storeIndex:5, name:'Thohoyandou Store', lines:['Jerice Palace Complex','Thohoyandou, 0950','(Behind Star Glass, Coja Shop & Zube Spare Parts)'] },
-        { storeIndex:6, name:'Nzhelele Store', lines:['Biaba Shopping Center','R523 Dzanani','(Red Container Opposite Spar, Next To Mabirimisa Offices)'] },
-        { storeIndex:7, name:'Soweto Store', lines:['Bara, Cnr Chris Hani & Dynamo St','Shop No. 13','(Behind Shell Garage & SARS, Opposite Builders Warehouse)'] },
+        { storeIndex:1, name:'Pretoria Store', lines:['Shop No. 37 Barclay Square Shopping Centre','296 Justice Mohamed St','Sunnyside, 0002'], hours:HOURS_PTA },
+        { storeIndex:2, name:'Johannesburg Store', lines:['Shop No. 3 Cnr 16 Station & De Korte St','Braamfontein, 2001','(Behind Wits Museum)'], hours:HOURS_STANDARD },
+        { storeIndex:3, name:'Polokwane Store', lines:['Shop No. 10 Dada Square','52a Market St, Polokwane Central, 0699','(Opposite Museum)'], hours:HOURS_STANDARD },
+        { storeIndex:4, name:'Makhado Store', lines:['Shop No. 02 (Magulani)','N1 & Commercial St, Louis Trichardt, 0920','(Opposite KFC)'], hours:HOURS_STANDARD },
+        { storeIndex:5, name:'Thohoyandou Store', lines:['Jerice Palace Complex','Thohoyandou, 0950','(Behind Star Glass, Coja Shop & Zube Spare Parts)'], hours:HOURS_STANDARD },
+        { storeIndex:6, name:'Nzhelele Store', lines:['Biaba Shopping Center','R523 Dzanani','(Red Container Opposite Spar, Next To Mabirimisa Offices)'], hours:HOURS_STANDARD },
+        { storeIndex:7, name:'Soweto Store', lines:['Bara, Cnr Chris Hani & Dynamo St','Shop No. 13','(Behind Shell Garage & SARS, Opposite Builders Warehouse)'], hours:HOURS_STANDARD },
         { storeIndex:8, isOnline:true, name:'Online Store', lines:['www.godownherbs.co.za'] }
       ];
 
@@ -1464,10 +1608,15 @@
           const actionBtn = s.isOnline
             ? `<a class="view-map-btn online-btn" href="https://www.godownherbs.co.za" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> Visit Website</a>`
             : `<button type="button" class="view-map-btn" data-store-index="${s.storeIndex}"><i class="fas fa-map-marker-alt"></i> View in Map</button>`;
+          const hoursBlock = s.hours ? `<div class="store-hours">
+              <div class="store-hours-title"><i class="far fa-clock"></i> Opening Hours</div>
+              ${s.hours.map(h=>`<div class="store-hours-row"><span>${h.day}</span><span>${h.time}</span></div>`).join('')}
+            </div>` : '';
           return `<div class="store-list-card ${s.isPlant?'plant':''}">
             <div class="store-info">
               <h5>${s.name}${s.tag?`<span class="plant-tag">${s.tag}</span>`:''}</h5>
               ${s.lines.map(l=>`<p>${l}</p>`).join('')}
+              ${hoursBlock}
             </div>
             ${actionBtn}
           </div>`;
@@ -1495,7 +1644,7 @@
 
       document.getElementById('heroStoresCard').addEventListener('click', () => openOverlayPage('physicalStoresPage'));
 
-      renderHerbs(); renderMerch(); renderCart();
+      renderHerbs(); renderMerch(); renderHats(); renderCups(); renderCart();
     })();
   </script>
 </body>
