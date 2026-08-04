@@ -898,10 +898,23 @@
         { id:"m-ikho", name:"Ikho Verify", price:100, images:["m-ikho1.png"] },
         { id:"m-itsaherb", name:"It's A Herb T-Shirt", price:100, images:["m-itsaherb_type1.png","m-itsaherb_type2.png","m-itsaherb_type3.png"] },
         { id:"m-ndaaweeh", name:"Ndaa Weeh T-Shirt", price:100, images:["m-ndaaweeh_type1.png","m-ndaaweeh_type2.png","m-ndaaweeh_type3.png"] },
-        { id:"m-hoodie-black-vision", name:"Go Down Hoodie Black Vision", price:350, desc:"Quality fabric · Soft · Cotton", images:["hoodie-black-vision-1.jpg","hoodie-black-vision-2.jpg","hoodie-black-vision-3.jpg"] },
-        { id:"m-hoodie-white-vision", name:"Go Down Hoodie White Vision", price:350, desc:"Quality fabric · Soft · Cotton", images:["hoodie-white-vision-1.jpg","hoodie-white-vision-2.jpg","hoodie-white-vision-3.jpg"] },
-        { id:"m-tee-white-vision", name:"New High Quality Tee White Vision", price:250, desc:"High-quality premium tee", images:["tee-white-vision-1.jpg"] },
-        { id:"m-tee-black-vision", name:"New High Quality Tee Black Vision", price:250, desc:"High-quality premium tee", images:["tee-black-vision-1.jpg","tee-black-vision-2.jpg"] }
+        { id:"m-hoodie-black-vision", name:"Go Down Hoodie Black Vision", price:350, desc:"Quality fabric · Soft · Cotton", designs:[
+            { label:"Design 1", images:["hoodie-black-vision-1-front.jpg","hoodie-black-vision-1-back.jpg"] },
+            { label:"Design 2", images:["hoodie-black-vision-2-front.jpg","hoodie-black-vision-2-back.jpg"] },
+            { label:"Design 3", images:["hoodie-black-vision-3-front.jpg","hoodie-black-vision-3-back.jpg"] }
+          ] },
+        { id:"m-hoodie-white-vision", name:"Go Down Hoodie White Vision", price:350, desc:"Quality fabric · Soft · Cotton", designs:[
+            { label:"Design 1", images:["hoodie-white-vision-1-front.jpg","hoodie-white-vision-1-back.jpg"] },
+            { label:"Design 2", images:["hoodie-white-vision-2-front.jpg","hoodie-white-vision-2-back.jpg"] },
+            { label:"Design 3", images:["hoodie-white-vision-3-front.jpg","hoodie-white-vision-3-back.jpg"] }
+          ] },
+        { id:"m-tee-white-vision", name:"New High Quality Tee White Vision", price:250, desc:"High-quality premium tee", designs:[
+            { label:"Design 1", images:["tee-white-vision-1-front.jpg","tee-white-vision-1-back.jpg"] }
+          ] },
+        { id:"m-tee-black-vision", name:"New High Quality Tee Black Vision", price:250, desc:"High-quality premium tee", designs:[
+            { label:"Design 1", images:["tee-black-vision-1-front.jpg","tee-black-vision-1-back.jpg"] },
+            { label:"Design 2", images:["tee-black-vision-2-front.jpg","tee-black-vision-2-back.jpg"] }
+          ] }
       ];
 
       const HATS = [
@@ -1011,17 +1024,27 @@
       // to the cart.
       const merchSelection = {}; // productId -> { typeIdx, size }
 
+      // Normalizes both product shapes: legacy `images:[...]` (1 image = 1 design)
+      // and the new `designs:[{label, images:[front,back]}]` shape used for the
+      // hoodies/tees added later. Card thumbnails always use one image per design
+      // (the front); the full front+back pair is only shown when a shopper opens
+      // the product detail page.
+      function getMerchThumbs(p) { return p.designs ? p.designs.map(d => d.images[0]) : p.images; }
+      function getMerchDesignImages(p, idx) { return p.designs ? p.designs[idx].images : [p.images[idx]]; }
+      function getMerchDesignLabel(p, idx) { return p.designs ? (p.designs[idx].label || `Design ${idx+1}`) : p.variantLabel; }
+
       function renderMerch() {
         merchGrid.innerHTML = '';
         MERCH.forEach(p => {
           merchSelection[p.id] = { typeIdx: 0, size: "M" };
-          const hasMultipleTypes = p.images.length > 1;
+          const thumbs = getMerchThumbs(p);
+          const hasMultipleTypes = thumbs.length > 1;
           const card = document.createElement('div'); card.className='pcard merch-pcard';
           card.innerHTML = `
             <div class="pcard-media merch-media">
-              ${p.images.map((img,i)=>`<img src="${img}" class="merch-main-img ${i===0?'active':''}" data-idx="${i}" onerror="this.src='${PLACEHOLDER}'">`).join('')}
+              ${thumbs.map((img,i)=>`<img src="${img}" class="merch-main-img ${i===0?'active':''}" data-idx="${i}" onerror="this.src='${PLACEHOLDER}'">`).join('')}
             </div>
-            ${hasMultipleTypes ? `<div class="merch-type-row">${p.images.map((img,i)=>`<button type="button" class="merch-type-thumb ${i===0?'selected':''}" data-idx="${i}"><img src="${img}" onerror="this.src='${PLACEHOLDER}'"></button>`).join('')}</div>` : ''}
+            ${hasMultipleTypes ? `<div class="merch-type-row">${thumbs.map((img,i)=>`<button type="button" class="merch-type-thumb ${i===0?'selected':''}" data-idx="${i}"><img src="${img}" onerror="this.src='${PLACEHOLDER}'"></button>`).join('')}</div>` : ''}
             <div class="pcard-body">
               <h4>${p.name}</h4>
               ${p.variantLabel ? `<div class="merch-variant-tag">${p.variantLabel}</div>` : ''}
@@ -1056,10 +1079,11 @@
           card.querySelector('.add-btn').addEventListener('click', e => {
             e.stopPropagation();
             const { typeIdx, size } = merchSelection[p.id];
+            const designLabel = p.designs ? getMerchDesignLabel(p, typeIdx) : (p.variantLabel ? p.variantLabel : (hasMultipleTypes ? `Type ${typeIdx+1}` : null));
             const item = {
-              name: `${p.name}${p.variantLabel?(' - '+p.variantLabel):''}${hasMultipleTypes?(' (Type '+(typeIdx+1)+')'):''} - Size ${size}`,
+              name: `${p.name}${designLabel?(' - '+designLabel):''} - Size ${size}`,
               price: p.price,
-              image: p.images[typeIdx],
+              image: thumbs[typeIdx],
               merchId: p.id,
               typeIndex: typeIdx,
               size: size
@@ -1067,7 +1091,13 @@
             addToCart(item, e.currentTarget);
           });
 
-          card.querySelector('.merch-media').addEventListener('click', ()=> openDetail('merch', p));
+          card.querySelector('.merch-media').addEventListener('click', ()=> {
+            const idx = merchSelection[p.id].typeIdx;
+            const detailProduct = p.designs
+              ? { ...p, images: getMerchDesignImages(p, idx), variantLabel: getMerchDesignLabel(p, idx), designIndex: idx, isFrontBack: true }
+              : p;
+            openDetail('merch', detailProduct);
+          });
           merchGrid.appendChild(card);
         });
       }
@@ -1120,7 +1150,53 @@
             addToCart(item, e.currentTarget);
           });
 
+          card.querySelector('.merch-media').addEventListener('click', () => openColorDetail(p));
+
           grid.appendChild(card);
+        });
+      }
+
+      // Hats & Cups "page": tapping the product image opens the shared detail
+      // overlay with a large image and clickable colour swatches, so shoppers
+      // can see the item clearly before adding it to the basket.
+      function openColorDetail(product) {
+        const startIdx = colorSelection[product.id] || 0;
+        detailContent.innerHTML = `<button class="back-btn" onclick="document.getElementById('detailPage').classList.remove('show'); document.body.style.overflow='';"><i class="fas fa-arrow-left"></i> Back</button>
+          <div class="detail-images"><div class="main-image-container">${product.colors.map((c,i)=>`<img src="${c.image}" class="${i===startIdx?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
+          <div class="thumbnails">${product.colors.map((c,i)=>`<img src="${c.image}" class="${i===startIdx?'active-thumb':''}" data-idx="${i}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div></div>
+          <div class="detail-info"><h2>${product.name}</h2>
+          <span class="color-name-tag" id="detailColorTag">${product.colors[startIdx].name}</span>
+          <p class="price">R${product.price}</p>
+          <span class="color-label">Colour</span>
+          <div class="color-swatch-row" id="detailColorSwatchRow">${product.colors.map((c,i)=>`<button type="button" class="color-swatch ${i===startIdx?'selected':''}" data-idx="${i}" title="${c.name}" style="background:${c.hex};"></button>`).join('')}</div>
+          <button class="btn btn-primary" id="detailAddBtn" style="margin-top:16px;">Add to Cart</button>
+          </div>`;
+        detailPage.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        window.__detailSelectedIdx = startIdx;
+
+        function selectDetailColor(idx) {
+          window.__detailSelectedIdx = idx;
+          detailContent.querySelectorAll('.main-image-container img').forEach((im,i)=>im.classList.toggle('active', i===idx));
+          detailContent.querySelectorAll('.thumbnails img').forEach((t,i)=>t.classList.toggle('active-thumb', i===idx));
+          detailContent.querySelectorAll('#detailColorSwatchRow .color-swatch').forEach(s=>s.classList.toggle('selected', parseInt(s.dataset.idx)===idx));
+          const tag = document.getElementById('detailColorTag');
+          if (tag) tag.textContent = product.colors[idx].name;
+        }
+
+        detailContent.querySelectorAll('.thumbnails img').forEach(thumb => {
+          thumb.addEventListener('click', () => selectDetailColor(parseInt(thumb.dataset.idx)));
+        });
+        detailContent.querySelectorAll('#detailColorSwatchRow .color-swatch').forEach(sw => {
+          sw.addEventListener('click', () => selectDetailColor(parseInt(sw.dataset.idx)));
+        });
+
+        document.getElementById('detailAddBtn').addEventListener('click', () => {
+          const idx = window.__detailSelectedIdx || 0;
+          const color = product.colors[idx];
+          colorSelection[product.id] = idx;
+          const item = { name: `${product.name} - ${color.name}`, price: product.price, image: color.image, merchId: product.id, typeIndex: idx, size: null };
+          addToCart(item);
         });
       }
 
@@ -1191,8 +1267,14 @@
         const reviewsHtml = isHerb ? `<div class="reviews-section"><h3>Customer Reviews</h3>${product.reviews.map(r=>`<div class="review-item"><div class="review-head"><span class="review-name">${r.name}</span><span class="review-stars">${renderStars(r.rating)}</span></div><p>${r.text}</p></div>`).join('')}</div>` : '';
         const relatedHtml = isHerb ? `<div class="related-section"><h3>Related Products</h3><div class="related-grid">${HERBS.filter(h=>h.id!==product.id).map(h=>`<div class="related-card" data-id="${h.id}"><img src="${h.images[0]}" onerror="this.src='${PLACEHOLDER}'"><div class="related-body"><h5>${h.name}</h5><span class="price">R${h.price}</span></div></div>`).join('')}</div></div>` : '';
 
-        // Merch detail: images ARE the type selector here too (thumbnails), no dropdown.
-        const merchTypeNote = (isMerch && product.images.length > 1) ? `<p style="font-size:12.5px;color:#6a6357;margin-top:6px;">Tap a design below to choose your type.</p>` : '';
+        // Merch detail: for legacy products, images ARE the type selector (thumbnails).
+        // For the new front/back-pair products, the thumbnails just flip between the
+        // photo of the front and the back of the SAME design — not separate types.
+        const merchTypeNote = (isMerch && product.images.length > 1)
+          ? (product.isFrontBack
+              ? `<p style="font-size:12.5px;color:#6a6357;margin-top:6px;">Tap below to view the front or back.</p>`
+              : `<p style="font-size:12.5px;color:#6a6357;margin-top:6px;">Tap a design below to choose your type.</p>`)
+          : '';
         const merchSizeHtml = isMerch ? `<span class="merch-size-label">Size</span><div class="merch-size-row" id="detailSizeRow">${SIZES.map(s=>`<button type="button" class="merch-size-btn ${s==='M'?'selected':''}" data-size="${s}">${s}</button>`).join('')}</div>` : '';
 
         detailContent.innerHTML = `<button class="back-btn" onclick="document.getElementById('detailPage').classList.remove('show'); document.body.style.overflow='';"><i class="fas fa-arrow-left"></i> Back</button>
@@ -1220,9 +1302,10 @@
           let item = { name: product.name, price: product.price, image: product.images[idx] };
           if (isMerch) {
             item.merchId = product.id;
-            item.typeIndex = idx;
+            item.typeIndex = (product.designIndex !== undefined && product.designIndex !== null) ? product.designIndex : idx;
             item.size = window.__detailSelectedSize || 'M';
-            item.name = `${product.name}${product.variantLabel?(' - '+product.variantLabel):''}${product.images.length > 1?(' (Type '+(idx+1)+')'):''} - Size ${item.size}`;
+            const showTypeSuffix = !product.isFrontBack && product.images.length > 1;
+            item.name = `${product.name}${product.variantLabel?(' - '+product.variantLabel):''}${showTypeSuffix?(' (Type '+(idx+1)+')'):''} - Size ${item.size}`;
           } else {
             item.herbId = product.id;
           }
