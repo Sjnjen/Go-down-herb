@@ -155,7 +155,7 @@ PAID
 `;
 
   await resend.emails.send({
-    from: 'Go Down Herbs <onboarding@resend.dev>',
+    from: 'Go Down Herbs Orders <orders@resend.dev>',
     to: process.env.OWNER_EMAIL,
     subject: `New Go Down Herbs Order ${order.order_number}`,
     text: body
