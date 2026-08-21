@@ -34,13 +34,38 @@
     const reference = params.get('reference');
     const card = document.getElementById('card');
 
-    async function verify() {
+    // Retry settings: transient hiccups (a cold Render instance waking up,
+    // a dropped connection, a momentary 500) get a few automatic retries
+    // before we give up and show the WhatsApp fallback. A genuine "payment
+    // could not be verified" result is a real outcome, not a glitch, so
+    // that's shown immediately instead of being retried.
+    const MAX_ATTEMPTS = 3;
+    const RETRY_DELAY_MS = 4000;
+
+    function showRetrying(attempt) {
+      card.innerHTML = `
+        <div class="icon loading"><i class="fas fa-spinner fa-spin"></i></div>
+        <h1>Still confirming your payment...</h1>
+        <p>This is taking a little longer than usual. Trying again (attempt ${attempt} of ${MAX_ATTEMPTS})...</p>`;
+    }
+
+    async function verify(attempt = 1) {
       if (!reference) {
         card.innerHTML = `<div class="icon fail"><i class="fas fa-circle-exclamation"></i></div><h1>Missing order reference</h1><p>We couldn't find an order to confirm.</p><a class="home-link" href="/">Return to homepage</a>`;
         return;
       }
       try {
         const res = await fetch(`https://go-down-herb-backend.onrender.com/api/verify?reference=${encodeURIComponent(reference)}`);
+
+        // A 5xx means something broke on the server side (e.g. a brief
+        // hiccup right after a cold start) - worth a retry rather than
+        // immediately showing the customer a failure.
+        if (res.status >= 500 && attempt < MAX_ATTEMPTS) {
+          showRetrying(attempt + 1);
+          setTimeout(() => verify(attempt + 1), RETRY_DELAY_MS);
+          return;
+        }
+
         const data = await res.json();
 
         if (res.ok && data.success) {
@@ -64,6 +89,13 @@
             <a class="home-link" href="/">Return to homepage</a>`;
         }
       } catch (err) {
+        // Network-level failure (dropped connection, cold-start timeout, etc.)
+        // - also worth a retry before giving up.
+        if (attempt < MAX_ATTEMPTS) {
+          showRetrying(attempt + 1);
+          setTimeout(() => verify(attempt + 1), RETRY_DELAY_MS);
+          return;
+        }
         card.innerHTML = `<div class="icon fail"><i class="fas fa-circle-exclamation"></i></div><h1>Something went wrong</h1><p>Please contact us on WhatsApp to confirm your order.</p><a class="btn secondary" href="https://wa.me/27715360884" target="_blank"><i class="fab fa-whatsapp"></i> Message us</a>`;
       }
     }
