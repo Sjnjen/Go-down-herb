@@ -223,6 +223,7 @@
     .delivery-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
     .delivery-card { background:var(--warm); border-radius:10px; padding:24px; text-align:center; }
     .delivery-card .amt { font-family:var(--mono); font-weight:700; color:var(--ember); font-size:18px; }
+    .delivery-card .delivery-time { font-size:12px; color:#6a6357; margin-top:4px; }
     .delivery-warn { background:#fbeef0; border:1px solid #e6b8bd; color:#8a3a42; padding:16px; border-radius:8px; margin-top:18px; }
 
     .priorities-section { background:var(--forest); }
@@ -385,6 +386,7 @@
     .delivery-option .do-info { flex:1; }
     .delivery-option .do-name { font-weight:600; font-size:14px; color:var(--forest); }
     .delivery-option .do-price { font-family:var(--mono); font-size:12px; color:var(--ember); margin-top:2px; }
+    .delivery-option .do-time { font-size:11.5px; color:#6a6357; margin-top:2px; }
     .delivery-option .do-learn { font-size:11.5px; font-weight:600; color:var(--forest-light); margin-top:4px; display:inline-flex; align-items:center; gap:5px; }
     .delivery-option .do-learn:hover { color:var(--forest); text-decoration:underline; }
 
@@ -487,7 +489,7 @@
 
     <section id="shop-cups" style="background:var(--warm)"><div class="wrap"><h2><i class="fas fa-mug-hot"></i> Cups</h2><div class="product-grid" id="cupsGrid"></div></div></section>
 
-    <section id="delivery"><div class="wrap"><h2>Delivery Options</h2><div class="delivery-grid"><div class="delivery-card"><div class="amt">From R145</div><div class="name">The Courier Guy</div></div><div class="delivery-card"><div class="amt">From R110</div><div class="name">PostNet</div></div><div class="delivery-card"><div class="amt">From R80</div><div class="name">Pudo Locker</div></div><div class="delivery-card"><div class="amt">By distance</div><div class="name">Bolt / Uber</div></div></div><div class="delivery-warn">Liquids cannot travel via PEP/Paxi.</div></div></section>
+    <section id="delivery"><div class="wrap"><h2>Delivery Options</h2><div class="delivery-grid"><div class="delivery-card"><div class="amt">From R145</div><div class="name">The Courier Guy</div><div class="delivery-time">2-4 Business Days</div></div><div class="delivery-card"><div class="amt">From R110</div><div class="name">PostNet</div><div class="delivery-time">2-3 Business Days</div></div><div class="delivery-card"><div class="amt">From R80</div><div class="name">Pudo Locker</div><div class="delivery-time">1-4 Business Days</div></div><div class="delivery-card"><div class="amt">By distance</div><div class="name">Bolt / Uber</div><div class="delivery-time">Same day delivery</div></div></div><div class="delivery-warn">Liquids cannot travel via PEP/Paxi.</div></div></section>
 
     <section id="events" style="background:var(--warm)"><div class="wrap"><h2><i class="far fa-calendar-alt"></i> Upcoming Events</h2><div class="event-section"><div class="event-img" id="eventImagePlaceholder"><i class="far fa-image" style="font-size:40px;"></i><span>Event Image</span></div></div></div></section>
 
@@ -631,6 +633,7 @@
                 <div class="do-info">
                   <div class="do-name">The Courier Guy</div>
                   <div class="do-price">From R145</div>
+                  <div class="do-time">2-4 Business Days</div>
                 </div>
               </label>
               <label class="delivery-option" data-value="postnet">
@@ -638,6 +641,7 @@
                 <div class="do-info">
                   <div class="do-name">PostNet</div>
                   <div class="do-price">From R110</div>
+                  <div class="do-time">2-3 Business Days</div>
                 </div>
               </label>
               <label class="delivery-option" data-value="pudo">
@@ -645,6 +649,7 @@
                 <div class="do-info">
                   <div class="do-name">PUDO Locker</div>
                   <div class="do-price">From R80</div>
+                  <div class="do-time">1-4 Business Days</div>
                   <a href="https://www.youtube.com/results?search_query=how+to+use+pudo+locker" target="_blank" rel="noopener noreferrer" class="do-learn" onclick="event.stopPropagation()"><i class="fab fa-youtube"></i> Learn How</a>
                 </div>
               </label>
