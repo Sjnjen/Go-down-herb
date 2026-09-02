@@ -236,6 +236,40 @@
     .priorities-section .section-head h2 { color:var(--lime); }
     .priorities-section .section-head { margin:0 auto 48px; text-align:center; max-width:100%; }
 
+    /* ===== NEW: Heritage Special promo section ===== */
+    #specials { background:var(--forest); position:relative; overflow:hidden; }
+    #specials::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 80% 20%, rgba(179,217,90,.1), transparent 55%); pointer-events:none; }
+    #specials .wrap { position:relative; z-index:1; }
+
+    .specials-header { display:flex; align-items:center; justify-content:space-between; gap:40px; margin-bottom:44px; flex-wrap:wrap; }
+    .specials-header-text { flex:1; min-width:280px; }
+    .specials-header-text .eyebrow { color:var(--lime); display:flex; align-items:center; gap:8px; }
+    .specials-header-text h2 { color:white; }
+    .specials-header-text p { color:rgba(244,239,227,.75); font-size:14px; margin-top:10px; max-width:440px; }
+    .specials-portrait { flex-shrink:0; width:190px; position:relative; border-radius:12px; overflow:hidden; box-shadow:0 20px 48px rgba(0,0,0,.4); }
+    .specials-portrait::before { content:""; position:absolute; inset:0; z-index:2; background:linear-gradient(to right, var(--forest) 0%, transparent 25%); pointer-events:none; }
+    .specials-portrait img { width:100%; display:block; }
+    @media(max-width:760px){ .specials-header{ flex-direction:column; text-align:center; } .specials-header-text .eyebrow{ justify-content:center; } .specials-portrait{ width:150px; } }
+
+    .pulse-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--lime); animation:pulseDot 1.6s ease-in-out infinite; flex-shrink:0; }
+    @keyframes pulseDot { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(179,217,90,.55); } 50% { opacity:.65; box-shadow:0 0 0 6px rgba(179,217,90,0); } }
+
+    .special-pcard { border:1px solid rgba(192,129,47,.35) !important; animation:specialBorderGlow 3s ease-in-out infinite; }
+    .special-pcard:hover { animation-play-state:paused; }
+    @keyframes specialBorderGlow { 0%,100% { box-shadow:0 0 0 rgba(192,129,47,0); } 50% { box-shadow:0 0 22px rgba(192,129,47,.3); } }
+    .special-pcard .pcard-media { position:relative; }
+    .special-pcard .pcard-media::after {
+      content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+      background:linear-gradient(115deg, transparent 42%, rgba(255,255,255,.4) 50%, transparent 58%);
+      transform:translateX(-130%);
+      animation:specialShine 4.5s ease-in-out infinite;
+    }
+    @keyframes specialShine { 0%, 55% { transform:translateX(-130%); } 100% { transform:translateX(130%); } }
+    .special-badge { display:inline-block; font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; background:var(--ember); color:white; padding:4px 12px; border-radius:20px; margin-bottom:8px; animation:badgePulse 2s ease-in-out infinite; }
+    @keyframes badgePulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
+    .special-pcard .price { animation:specialGlow 2.6s ease-in-out infinite; }
+    @keyframes specialGlow { 0%,100% { text-shadow:0 0 0 rgba(179,217,90,0); } 50% { text-shadow:0 0 16px rgba(179,217,90,.55); } }
+
     footer { background:var(--forest); color:white; padding:60px 0 20px; }
     .foot-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:30px; }
     @media(max-width:760px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
@@ -461,6 +495,22 @@
             <div class="hero-stores-arrow"><i class="fas fa-arrow-right"></i></div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="specials">
+      <div class="wrap">
+        <div class="specials-header">
+          <div class="specials-header-text">
+            <div class="eyebrow"><span class="pulse-dot"></span> Limited Time · 01 September – 30 September</div>
+            <h2>Heritage Special</h2>
+            <p>Kill your pride and save your life — make that call now.</p>
+          </div>
+          <div class="specials-portrait">
+            <img src="heritage-portrait.jpg" alt="Heritage Special" onerror="this.style.display='none'">
+          </div>
+        </div>
+        <div class="product-grid" id="specialsGrid"></div>
       </div>
     </section>
 
@@ -952,6 +1002,15 @@
           ], extraImages:["cup-flax-group-1.jpg","cup-flax-group-2.jpg"] }
       ];
 
+      // Heritage Special bundles (01 Sept - 30 Sept) - built from products already
+      // sold on the site, reusing their existing photos. Priced and checked out
+      // exactly like every other product (see prices.js on the backend).
+      const SPECIALS = [
+        { id:"special-1", name:"Heritage Special No. 1", price:300, desc:"1 Underground Herb + 1+ Go Down Herbs + Running Stomach Cleanser", images:["ugh1.jpg","gdh1.jpg","stc1.jpg"] },
+        { id:"special-2", name:"Heritage Special No. 2", price:300, desc:"2 Underground Herbs", images:["ugh1.jpg","ugh2.jpg"] },
+        { id:"special-3", name:"Heritage Special No. 3", price:250, desc:"1 Go Down Herb + 1 Underground Herb", images:["gdh1.jpg","ugh1.jpg"] }
+      ];
+
       const STORES = [
         { name:'Tshaulu, Tshilaphala', address:'Plant / Factory — Tshaulu-Tshilaphala, Thulamela, Limpopo', lat:-22.80072, lng:30.74769, images:['plant1.jpg','plant2.jpg','plant3.jpg'], isPlant:true },
         { name:'Pretoria', address:'Shop 37, Barclay Square, Sunnyside', lat:-25.7545, lng:28.2201, images:['pretoria1.jpg','pretoria2.jpg','pretoria3.jpg'] },
@@ -983,6 +1042,7 @@
       const merchGrid = document.getElementById("merchGrid");
       const hatsGrid = document.getElementById("hatsGrid");
       const cupsGrid = document.getElementById("cupsGrid");
+      const specialsGrid = document.getElementById("specialsGrid");
       const detailPage = document.getElementById("detailPage");
       const detailContent = document.getElementById("detailContent");
       const fullscreenViewer = document.getElementById('fullscreenViewer');
@@ -1217,6 +1277,28 @@
       function renderHats() { renderColorProducts(HATS, hatsGrid, 'hat'); }
       function renderCups() { renderColorProducts(CUPS, cupsGrid, 'cup'); }
 
+      // Heritage Specials render as regular product cards (same pcard system as
+      // herbs/merch) so they look and behave exactly like every other product -
+      // own image, own Add button, own detail page. merchId routes pricing
+      // through the same backend lookup used by merch/hats/cups.
+      function renderSpecials() {
+        specialsGrid.innerHTML = '';
+        SPECIALS.forEach(p => {
+          const card = document.createElement('div'); card.className='pcard special-pcard';
+          card.innerHTML = `<div class="pcard-media slideshow-container">${p.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
+            <div class="pcard-body">
+              <span class="special-badge">${p.name}</span>
+              <div class="desc">${p.desc}</div>
+              <div class="pcard-foot"><span class="price">R${p.price}</span>
+              <button class="add-btn"><i class="fas fa-cart-plus"></i> Add</button></div>
+            </div>`;
+          const btn = card.querySelector('.add-btn');
+          btn.addEventListener('click', e => { e.stopPropagation(); addToCart({ name:p.name, price:p.price, image:p.images[0], merchId:p.id, size:null }, btn); });
+          card.querySelector('.pcard-media').addEventListener('click', ()=> openDetail('special', p));
+          specialsGrid.appendChild(card);
+        });
+      }
+
       function animateCartAdd(buttonElement) {
         if (!buttonElement) return;
         buttonElement.classList.add('added');
@@ -1274,12 +1356,15 @@
       function openDetail(type, product) {
         const isHerb = type === 'herb';
         const isMerch = type === 'merch';
+        const isSpecial = type === 'special';
 
         const ratingHtml = isHerb ? `<div class="star-rating">${renderStars(product.rating)}<span class="rating-num">${product.rating.toFixed(1)}</span><span class="review-count">(${product.reviewCount} reviews)</span></div>` : '';
         const instructionsHtml = isHerb ? `<div class="pdetail-block"><h4>Instructions</h4><p>${product.instructions}</p></div>` : '';
         const benefitsHtml = isHerb ? `<div class="pdetail-block"><h4>Benefits</h4><ul class="benefit-list">${product.benefits.map(b=>`<li>${b}</li>`).join('')}</ul></div>` : '';
         const reviewsHtml = isHerb ? `<div class="reviews-section"><h3>Customer Reviews</h3>${product.reviews.map(r=>`<div class="review-item"><div class="review-head"><span class="review-name">${r.name}</span><span class="review-stars">${renderStars(r.rating)}</span></div><p>${r.text}</p></div>`).join('')}</div>` : '';
         const relatedHtml = isHerb ? `<div class="related-section"><h3>Related Products</h3><div class="related-grid">${HERBS.filter(h=>h.id!==product.id).map(h=>`<div class="related-card" data-id="${h.id}"><img src="${h.images[0]}" onerror="this.src='${PLACEHOLDER}'"><div class="related-body"><h5>${h.name}</h5><span class="price">R${h.price}</span></div></div>`).join('')}</div></div>` : '';
+        const specialBadgeHtml = isSpecial ? `<span class="special-badge">Heritage Special</span>` : '';
+        const specialInfoHtml = isSpecial ? `<div class="pdetail-block"><h4>What's Included</h4><p>${product.desc}</p></div>` : '';
 
         // Merch detail: for legacy products, images ARE the type selector (thumbnails).
         // For the new front/back-pair products, the thumbnails just flip between the
@@ -1294,10 +1379,10 @@
         detailContent.innerHTML = `<button class="back-btn" onclick="document.getElementById('detailPage').classList.remove('show'); document.body.style.overflow='';"><i class="fas fa-arrow-left"></i> Back</button>
           <div class="detail-images"><div class="main-image-container">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active':''}" onerror="this.src='${PLACEHOLDER}'">`).join('')}</div>
           <div class="thumbnails">${product.images.map((img,i)=>`<img src="${img}" class="${i===0?'active-thumb':''}" onclick="document.querySelectorAll('.main-image-container img').forEach((im,idx)=>im.classList.toggle('active',idx===${i})); this.parentElement.querySelectorAll('img').forEach(t=>t.classList.remove('active-thumb')); this.classList.add('active-thumb'); window.__detailSelectedIdx=${i};">`).join('')}</div></div>
-          <div class="detail-info"><h2>${product.name}${product.variantLabel?(' — '+product.variantLabel):''}</h2>${ratingHtml}<p>${product.desc||''}</p><p class="price">R${product.price}</p>
+          <div class="detail-info">${specialBadgeHtml}<h2>${product.name}${product.variantLabel?(' — '+product.variantLabel):''}</h2>${ratingHtml}<p>${product.desc||''}</p><p class="price">R${product.price}</p>
           ${merchTypeNote}${merchSizeHtml}
           <button class="btn btn-primary" id="detailAddBtn">Add to Cart</button>
-          ${instructionsHtml}${benefitsHtml}</div>
+          ${instructionsHtml}${benefitsHtml}${specialInfoHtml}</div>
           ${reviewsHtml}${relatedHtml}`;
         detailPage.classList.add('show');
         document.body.style.overflow = 'hidden';
@@ -1320,6 +1405,9 @@
             item.size = window.__detailSelectedSize || 'M';
             const showTypeSuffix = !product.isFrontBack && product.images.length > 1;
             item.name = `${product.name}${product.variantLabel?(' - '+product.variantLabel):''}${showTypeSuffix?(' (Type '+(idx+1)+')'):''} - Size ${item.size}`;
+          } else if (isSpecial) {
+            item.merchId = product.id;
+            item.size = null;
           } else {
             item.herbId = product.id;
           }
@@ -1643,6 +1731,19 @@
         if (!mapEl || mapEl._leaflet_id) return;
         const map = L.map('map', { scrollWheelZoom: false }).setView([-24.5, 29.2], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+
+        // Require a two-finger touch to pan the map on touchscreens, so a normal
+        // one-finger scroll through the page doesn't accidentally drag the map.
+        // Desktop mouse dragging and pinch-to-zoom are unaffected.
+        const mapContainer = map.getContainer();
+        function updateTouchDragging(e) {
+          if (e.touches.length >= 2) { map.dragging.enable(); }
+          else { map.dragging.disable(); }
+        }
+        mapContainer.addEventListener('touchstart', updateTouchDragging, { passive: true });
+        mapContainer.addEventListener('touchmove', updateTouchDragging, { passive: true });
+        mapContainer.addEventListener('touchend', updateTouchDragging, { passive: true });
+
         window.__leafletMap = map;
         const shopList = document.getElementById('shopList');
         shopList.innerHTML = '';
@@ -1770,7 +1871,7 @@
 
       document.getElementById('heroStoresCard').addEventListener('click', () => openOverlayPage('physicalStoresPage'));
 
-      renderHerbs(); renderMerch(); renderHats(); renderCups(); renderCart();
+      renderHerbs(); renderMerch(); renderHats(); renderCups(); renderSpecials(); renderCart();
     })();
   </script>
 </body>
