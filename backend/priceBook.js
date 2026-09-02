@@ -35,7 +35,13 @@ const MERCH_PRICES = {
 
   // NEW: Cups (colour-only selection, no size/design types)
   'c-stanley': 150, // Go Down Herbs Stanley Cup (White / Green / Purple)
-  'c-flax':    150  // Flax Cup (Silver / Black / Gold / Blue / Red)
+  'c-flax':    150, // Flax Cup (Silver / Black / Gold / Blue / Red)
+
+  // NEW: Heritage Specials (01 Sept - 30 Sept) — bundles of products already
+  // sold individually on the site, priced as a single line item
+  'special-1': 300, // Heritage Special No. 1 — 1 Underground Herb + 1+ Go Down Herbs + Running Stomach Cleanser
+  'special-2': 300, // Heritage Special No. 2 — 2 Underground Herbs
+  'special-3': 250  // Heritage Special No. 3 — 1 Go Down Herb + 1 Underground Herb
 };
 
 // Flat delivery fees. "bolt" is intentionally left out - that method
