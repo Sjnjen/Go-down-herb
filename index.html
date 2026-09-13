@@ -192,7 +192,18 @@
 
     .locator-container { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
     @media(max-width:860px){ .locator-container{ grid-template-columns:1fr; } }
-    #map { height:450px; width:100%; border-radius:8px; border:1px solid rgba(26,74,58,.08); z-index:1; }
+    .map-wrap { position:relative; }
+    #map { height:450px; width:100%; border-radius:8px; border:1px solid rgba(26,74,58,.08); z-index:1; transition:box-shadow .2s ease; }
+    #map.map-two-finger-active { box-shadow:0 0 0 4px var(--lime); }
+    .map-touch-hint {
+      position:absolute; inset:0; z-index:1000; border-radius:8px;
+      background:rgba(10,30,22,.78); color:white; text-align:center;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+      padding:20px; opacity:0; pointer-events:none; transition:opacity .2s ease;
+    }
+    .map-touch-hint.show { opacity:1; }
+    .map-touch-hint i { font-size:22px; color:var(--lime); }
+    .map-touch-hint span { font-family:var(--body); font-size:13.5px; font-weight:600; max-width:220px; }
     .shop-list { max-height:450px; overflow-y:auto; background:var(--white); border-radius:8px; border:1px solid rgba(26,74,58,.08); }
     .shop-item { padding:18px; border-bottom:1px solid rgba(26,74,58,.08); cursor:pointer; transition:background .3s; display:flex; justify-content:space-between; align-items:center; }
     .shop-item:hover { background:var(--warm); }
@@ -237,19 +248,21 @@
     .priorities-section .section-head { margin:0 auto 48px; text-align:center; max-width:100%; }
 
     /* ===== NEW: Heritage Special promo section ===== */
-    #specials { background:var(--forest); position:relative; overflow:hidden; }
+    #specials {
+      background-color:var(--forest);
+      background-image:url('heritage-frame.png');
+      background-size:100% 100%;
+      background-position:center;
+      background-repeat:no-repeat;
+      position:relative; overflow:hidden;
+    }
     #specials::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 80% 20%, rgba(179,217,90,.1), transparent 55%); pointer-events:none; }
     #specials .wrap { position:relative; z-index:1; }
 
-    .specials-header { display:flex; align-items:center; justify-content:space-between; gap:40px; margin-bottom:44px; flex-wrap:wrap; }
-    .specials-header-text { flex:1; min-width:280px; }
-    .specials-header-text .eyebrow { color:var(--lime); display:flex; align-items:center; gap:8px; }
-    .specials-header-text h2 { color:white; }
-    .specials-header-text p { color:rgba(244,239,227,.75); font-size:14px; margin-top:10px; max-width:440px; }
-    .specials-portrait { flex-shrink:0; width:190px; position:relative; border-radius:12px; overflow:hidden; box-shadow:0 20px 48px rgba(0,0,0,.4); }
-    .specials-portrait::before { content:""; position:absolute; inset:0; z-index:2; background:linear-gradient(to right, var(--forest) 0%, transparent 25%); pointer-events:none; }
-    .specials-portrait img { width:100%; display:block; }
-    @media(max-width:760px){ .specials-header{ flex-direction:column; text-align:center; } .specials-header-text .eyebrow{ justify-content:center; } .specials-portrait{ width:150px; } }
+    .specials-header { text-align:center; margin:0 auto 44px; max-width:560px; }
+    .specials-header .eyebrow { color:var(--lime); display:inline-flex; align-items:center; gap:8px; }
+    .specials-header h2 { color:white; }
+    .specials-header p { color:rgba(244,239,227,.75); font-size:14px; margin-top:10px; }
 
     .pulse-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--lime); animation:pulseDot 1.6s ease-in-out infinite; flex-shrink:0; }
     @keyframes pulseDot { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(179,217,90,.55); } 50% { opacity:.65; box-shadow:0 0 0 6px rgba(179,217,90,0); } }
@@ -283,6 +296,16 @@
 
     .detail-page { position:fixed; inset:0; z-index:600; background:var(--cream); display:none; overflow:auto; padding:80px 30px; }
     .detail-page.show { display:block; }
+    /* Heritage Special detail pages get the same frame background, visible in
+       the padding around the white content card - only applied when viewing
+       a special (toggled in openDetail), so other products are unaffected. */
+    .detail-page.special-detail {
+      background-color:var(--forest);
+      background-image:url('heritage-frame.png');
+      background-size:100% 100%;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
     .detail-container { max-width:1000px; margin:0 auto; background:white; border-radius:12px; padding:30px; display:flex; flex-wrap:wrap; gap:30px; }
     .detail-images .main-image-container { width:100%; aspect-ratio:4/5; background:var(--warm); border-radius:8px; overflow:hidden; position:relative; }
     .detail-images .main-image-container img { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; opacity:0; transition:opacity .8s; }
@@ -501,14 +524,9 @@
     <section id="specials">
       <div class="wrap">
         <div class="specials-header">
-          <div class="specials-header-text">
-            <div class="eyebrow"><span class="pulse-dot"></span> Limited Time · 01 September – 30 September</div>
-            <h2>Heritage Special</h2>
-            <p>Kill your pride and save your life — make that call now.</p>
-          </div>
-          <div class="specials-portrait">
-            <img src="heritage-portrait.jpg" alt="Heritage Special" onerror="this.style.display='none'">
-          </div>
+          <div class="eyebrow"><span class="pulse-dot"></span> Limited Time · 01 September – 30 September</div>
+          <h2>Heritage Special</h2>
+          <p>Kill your pride and save your life — make that call now.</p>
         </div>
         <div class="product-grid" id="specialsGrid"></div>
       </div>
@@ -574,7 +592,7 @@
       </div>
     </section>
 
-    <section id="locator"><div class="wrap"><div class="section-head"><div class="eyebrow">Find us</div><h2>9 locations nationwide</h2></div><div class="locator-container"><div id="map"></div><div class="shop-list" id="shopList"></div></div></div></section>
+    <section id="locator"><div class="wrap"><div class="section-head"><div class="eyebrow">Find us</div><h2>9 locations nationwide</h2></div><div class="locator-container"><div class="map-wrap"><div id="map"></div><div class="map-touch-hint" id="mapTouchHint"><i class="fas fa-hand-pointer"></i><span>Use two fingers to move the map</span></div></div><div class="shop-list" id="shopList"></div></div></div></section>
 
     <footer>
       <div class="wrap">
@@ -1240,6 +1258,7 @@
           <button class="btn btn-primary" id="detailAddBtn" style="margin-top:16px;">Add to Cart</button>
           </div>`;
         detailPage.classList.add('show');
+        detailPage.classList.remove('special-detail');
         document.body.style.overflow = 'hidden';
         window.__detailSelectedIdx = startIdx;   // which gallery image is showing
         window.__detailSelectedColorIdx = startIdx; // which real colour is selected for Add to Cart
@@ -1385,6 +1404,7 @@
           ${instructionsHtml}${benefitsHtml}${specialInfoHtml}</div>
           ${reviewsHtml}${relatedHtml}`;
         detailPage.classList.add('show');
+        detailPage.classList.toggle('special-detail', isSpecial);
         document.body.style.overflow = 'hidden';
         window.__detailSelectedIdx = 0;
         window.__detailSelectedSize = 'M';
@@ -1734,11 +1754,26 @@
 
         // Require a two-finger touch to pan the map on touchscreens, so a normal
         // one-finger scroll through the page doesn't accidentally drag the map.
-        // Desktop mouse dragging and pinch-to-zoom are unaffected.
+        // A single finger dims the map with a "use two fingers" hint; two fingers
+        // enable dragging and show a green active ring. Desktop mouse dragging
+        // and pinch-to-zoom are unaffected.
         const mapContainer = map.getContainer();
+        const mapTouchHint = document.getElementById('mapTouchHint');
         function updateTouchDragging(e) {
-          if (e.touches.length >= 2) { map.dragging.enable(); }
-          else { map.dragging.disable(); }
+          const count = e.touches.length;
+          if (count >= 2) {
+            map.dragging.enable();
+            mapContainer.classList.add('map-two-finger-active');
+            if (mapTouchHint) mapTouchHint.classList.remove('show');
+          } else if (count === 1) {
+            map.dragging.disable();
+            mapContainer.classList.remove('map-two-finger-active');
+            if (mapTouchHint) mapTouchHint.classList.add('show');
+          } else {
+            map.dragging.disable();
+            mapContainer.classList.remove('map-two-finger-active');
+            if (mapTouchHint) mapTouchHint.classList.remove('show');
+          }
         }
         mapContainer.addEventListener('touchstart', updateTouchDragging, { passive: true });
         mapContainer.addEventListener('touchmove', updateTouchDragging, { passive: true });
