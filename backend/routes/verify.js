@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { Resend } = require('resend');
-const { markOrderPaid, getOrderByReference } = require('../db');
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+const {
+  markOrderPaidIfPending,
+  getOrderByReference,
+  updateEmailStatus,
+  incrementEmailAttempts
+} = require('../db');
+const { sendOwnerEmailForOrder } = require('../orderEmails');
 
 // GET /api/verify?reference=GDH-583927
 router.get('/verify', async (req, res) => {
@@ -11,7 +14,7 @@ router.get('/verify', async (req, res) => {
     const { reference } = req.query;
     if (!reference) return res.status(400).json({ error: 'Missing reference.' });
 
-    const order = await getOrderByReference(reference);
+    let order = await getOrderByReference(reference);
     if (!order) return res.status(404).json({ error: 'Order not found.' });
 
     if (order.payment_status === 'paid') {
@@ -41,11 +44,28 @@ router.get('/verify', async (req, res) => {
       });
     }
 
-    const updatedOrder = await markOrderPaid(reference);
+    // Idempotent: if the webhook already marked this order paid and sent
+    // the email (it can beat the browser here - webhooks are usually
+    // fast), this just fetches the already-paid row instead of
+    // re-processing and double-emailing.
+    const { order: updatedOrder, alreadyProcessed } = await markOrderPaidIfPending(reference);
+    order = updatedOrder;
 
-    await sendOwnerEmail(updatedOrder);
+    if (!alreadyProcessed) {
+      // This request is the first to mark the order paid - send the
+      // owner email. Isolated: whatever happens here, the customer still
+      // gets their success response below, because the payment itself
+      // (payment_status = 'paid') is already safely recorded.
+      const emailResult = await sendOwnerEmailForOrder(order);
+      if (emailResult.success) {
+        await updateEmailStatus(order.id, 'sent');
+      } else {
+        await updateEmailStatus(order.id, 'failed', emailResult.error);
+        await incrementEmailAttempts(order.id, order.email_attempts);
+      }
+    }
 
-    res.json(buildResponse(updatedOrder));
+    res.json(buildResponse(order));
 
   } catch (err) {
     console.error('Verify error:', err);
@@ -103,64 +123,5 @@ Please confirm my order.`;
       `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`
   };
 }
-
-
-async function sendOwnerEmail(order) {
-
-  const itemLines = order.items
-    .map(i => `${i.name} x ${i.qty} - R${(i.price * i.qty).toFixed(2)}`)
-    .join('\n');
-
-
-  const body =
-`NEW GO DOWN HERBS ORDER
-
-ORDER NUMBER:
-${order.order_number}
-
-
-CUSTOMER DETAILS
-------------------
-Name: ${order.customer_name}
-Phone: ${order.phone}
-Email: ${order.email}
-
-
-DELIVERY DETAILS
-------------------
-Address: ${order.address}
-Suburb: ${order.suburb}
-City: ${order.city}
-Province: ${order.province}
-Postal Code: ${order.postal_code}
-
-
-ORDER:
-${itemLines}
-
-
-DELIVERY METHOD:
-${order.delivery_method}
-
-Delivery Fee:
-R${order.delivery_fee.toFixed(2)}
-
-
-TOTAL:
-R${order.total.toFixed(2)}
-
-
-Payment Status:
-PAID
-`;
-
-  await resend.emails.send({
-    from: 'Go Down Herbs Orders <orders@godownherbs.co.za>',
-    to: process.env.OWNER_EMAIL,
-    subject: `New Go Down Herbs Order ${order.order_number}`,
-    text: body
-  });
-}
-
 
 module.exports = router;
